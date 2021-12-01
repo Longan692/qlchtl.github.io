@@ -16,7 +16,7 @@ namespace QLCHTL.Models
     {
         public string MaHang { get; set; }
         public System.DateTime Ngay { get; set; }
-        public string DonGia { get; set; }
+        public Nullable<double> DonGia { get; set; }
     
         public virtual HANG HANG { get; set; }
     }

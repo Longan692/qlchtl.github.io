@@ -1,0 +1,160 @@
+﻿@model IEnumerable<QLCHTL.Models.KHUYENMAI>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<!-- Start Banner Area -->
+<section class="banner-area organic-breadcrumb">
+    <div class="container">
+        <div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
+            <div class="col-first">
+                <h1>KHUYẾN MÃI</h1>
+                <nav class="d-flex align-items-center">
+                    <a href="index.html">Home<span class="lnr lnr-arrow-right"></span></a>
+                    <a href="category.html">Sale</a>
+                </nav>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- End Banner Area -->
+<br />
+<br />
+
+<br />
+<br />
+<div class="inner">
+    <!-- TIT -->
+    <h3 class="tits">Ưu Đãi Đặc Biệt</h3>
+    <p class="p-tits">Chúng tôi luôn mang đến cho bạn những chương trình ưu đãi mới, đặc biệt, hấp dẫn và thú vị, <br> từ các Chương Trình Khuyến Mãi Tháng, Giá Rẻ Mỗi Ngày đến các combo ăn uống mà bạn không thể bỏ qua.</p>
+</div>
+<br />
+<br />
+<br />
+<div class="sp-off-main">
+    <div class="inner" style=" border: 2px solid #c2adad;">
+        <a href="https://www.circlek.com.vn/vi/specials-offers/khuyen-mai-dac-biet-thang-11-2021-2-2-2/?l=tp-ho-chi-minh-1"><img class="pc-tl" src="https://www.circlek.com.vn/wp-content/uploads/2021/07/960x300-1.png"></a>
+        @foreach (var item in Model)
+        {
+            <!-- CTN -->
+            <div class="go-to clearfix" style=" margin-top: 60px;">
+                <div class="ex">
+                    <h3>@item.TenDotKM</h3>
+                    <p class="d-t">Có hiệu lực từ @item.NgayBatDau.Value.ToString("dd/MM/yyyy") đến @item.NgayKetThuc.Value.ToString("dd/MM/yyyy")</p>
+                    <div class="ctn">Đến  - chuỗi cửa hàng tiện lợi mở cửa 24/7 để trải nghiệm phong cách mua sắm tiện lợi, nhanh chóng với những ưu đãi hấp dẫn không thể bỏ lỡ!</div>
+                </div>
+                <div class="button-kind-2 add-on-2" style="margin-top:20px;float:right">
+                    <button type="button" class="btn btn-outline-danger"> @Html.ActionLink("Xem khuyến mãi", "DanhsachCombo", new { @id = item.MaDotKM.Trim() }, new { @style = "color:red;" })  <span class="ti-arrow-right"></span></button>
+                    
+                </div>
+            </div>
+        }
+
+        </div>
+</div>
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+
+
+<style type="text/css">
+
+    body {
+        background: #F5F1EE;
+        font-family: 'Roboto', sans-serif
+    }
+
+    .card {
+        width: 250px;
+        border-radius: 10px
+    }
+
+    .card-img-top {
+        border-top-right-radius: 10px;
+        border-top-left-radius: 10px
+    }
+
+    span.text-muted {
+        font-size: 12px
+    }
+
+    small.text-muted {
+        font-size: 8px
+    }
+
+    h5.mb-0 {
+        font-size: 1rem
+    }
+
+    small.ghj {
+        font-size: 9px
+    }
+
+    .mid {
+        background: #ECEDF1
+    }
+
+    h6.ml-1 {
+        font-size: 13px
+    }
+
+    small.key {
+        text-decoration: underline;
+        font-size: 9px;
+        cursor: pointer
+    }
+
+    .btn-danger {
+        color: #FFCBD2
+    }
+
+        .btn-danger:focus {
+            box-shadow: none
+        }
+
+    small.justify-content-center {
+        font-size: 9px;
+        cursor: pointer;
+        text-decoration: underline
+    }
+    .inner{
+        width:100%;
+        max-width: 960px;
+        margin:0 auto;
+    }
+    .p-tits {
+        display: block;
+        margin-bottom: 37px;
+        text-align: center;
+        font-size: 1.200em;
+        color: #000000;
+    }
+    .tits {
+        display: block;
+        margin-bottom: 7px;
+        text-align: center;
+        text-transform: uppercase;
+        font-size: 3.571em;
+        color: #db291d;
+        font-family: "GothamBlack",arial,Helvetica,sans-serif;
+        font-weight: normal;
+    }
+    .sp-off-main {
+        border-width: 3px;
+    }
+    .go-to h3 {
+        text-transform: uppercase;
+        font-size: 1.714em;
+        color: #db291d;
+    }
+    .ex {
+        color: #000000;
+        font-size: 1.314em;
+    }
+</style>

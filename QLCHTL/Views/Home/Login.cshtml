@@ -6,40 +6,153 @@
 }
 @model QLCHTL.Models.User
 <!DOCTYPE html>
-
 <html>
 <head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Login</title>
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="/assets/img/favicon.ico">
+
+    <!-- CSS
+    ========================= -->
+    <!-- Plugins CSS -->
+    <link rel="stylesheet" href="/assets/css/plugins.css">
+
+    <!-- Main Style CSS -->
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="~/assets/css/SignIn.css">
 </head>
 <body>
-    <div class="row justify-content-md-center">
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-header">
-                    Login
+
+    <!--<div class="customer_login" style="margin-top:100px;margin-bottom:100px">
+        <div class="container">
+            <div class="row">-->
+    <!--login area start-->
+    <!--<div class="account_form">
+        <h2 style="text-align:center">ĐĂNG NHẬP</h2>
+        @using (Html.BeginForm("Login", "Home", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+            <form action="#">
+                <p>
+                    <label>Username<span>*</span></label>
+
+                    @Html.TextBoxFor(m => m.UserName, "", new { @class = "form-control", @placeholder = "UserName" })
+                </p>
+                <p>
+
+                    <label>Passwords <span>*</span></label>
+                    @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "Password" })
+                </p>
+                <div class="login_submit">
+                    <a href="#">Lost your password?</a>
+                    <label for="remember">
+                        <input id="remember" type="checkbox">
+                        Remember me
+                    </label>
+
+                    <div class="form-group">
+                        <button type="submit">Đăng nhập</button>
+
+                    </div>
                 </div>
-                <div class="card-body">
+
+            </form>
+        }
+    </div>-->
+    <!--login area start-->
+    <!--</div>
+        </div>
+    </div>-->
+    <!-- Plugins JS -->
+    <!--<script src="/assets/js/plugins.js"></script>-->
+    <!-- Main JS -->
+    <!--<script src="/assets/js/main.js"></script>
+
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAdWLY_Y6FL7QGW5vcO3zajUEsrKfQPNzI"></script>
+    <script src="https://www.google.com/jsapi"></script>
+    <script src="assets/js/map.js"></script>-->
+    <!--important link source from "https://bootsnipp.com/snippets/GlaW2"-->
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!------ Include the above in your HEAD tag ---------->
+
+    <section class="login-block">
+        <div class="container">
+            <div class="row" style="margin-top:100px">
+                <div class="col-md-4 login-sec">
+                    <h2 class="text-center">Đăng nhập</h2>
                     @using (Html.BeginForm("Login", "Home", FormMethod.Post))
                     {
                         @Html.AntiForgeryToken()
-                        <div class="form-group">
-                            @Html.LabelFor(m => m.Email)
-                            @Html.TextBoxFor(m => m.Email, "", new { @class = "form-control", @placeholder = "Email" })
+                        <form class="login-form">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1" class="text-uppercase">Username</label>
+                                @Html.TextBoxFor(m => m.UserName, "", new { @class = "form-control", @placeholder = "UserName" })
 
-                        </div>
-                        <div class="form-group">
-                            @Html.LabelFor(m => m.MatKhau)
-                            @Html.PasswordFor(m => m.MatKhau, new { @class = "form-control", @placeholder = "Password" })
-                        </div>
-                        <div class="form-group">
-                            <input type="submit" name="submit" class="btn btn-primary" value="Login" />
-                        </div>
+
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputPassword1" class="text-uppercase">Password</label>
+                                @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "Password" })
+                            </div>
+
+
+                            <div class="form-check">
+                                <label class="form-check-label">
+                                    <input type="checkbox" class="form-check-input">
+                                    <small>Remember Me</small>
+                                </label>
+                                <button type="submit" class="btn btn-login float-right">Đăng nhập</button>
+
+                            </div>
+
+                        </form>
                     }
+                    </div>
+                <div class="col-md-8 banner-sec">
+                    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                        <ol class="carousel-indicators">
+                            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+                        </ol>
+                        <div class="carousel-inner" role="listbox">
+                            <div class="carousel-item active">
+                                <img class="d-block img-fluid" src="~/assets/img/bg/bglogin.jpg" alt="First slide">
+                                <div class="carousel-caption d-none d-md-block">
+                                    <div class="banner-text">
+                                        <h2>Xin chào</h2>
+                                        <p>Chào mừng các bạn đến với cửa hàng tiện lợi của chúng tôi, đăng ký để nhận thêm nhiều ưu đãi hơn nhé!<br />
+                                        <button type="button" class="btn btn-outline-danger">@Html.ActionLink("Đăng ký","Register")</button></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <img class="d-block img-fluid" src="~/assets/img/bg/bglogin2.jpg" alt="First slide">
+                                <div class="carousel-caption d-none d-md-block">
+                                    <div class="banner-text">
+                                        <h2>This is Heaven</h2>
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <img class="d-block img-fluid" src="~/assets/img/bg/bglogin3.jpg" alt="First slide">
+                                <div class="carousel-caption d-none d-md-block">
+                                    <div class="banner-text">
+                                        <h2>This is Heaven</h2>
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-
+    </section>
 </body>
 </html>
+

@@ -1,0 +1,73 @@
+﻿@model IEnumerable<QLCHTL.Models.CT_COMBO>
+@{
+    ViewBag.Title = "ChitietCombo";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- Start Banner Area -->
+<section class="banner-area organic-breadcrumb">
+    <div class="container">
+        <div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
+            <div class="col-first">
+                <h1>Shopping Cart</h1>
+                <nav class="d-flex align-items-center">
+                    <a href="index.html">Home<span class="lnr lnr-arrow-right"></span></a>
+                    <a href="category.html">Sale</a>
+                </nav>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- End Banner Area -->
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+
+
+<div class="container">
+    <h2>Chi tiết các sản phẩm trong combo</h2>
+    
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Tên sản phẩm</th>
+                <th>Hình ảnh</th>
+                <th>Mô tả</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+
+                <tr>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.HANG.TenHang)
+                    </td>
+                    <td class="product_thumb" style="width:100px;height:100px"><a href="#"><img src="/@Html.DisplayFor(modelItem => item.HANG.HinhAnh)"></a></td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.HANG.MoTa)
+                    </td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+
+<button type="button" class="btn btn-outline-danger" style="float:right;margin-right:190px">Mua combo</button>
+
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+

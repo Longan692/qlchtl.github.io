@@ -5,6 +5,71 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="QLCHTLModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Accounts">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Username" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Password" Type="nvarchar(max)" />
+          <Property Name="Email" Type="nvarchar(max)" />
+          <Property Name="Phone" Type="nvarchar(max)" />
+          <Property Name="Address" Type="nvarchar(max)" />
+          <Property Name="Fullname" Type="nvarchar(max)" />
+          <Property Name="IsAdmin" Type="bit" Nullable="false" />
+          <Property Name="Avatar" Type="nvarchar(max)" />
+          <Property Name="Status" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="COMBO">
+          <Key>
+            <PropertyRef Name="MaCombo" />
+          </Key>
+          <Property Name="MaCombo" Type="char" MaxLength="15" Nullable="false" />
+          <Property Name="MaDotKM" Type="char" MaxLength="15" />
+          <Property Name="TyLeGiam" Type="int" />
+        </EntityType>
+        <EntityType Name="CT_COMBO">
+          <Key>
+            <PropertyRef Name="MaCombo" />
+            <PropertyRef Name="MaHang" />
+          </Key>
+          <Property Name="MaCombo" Type="char" MaxLength="15" Nullable="false" />
+          <Property Name="MaHang" Type="char" MaxLength="15" Nullable="false" />
+          <Property Name="IsKey" Type="int" />
+        </EntityType>
+        <EntityType Name="CT_DONDATHANG">
+          <Key>
+            <PropertyRef Name="MaDonDatHang" />
+            <PropertyRef Name="MaHang" />
+          </Key>
+          <Property Name="MaDonDatHang" Type="int" Nullable="false" />
+          <Property Name="MaHang" Type="char" MaxLength="15" Nullable="false" />
+          <Property Name="TenHang" Type="nvarchar" MaxLength="200" />
+          <Property Name="SoLuong" Type="int" />
+          <Property Name="NgayDuyet" Type="nvarchar" MaxLength="20" />
+          <Property Name="MaNVDuyet" Type="int" />
+          <Property Name="NgayGiao" Type="date" />
+          <Property Name="MaNVGiao" Type="char" MaxLength="15" />
+          <Property Name="TinhTrang" Type="nvarchar" MaxLength="20" />
+          <Property Name="TinhTrangThanhToan" Type="int" />
+        </EntityType>
+        <EntityType Name="DANHSACHHANGGIAM">
+          <Key>
+            <PropertyRef Name="MaHang" />
+            <PropertyRef Name="MaDotKM" />
+          </Key>
+          <Property Name="MaHang" Type="char" MaxLength="15" Nullable="false" />
+          <Property Name="MaDotKM" Type="char" MaxLength="15" Nullable="false" />
+          <Property Name="TyLeGiam" Type="int" />
+        </EntityType>
+        <EntityType Name="DONDATHANG">
+          <Key>
+            <PropertyRef Name="MaDonDatHang" />
+          </Key>
+          <Property Name="MaDonDatHang" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NgayDat" Type="date" />
+          <Property Name="MaKH" Type="int" />
+        </EntityType>
         <EntityType Name="GIA">
           <Key>
             <PropertyRef Name="MaHang" />
@@ -12,7 +77,7 @@
           </Key>
           <Property Name="MaHang" Type="char" MaxLength="15" Nullable="false" />
           <Property Name="Ngay" Type="date" Nullable="false" />
-          <Property Name="DonGia" Type="char" MaxLength="15" />
+          <Property Name="DonGia" Type="float" />
         </EntityType>
         <EntityType Name="HANG">
           <Key>
@@ -25,6 +90,16 @@
           <Property Name="MaNCC" Type="char" MaxLength="15" />
           <Property Name="MoTa" Type="nvarchar" MaxLength="500" />
           <Property Name="HinhAnh" Type="varchar" MaxLength="100" />
+          <Property Name="Status" Type="bit" />
+        </EntityType>
+        <EntityType Name="KHUYENMAI">
+          <Key>
+            <PropertyRef Name="MaDotKM" />
+          </Key>
+          <Property Name="MaDotKM" Type="char" MaxLength="15" Nullable="false" />
+          <Property Name="TenDotKM" Type="nvarchar" MaxLength="50" />
+          <Property Name="NgayBatDau" Type="date" />
+          <Property Name="NgayKetThuc" Type="date" />
         </EntityType>
         <EntityType Name="LOAIHANG">
           <Key>
@@ -43,35 +118,102 @@
           <Property Name="DiaChi" Type="nvarchar" MaxLength="50" />
           <Property Name="MoTa" Type="nvarchar" MaxLength="500" />
         </EntityType>
-        <EntityType Name="Order">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="CreateDate" Type="datetime" />
-          <Property Name="MaKH" Type="nchar" MaxLength="10" />
-          <Property Name="Status" Type="int" />
-        </EntityType>
-        <EntityType Name="OrderDetail">
-          <Key>
-            <PropertyRef Name="ProductID" />
-            <PropertyRef Name="OrderID" />
-          </Key>
-          <Property Name="ProductID" Type="nchar" MaxLength="15" Nullable="false" />
-          <Property Name="OrderID" Type="int" Nullable="false" />
-          <Property Name="Quantity" Type="int" />
-          <Property Name="Price" Type="decimal" Precision="18" Scale="0" />
-        </EntityType>
-        <EntityType Name="TaiKhoang">
-          <Key>
-            <PropertyRef Name="IdUsers" />
-          </Key>
-          <Property Name="IdUsers" Type="char" MaxLength="5" Nullable="false" />
-          <Property Name="FirstName" Type="nvarchar" MaxLength="50" />
-          <Property Name="LastName" Type="nvarchar" MaxLength="50" />
-          <Property Name="Email" Type="nvarchar" MaxLength="50" />
-          <Property Name="MatKhau" Type="nvarchar" MaxLength="50" />
-        </EntityType>
+        <Association Name="fk_COMBO_MaDotKM">
+          <End Role="KHUYENMAI" Type="Self.KHUYENMAI" Multiplicity="0..1" />
+          <End Role="COMBO" Type="Self.COMBO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="KHUYENMAI">
+              <PropertyRef Name="MaDotKM" />
+            </Principal>
+            <Dependent Role="COMBO">
+              <PropertyRef Name="MaDotKM" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_CT_COMBO_COMBO">
+          <End Role="COMBO" Type="Self.COMBO" Multiplicity="1" />
+          <End Role="CT_COMBO" Type="Self.CT_COMBO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="COMBO">
+              <PropertyRef Name="MaCombo" />
+            </Principal>
+            <Dependent Role="CT_COMBO">
+              <PropertyRef Name="MaCombo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_CT_COMBO_MaDotKM">
+          <End Role="HANG" Type="Self.HANG" Multiplicity="1" />
+          <End Role="CT_COMBO" Type="Self.CT_COMBO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HANG">
+              <PropertyRef Name="MaHang" />
+            </Principal>
+            <Dependent Role="CT_COMBO">
+              <PropertyRef Name="MaHang" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_CT_CT_DONDATHANG_MaHang">
+          <End Role="HANG" Type="Self.HANG" Multiplicity="1" />
+          <End Role="CT_DONDATHANG" Type="Self.CT_DONDATHANG" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HANG">
+              <PropertyRef Name="MaHang" />
+            </Principal>
+            <Dependent Role="CT_DONDATHANG">
+              <PropertyRef Name="MaHang" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_CT_DONDATHANG_MaDonDatHang">
+          <End Role="DONDATHANG" Type="Self.DONDATHANG" Multiplicity="1" />
+          <End Role="CT_DONDATHANG" Type="Self.CT_DONDATHANG" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DONDATHANG">
+              <PropertyRef Name="MaDonDatHang" />
+            </Principal>
+            <Dependent Role="CT_DONDATHANG">
+              <PropertyRef Name="MaDonDatHang" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_DANHSACHGIAM_MaDotKM">
+          <End Role="KHUYENMAI" Type="Self.KHUYENMAI" Multiplicity="1" />
+          <End Role="DANHSACHHANGGIAM" Type="Self.DANHSACHHANGGIAM" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="KHUYENMAI">
+              <PropertyRef Name="MaDotKM" />
+            </Principal>
+            <Dependent Role="DANHSACHHANGGIAM">
+              <PropertyRef Name="MaDotKM" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_DANHSACHGIAM_MaHang">
+          <End Role="HANG" Type="Self.HANG" Multiplicity="1" />
+          <End Role="DANHSACHHANGGIAM" Type="Self.DANHSACHHANGGIAM" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HANG">
+              <PropertyRef Name="MaHang" />
+            </Principal>
+            <Dependent Role="DANHSACHHANGGIAM">
+              <PropertyRef Name="MaHang" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_DONDATHANG_MaKH">
+          <End Role="Accounts" Type="Self.Accounts" Multiplicity="0..1" />
+          <End Role="DONDATHANG" Type="Self.DONDATHANG" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Accounts">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DONDATHANG">
+              <PropertyRef Name="MaKH" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="fk_GIA_MaHang">
           <End Role="HANG" Type="Self.HANG" Multiplicity="1" />
           <End Role="GIA" Type="Self.GIA" Multiplicity="*" />
@@ -109,13 +251,49 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="QLCHTLModelStoreContainer">
+          <EntitySet Name="Accounts" EntityType="Self.Accounts" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="COMBO" EntityType="Self.COMBO" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CT_COMBO" EntityType="Self.CT_COMBO" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CT_DONDATHANG" EntityType="Self.CT_DONDATHANG" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DANHSACHHANGGIAM" EntityType="Self.DANHSACHHANGGIAM" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DONDATHANG" EntityType="Self.DONDATHANG" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GIA" EntityType="Self.GIA" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="HANG" EntityType="Self.HANG" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="KHUYENMAI" EntityType="Self.KHUYENMAI" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LOAIHANG" EntityType="Self.LOAIHANG" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="NHACUNGCAP" EntityType="Self.NHACUNGCAP" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Order" EntityType="Self.Order" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="OrderDetail" EntityType="Self.OrderDetail" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="TaiKhoang" EntityType="Self.TaiKhoang" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="fk_COMBO_MaDotKM" Association="Self.fk_COMBO_MaDotKM">
+            <End Role="KHUYENMAI" EntitySet="KHUYENMAI" />
+            <End Role="COMBO" EntitySet="COMBO" />
+          </AssociationSet>
+          <AssociationSet Name="fk_CT_COMBO_COMBO" Association="Self.fk_CT_COMBO_COMBO">
+            <End Role="COMBO" EntitySet="COMBO" />
+            <End Role="CT_COMBO" EntitySet="CT_COMBO" />
+          </AssociationSet>
+          <AssociationSet Name="fk_CT_COMBO_MaDotKM" Association="Self.fk_CT_COMBO_MaDotKM">
+            <End Role="HANG" EntitySet="HANG" />
+            <End Role="CT_COMBO" EntitySet="CT_COMBO" />
+          </AssociationSet>
+          <AssociationSet Name="fk_CT_CT_DONDATHANG_MaHang" Association="Self.fk_CT_CT_DONDATHANG_MaHang">
+            <End Role="HANG" EntitySet="HANG" />
+            <End Role="CT_DONDATHANG" EntitySet="CT_DONDATHANG" />
+          </AssociationSet>
+          <AssociationSet Name="fk_CT_DONDATHANG_MaDonDatHang" Association="Self.fk_CT_DONDATHANG_MaDonDatHang">
+            <End Role="DONDATHANG" EntitySet="DONDATHANG" />
+            <End Role="CT_DONDATHANG" EntitySet="CT_DONDATHANG" />
+          </AssociationSet>
+          <AssociationSet Name="fk_DANHSACHGIAM_MaDotKM" Association="Self.fk_DANHSACHGIAM_MaDotKM">
+            <End Role="KHUYENMAI" EntitySet="KHUYENMAI" />
+            <End Role="DANHSACHHANGGIAM" EntitySet="DANHSACHHANGGIAM" />
+          </AssociationSet>
+          <AssociationSet Name="fk_DANHSACHGIAM_MaHang" Association="Self.fk_DANHSACHGIAM_MaHang">
+            <End Role="HANG" EntitySet="HANG" />
+            <End Role="DANHSACHHANGGIAM" EntitySet="DANHSACHHANGGIAM" />
+          </AssociationSet>
+          <AssociationSet Name="fk_DONDATHANG_MaKH" Association="Self.fk_DONDATHANG_MaKH">
+            <End Role="Accounts" EntitySet="Accounts" />
+            <End Role="DONDATHANG" EntitySet="DONDATHANG" />
+          </AssociationSet>
           <AssociationSet Name="fk_GIA_MaHang" Association="Self.fk_GIA_MaHang">
             <End Role="HANG" EntitySet="HANG" />
             <End Role="GIA" EntitySet="GIA" />
@@ -133,16 +311,6 @@
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="QLCHTLModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="GIA">
-          <Key>
-            <PropertyRef Name="MaHang" />
-            <PropertyRef Name="Ngay" />
-          </Key>
-          <Property Name="MaHang" Type="String" MaxLength="15" FixedLength="true" Unicode="false" Nullable="false" />
-          <Property Name="Ngay" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="DonGia" Type="String" MaxLength="15" FixedLength="true" Unicode="false" />
-          <NavigationProperty Name="HANG" Relationship="Self.fk_GIA_MaHang" FromRole="GIA" ToRole="HANG" />
-        </EntityType>
         <EntityType Name="HANG">
           <Key>
             <PropertyRef Name="MaHang" />
@@ -154,9 +322,13 @@
           <Property Name="MaNCC" Type="String" MaxLength="15" FixedLength="true" Unicode="false" />
           <Property Name="MoTa" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="HinhAnh" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="GIAs" Relationship="Self.fk_GIA_MaHang" FromRole="HANG" ToRole="GIA" />
           <NavigationProperty Name="LOAIHANG" Relationship="Self.fk_HANG_MaLoaiHang" FromRole="HANG" ToRole="LOAIHANG" />
           <NavigationProperty Name="NHACUNGCAP" Relationship="Self.fk_HANG_MaNCC" FromRole="HANG" ToRole="NHACUNGCAP" />
+          <Property Name="Status" Type="Boolean" />
+          <NavigationProperty Name="GIAs" Relationship="QLCHTLModel.fk_GIA_MaHang" FromRole="HANG" ToRole="GIA" />
+          <NavigationProperty Name="CT_DONDATHANG" Relationship="QLCHTLModel.fk_CT_CT_DONDATHANG_MaHang" FromRole="HANG" ToRole="CT_DONDATHANG" />
+          <NavigationProperty Name="CT_COMBO" Relationship="QLCHTLModel.fk_CT_COMBO_MaDotKM" FromRole="HANG" ToRole="CT_COMBO" />
+          <NavigationProperty Name="DANHSACHHANGGIAMs" Relationship="QLCHTLModel.fk_DANHSACHGIAM_MaHang" FromRole="HANG" ToRole="DANHSACHHANGGIAM" />
         </EntityType>
         <EntityType Name="LOAIHANG">
           <Key>
@@ -177,18 +349,6 @@
           <Property Name="MoTa" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="HANGs" Relationship="Self.fk_HANG_MaNCC" FromRole="NHACUNGCAP" ToRole="HANG" />
         </EntityType>
-        <Association Name="fk_GIA_MaHang">
-          <End Role="HANG" Type="Self.HANG" Multiplicity="1" />
-          <End Role="GIA" Type="Self.GIA" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="HANG">
-              <PropertyRef Name="MaHang" />
-            </Principal>
-            <Dependent Role="GIA">
-              <PropertyRef Name="MaHang" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="fk_HANG_MaLoaiHang">
           <End Role="LOAIHANG" Type="Self.LOAIHANG" Multiplicity="0..1" />
           <End Role="HANG" Type="Self.HANG" Multiplicity="*" />
@@ -214,14 +374,9 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="QLCHTLEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="GIAs" EntityType="Self.GIA" />
           <EntitySet Name="HANGs" EntityType="Self.HANG" />
           <EntitySet Name="LOAIHANGs" EntityType="Self.LOAIHANG" />
           <EntitySet Name="NHACUNGCAPs" EntityType="Self.NHACUNGCAP" />
-          <AssociationSet Name="fk_GIA_MaHang" Association="Self.fk_GIA_MaHang">
-            <End Role="HANG" EntitySet="HANGs" />
-            <End Role="GIA" EntitySet="GIAs" />
-          </AssociationSet>
           <AssociationSet Name="fk_HANG_MaLoaiHang" Association="Self.fk_HANG_MaLoaiHang">
             <End Role="LOAIHANG" EntitySet="LOAIHANGs" />
             <End Role="HANG" EntitySet="HANGs" />
@@ -230,57 +385,266 @@
             <End Role="NHACUNGCAP" EntitySet="NHACUNGCAPs" />
             <End Role="HANG" EntitySet="HANGs" />
           </AssociationSet>
-          <EntitySet Name="Orders" EntityType="QLCHTLModel.Order" />
-          <EntitySet Name="OrderDetails" EntityType="QLCHTLModel.OrderDetail" />
-          <EntitySet Name="TaiKhoangs" EntityType="QLCHTLModel.TaiKhoang" />
+          <EntitySet Name="Accounts" EntityType="QLCHTLModel.Account" />
+          <EntitySet Name="GIAs" EntityType="QLCHTLModel.GIA" />
+          <AssociationSet Name="fk_GIA_MaHang" Association="QLCHTLModel.fk_GIA_MaHang">
+            <End Role="HANG" EntitySet="HANGs" />
+            <End Role="GIA" EntitySet="GIAs" />
+          </AssociationSet>
+          <EntitySet Name="CT_DONDATHANG" EntityType="QLCHTLModel.CT_DONDATHANG" />
+          <EntitySet Name="DONDATHANGs" EntityType="QLCHTLModel.DONDATHANG" />
+          <AssociationSet Name="fk_DONDATHANG_MaKH" Association="QLCHTLModel.fk_DONDATHANG_MaKH">
+            <End Role="Account" EntitySet="Accounts" />
+            <End Role="DONDATHANG" EntitySet="DONDATHANGs" />
+          </AssociationSet>
+          <AssociationSet Name="fk_CT_CT_DONDATHANG_MaHang" Association="QLCHTLModel.fk_CT_CT_DONDATHANG_MaHang">
+            <End Role="HANG" EntitySet="HANGs" />
+            <End Role="CT_DONDATHANG" EntitySet="CT_DONDATHANG" />
+          </AssociationSet>
+          <AssociationSet Name="fk_CT_DONDATHANG_MaDonDatHang" Association="QLCHTLModel.fk_CT_DONDATHANG_MaDonDatHang">
+            <End Role="DONDATHANG" EntitySet="DONDATHANGs" />
+            <End Role="CT_DONDATHANG" EntitySet="CT_DONDATHANG" />
+          </AssociationSet>
+          <EntitySet Name="COMBOes" EntityType="QLCHTLModel.COMBO" />
+          <EntitySet Name="CT_COMBO" EntityType="QLCHTLModel.CT_COMBO" />
+          <EntitySet Name="DANHSACHHANGGIAMs" EntityType="QLCHTLModel.DANHSACHHANGGIAM" />
+          <EntitySet Name="KHUYENMAIs" EntityType="QLCHTLModel.KHUYENMAI" />
+          <AssociationSet Name="fk_COMBO_MaDotKM" Association="QLCHTLModel.fk_COMBO_MaDotKM">
+            <End Role="KHUYENMAI" EntitySet="KHUYENMAIs" />
+            <End Role="COMBO" EntitySet="COMBOes" />
+          </AssociationSet>
+          <AssociationSet Name="fk_CT_COMBO_COMBO" Association="QLCHTLModel.fk_CT_COMBO_COMBO">
+            <End Role="COMBO" EntitySet="COMBOes" />
+            <End Role="CT_COMBO" EntitySet="CT_COMBO" />
+          </AssociationSet>
+          <AssociationSet Name="fk_CT_COMBO_MaDotKM" Association="QLCHTLModel.fk_CT_COMBO_MaDotKM">
+            <End Role="HANG" EntitySet="HANGs" />
+            <End Role="CT_COMBO" EntitySet="CT_COMBO" />
+          </AssociationSet>
+          <AssociationSet Name="fk_DANHSACHGIAM_MaDotKM" Association="QLCHTLModel.fk_DANHSACHGIAM_MaDotKM">
+            <End Role="KHUYENMAI" EntitySet="KHUYENMAIs" />
+            <End Role="DANHSACHHANGGIAM" EntitySet="DANHSACHHANGGIAMs" />
+          </AssociationSet>
+          <AssociationSet Name="fk_DANHSACHGIAM_MaHang" Association="QLCHTLModel.fk_DANHSACHGIAM_MaHang">
+            <End Role="HANG" EntitySet="HANGs" />
+            <End Role="DANHSACHHANGGIAM" EntitySet="DANHSACHHANGGIAMs" />
+          </AssociationSet>
         </EntityContainer>
-        <EntityType Name="Order">
+        <EntityType Name="Account">
           <Key>
-            <PropertyRef Name="ID" />
+            <PropertyRef Name="Id" />
           </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="CreateDate" Type="DateTime" Precision="3" />
-          <Property Name="MaKH" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="Status" Type="Int32" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Username" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Phone" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Fullname" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IsAdmin" Type="Boolean" Nullable="false" />
+          <Property Name="Avatar" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Status" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="DONDATHANGs" Relationship="QLCHTLModel.fk_DONDATHANG_MaKH" FromRole="Account" ToRole="DONDATHANG" />
         </EntityType>
-        <EntityType Name="OrderDetail">
+        <EntityType Name="GIA">
           <Key>
-            <PropertyRef Name="ProductID" />
-            <PropertyRef Name="OrderID" />
+            <PropertyRef Name="MaHang" />
+            <PropertyRef Name="Ngay" />
           </Key>
-          <Property Name="ProductID" Type="String" Nullable="false" MaxLength="15" FixedLength="true" Unicode="true" />
-          <Property Name="OrderID" Type="Int32" Nullable="false" />
-          <Property Name="Quantity" Type="Int32" />
-          <Property Name="Price" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="MaHang" Type="String" Nullable="false" MaxLength="15" FixedLength="true" Unicode="false" />
+          <Property Name="Ngay" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="DonGia" Type="Double" />
+          <NavigationProperty Name="HANG" Relationship="QLCHTLModel.fk_GIA_MaHang" FromRole="GIA" ToRole="HANG" />
         </EntityType>
-        <EntityType Name="TaiKhoang">
+        <Association Name="fk_GIA_MaHang">
+          <End Type="QLCHTLModel.HANG" Role="HANG" Multiplicity="1" />
+          <End Type="QLCHTLModel.GIA" Role="GIA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HANG">
+              <PropertyRef Name="MaHang" />
+            </Principal>
+            <Dependent Role="GIA">
+              <PropertyRef Name="MaHang" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="CT_DONDATHANG">
           <Key>
-            <PropertyRef Name="IdUsers" />
+            <PropertyRef Name="MaDonDatHang" />
+            <PropertyRef Name="MaHang" />
           </Key>
-          <Property Name="IdUsers" Type="String" Nullable="false" MaxLength="5" FixedLength="true" Unicode="false" />
-          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="MatKhau" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MaDonDatHang" Type="Int32" Nullable="false" />
+          <Property Name="MaHang" Type="String" Nullable="false" MaxLength="15" FixedLength="true" Unicode="false" />
+          <Property Name="TenHang" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="SoLuong" Type="Int32" />
+          <Property Name="NgayDuyet" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="MaNVDuyet" Type="Int32" />
+          <Property Name="NgayGiao" Type="DateTime" Precision="0" />
+          <Property Name="MaNVGiao" Type="String" MaxLength="15" FixedLength="true" Unicode="false" />
+          <Property Name="TinhTrang" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="TinhTrangThanhToan" Type="Int32" />
+          <NavigationProperty Name="HANG" Relationship="QLCHTLModel.fk_CT_CT_DONDATHANG_MaHang" FromRole="CT_DONDATHANG" ToRole="HANG" />
+          <NavigationProperty Name="DONDATHANG" Relationship="QLCHTLModel.fk_CT_DONDATHANG_MaDonDatHang" FromRole="CT_DONDATHANG" ToRole="DONDATHANG" />
         </EntityType>
+        <EntityType Name="DONDATHANG">
+          <Key>
+            <PropertyRef Name="MaDonDatHang" />
+          </Key>
+          <Property Name="MaDonDatHang" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NgayDat" Type="DateTime" Precision="0" />
+          <Property Name="MaKH" Type="Int32" />
+          <NavigationProperty Name="Account" Relationship="QLCHTLModel.fk_DONDATHANG_MaKH" FromRole="DONDATHANG" ToRole="Account" />
+          <NavigationProperty Name="CT_DONDATHANG" Relationship="QLCHTLModel.fk_CT_DONDATHANG_MaDonDatHang" FromRole="DONDATHANG" ToRole="CT_DONDATHANG" />
+        </EntityType>
+        <Association Name="fk_DONDATHANG_MaKH">
+          <End Type="QLCHTLModel.Account" Role="Account" Multiplicity="0..1" />
+          <End Type="QLCHTLModel.DONDATHANG" Role="DONDATHANG" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Account">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DONDATHANG">
+              <PropertyRef Name="MaKH" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_CT_CT_DONDATHANG_MaHang">
+          <End Type="QLCHTLModel.HANG" Role="HANG" Multiplicity="1" />
+          <End Type="QLCHTLModel.CT_DONDATHANG" Role="CT_DONDATHANG" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HANG">
+              <PropertyRef Name="MaHang" />
+            </Principal>
+            <Dependent Role="CT_DONDATHANG">
+              <PropertyRef Name="MaHang" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_CT_DONDATHANG_MaDonDatHang">
+          <End Type="QLCHTLModel.DONDATHANG" Role="DONDATHANG" Multiplicity="1" />
+          <End Type="QLCHTLModel.CT_DONDATHANG" Role="CT_DONDATHANG" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DONDATHANG">
+              <PropertyRef Name="MaDonDatHang" />
+            </Principal>
+            <Dependent Role="CT_DONDATHANG">
+              <PropertyRef Name="MaDonDatHang" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="COMBO">
+          <Key>
+            <PropertyRef Name="MaCombo" />
+          </Key>
+          <Property Name="MaCombo" Type="String" Nullable="false" MaxLength="15" FixedLength="true" Unicode="false" />
+          <Property Name="MaDotKM" Type="String" MaxLength="15" FixedLength="true" Unicode="false" />
+          <Property Name="TyLeGiam" Type="Int32" />
+          <NavigationProperty Name="KHUYENMAI" Relationship="QLCHTLModel.fk_COMBO_MaDotKM" FromRole="COMBO" ToRole="KHUYENMAI" />
+          <NavigationProperty Name="CT_COMBO" Relationship="QLCHTLModel.fk_CT_COMBO_COMBO" FromRole="COMBO" ToRole="CT_COMBO" />
+        </EntityType>
+        <EntityType Name="CT_COMBO">
+          <Key>
+            <PropertyRef Name="MaCombo" />
+            <PropertyRef Name="MaHang" />
+          </Key>
+          <Property Name="MaCombo" Type="String" Nullable="false" MaxLength="15" FixedLength="true" Unicode="false" />
+          <Property Name="MaHang" Type="String" Nullable="false" MaxLength="15" FixedLength="true" Unicode="false" />
+          <Property Name="IsKey" Type="Int32" />
+          <NavigationProperty Name="COMBO" Relationship="QLCHTLModel.fk_CT_COMBO_COMBO" FromRole="CT_COMBO" ToRole="COMBO" />
+          <NavigationProperty Name="HANG" Relationship="QLCHTLModel.fk_CT_COMBO_MaDotKM" FromRole="CT_COMBO" ToRole="HANG" />
+        </EntityType>
+        <EntityType Name="DANHSACHHANGGIAM">
+          <Key>
+            <PropertyRef Name="MaHang" />
+            <PropertyRef Name="MaDotKM" />
+          </Key>
+          <Property Name="MaHang" Type="String" Nullable="false" MaxLength="15" FixedLength="true" Unicode="false" />
+          <Property Name="MaDotKM" Type="String" Nullable="false" MaxLength="15" FixedLength="true" Unicode="false" />
+          <Property Name="TyLeGiam" Type="Int32" />
+          <NavigationProperty Name="KHUYENMAI" Relationship="QLCHTLModel.fk_DANHSACHGIAM_MaDotKM" FromRole="DANHSACHHANGGIAM" ToRole="KHUYENMAI" />
+          <NavigationProperty Name="HANG" Relationship="QLCHTLModel.fk_DANHSACHGIAM_MaHang" FromRole="DANHSACHHANGGIAM" ToRole="HANG" />
+        </EntityType>
+        <EntityType Name="KHUYENMAI">
+          <Key>
+            <PropertyRef Name="MaDotKM" />
+          </Key>
+          <Property Name="MaDotKM" Type="String" Nullable="false" MaxLength="15" FixedLength="true" Unicode="false" />
+          <Property Name="TenDotKM" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="NgayBatDau" Type="DateTime" Precision="0" />
+          <Property Name="NgayKetThuc" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="COMBOes" Relationship="QLCHTLModel.fk_COMBO_MaDotKM" FromRole="KHUYENMAI" ToRole="COMBO" />
+          <NavigationProperty Name="DANHSACHHANGGIAMs" Relationship="QLCHTLModel.fk_DANHSACHGIAM_MaDotKM" FromRole="KHUYENMAI" ToRole="DANHSACHHANGGIAM" />
+        </EntityType>
+        <Association Name="fk_COMBO_MaDotKM">
+          <End Type="QLCHTLModel.KHUYENMAI" Role="KHUYENMAI" Multiplicity="0..1" />
+          <End Type="QLCHTLModel.COMBO" Role="COMBO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="KHUYENMAI">
+              <PropertyRef Name="MaDotKM" />
+            </Principal>
+            <Dependent Role="COMBO">
+              <PropertyRef Name="MaDotKM" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_CT_COMBO_COMBO">
+          <End Type="QLCHTLModel.COMBO" Role="COMBO" Multiplicity="1" />
+          <End Type="QLCHTLModel.CT_COMBO" Role="CT_COMBO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="COMBO">
+              <PropertyRef Name="MaCombo" />
+            </Principal>
+            <Dependent Role="CT_COMBO">
+              <PropertyRef Name="MaCombo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_CT_COMBO_MaDotKM">
+          <End Type="QLCHTLModel.HANG" Role="HANG" Multiplicity="1" />
+          <End Type="QLCHTLModel.CT_COMBO" Role="CT_COMBO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HANG">
+              <PropertyRef Name="MaHang" />
+            </Principal>
+            <Dependent Role="CT_COMBO">
+              <PropertyRef Name="MaHang" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_DANHSACHGIAM_MaDotKM">
+          <End Type="QLCHTLModel.KHUYENMAI" Role="KHUYENMAI" Multiplicity="1" />
+          <End Type="QLCHTLModel.DANHSACHHANGGIAM" Role="DANHSACHHANGGIAM" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="KHUYENMAI">
+              <PropertyRef Name="MaDotKM" />
+            </Principal>
+            <Dependent Role="DANHSACHHANGGIAM">
+              <PropertyRef Name="MaDotKM" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_DANHSACHGIAM_MaHang">
+          <End Type="QLCHTLModel.HANG" Role="HANG" Multiplicity="1" />
+          <End Type="QLCHTLModel.DANHSACHHANGGIAM" Role="DANHSACHHANGGIAM" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HANG">
+              <PropertyRef Name="MaHang" />
+            </Principal>
+            <Dependent Role="DANHSACHHANGGIAM">
+              <PropertyRef Name="MaHang" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="QLCHTLModelStoreContainer" CdmEntityContainer="QLCHTLEntities">
-          <EntitySetMapping Name="GIAs">
-            <EntityTypeMapping TypeName="QLCHTLModel.GIA">
-              <MappingFragment StoreEntitySet="GIA">
-                <ScalarProperty Name="MaHang" ColumnName="MaHang" />
-                <ScalarProperty Name="Ngay" ColumnName="Ngay" />
-                <ScalarProperty Name="DonGia" ColumnName="DonGia" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="HANGs">
             <EntityTypeMapping TypeName="QLCHTLModel.HANG">
               <MappingFragment StoreEntitySet="HANG">
+                <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="MaHang" ColumnName="MaHang" />
                 <ScalarProperty Name="TenHang" ColumnName="TenHang" />
                 <ScalarProperty Name="MaLoaiHang" ColumnName="MaLoaiHang" />
@@ -310,34 +674,90 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Orders">
-            <EntityTypeMapping TypeName="QLCHTLModel.Order">
-              <MappingFragment StoreEntitySet="Order">
+          <EntitySetMapping Name="Accounts">
+            <EntityTypeMapping TypeName="QLCHTLModel.Account">
+              <MappingFragment StoreEntitySet="Accounts">
                 <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="MaKH" ColumnName="MaKH" />
-                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="OrderDetails">
-            <EntityTypeMapping TypeName="QLCHTLModel.OrderDetail">
-              <MappingFragment StoreEntitySet="OrderDetail">
-                <ScalarProperty Name="Price" ColumnName="Price" />
-                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
-                <ScalarProperty Name="OrderID" ColumnName="OrderID" />
-                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="TaiKhoangs">
-            <EntityTypeMapping TypeName="QLCHTLModel.TaiKhoang">
-              <MappingFragment StoreEntitySet="TaiKhoang">
-                <ScalarProperty Name="MatKhau" ColumnName="MatKhau" />
+                <ScalarProperty Name="Avatar" ColumnName="Avatar" />
+                <ScalarProperty Name="IsAdmin" ColumnName="IsAdmin" />
+                <ScalarProperty Name="Fullname" ColumnName="Fullname" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="LastName" ColumnName="LastName" />
-                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-                <ScalarProperty Name="IdUsers" ColumnName="IdUsers" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GIAs">
+            <EntityTypeMapping TypeName="QLCHTLModel.GIA">
+              <MappingFragment StoreEntitySet="GIA">
+                <ScalarProperty Name="DonGia" ColumnName="DonGia" />
+                <ScalarProperty Name="Ngay" ColumnName="Ngay" />
+                <ScalarProperty Name="MaHang" ColumnName="MaHang" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CT_DONDATHANG">
+            <EntityTypeMapping TypeName="QLCHTLModel.CT_DONDATHANG">
+              <MappingFragment StoreEntitySet="CT_DONDATHANG">
+                <ScalarProperty Name="TinhTrangThanhToan" ColumnName="TinhTrangThanhToan" />
+                <ScalarProperty Name="TinhTrang" ColumnName="TinhTrang" />
+                <ScalarProperty Name="MaNVGiao" ColumnName="MaNVGiao" />
+                <ScalarProperty Name="NgayGiao" ColumnName="NgayGiao" />
+                <ScalarProperty Name="MaNVDuyet" ColumnName="MaNVDuyet" />
+                <ScalarProperty Name="NgayDuyet" ColumnName="NgayDuyet" />
+                <ScalarProperty Name="SoLuong" ColumnName="SoLuong" />
+                <ScalarProperty Name="TenHang" ColumnName="TenHang" />
+                <ScalarProperty Name="MaHang" ColumnName="MaHang" />
+                <ScalarProperty Name="MaDonDatHang" ColumnName="MaDonDatHang" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DONDATHANGs">
+            <EntityTypeMapping TypeName="QLCHTLModel.DONDATHANG">
+              <MappingFragment StoreEntitySet="DONDATHANG">
+                <ScalarProperty Name="MaKH" ColumnName="MaKH" />
+                <ScalarProperty Name="NgayDat" ColumnName="NgayDat" />
+                <ScalarProperty Name="MaDonDatHang" ColumnName="MaDonDatHang" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="COMBOes">
+            <EntityTypeMapping TypeName="QLCHTLModel.COMBO">
+              <MappingFragment StoreEntitySet="COMBO">
+                <ScalarProperty Name="TyLeGiam" ColumnName="TyLeGiam" />
+                <ScalarProperty Name="MaDotKM" ColumnName="MaDotKM" />
+                <ScalarProperty Name="MaCombo" ColumnName="MaCombo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CT_COMBO">
+            <EntityTypeMapping TypeName="QLCHTLModel.CT_COMBO">
+              <MappingFragment StoreEntitySet="CT_COMBO">
+                <ScalarProperty Name="IsKey" ColumnName="IsKey" />
+                <ScalarProperty Name="MaHang" ColumnName="MaHang" />
+                <ScalarProperty Name="MaCombo" ColumnName="MaCombo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DANHSACHHANGGIAMs">
+            <EntityTypeMapping TypeName="QLCHTLModel.DANHSACHHANGGIAM">
+              <MappingFragment StoreEntitySet="DANHSACHHANGGIAM">
+                <ScalarProperty Name="TyLeGiam" ColumnName="TyLeGiam" />
+                <ScalarProperty Name="MaDotKM" ColumnName="MaDotKM" />
+                <ScalarProperty Name="MaHang" ColumnName="MaHang" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="KHUYENMAIs">
+            <EntityTypeMapping TypeName="QLCHTLModel.KHUYENMAI">
+              <MappingFragment StoreEntitySet="KHUYENMAI">
+                <ScalarProperty Name="NgayKetThuc" ColumnName="NgayKetThuc" />
+                <ScalarProperty Name="NgayBatDau" ColumnName="NgayBatDau" />
+                <ScalarProperty Name="TenDotKM" ColumnName="TenDotKM" />
+                <ScalarProperty Name="MaDotKM" ColumnName="MaDotKM" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

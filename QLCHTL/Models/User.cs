@@ -11,13 +11,13 @@ namespace QLCHTL.Models
     {
         [Key]
         [Required]
-        public string IdUsers { get; set; }
+        public string Id { get; set; }
         [Required]
         [StringLength(50, MinimumLength = 3)]
-        public string FirstName { get; set; }
+        public string UserName { get; set; }
         [Required]
         [StringLength(50, MinimumLength = 3)]
-        public string LastName { get; set; }
+        public string Phone { get; set; }
         [Required]
         [RegularExpression(@"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}")]
         public string Email { get; set; }
@@ -25,16 +25,29 @@ namespace QLCHTL.Models
         [Required]
         [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,15}$")]
 
-        public string MatKhau { get; set; }
+        public string Password { get; set; }
 
+        [Required]
+        [StringLength(50, MinimumLength = 3)]
+        public string Address { get; set; }
+
+        [Required]
+        [StringLength(50, MinimumLength = 3)]
+        public string FullName { get; set; }
+
+        [Required]
+        public bool IsAdmin { get; set; }
+
+    
+        public string Avatar { get; set; }
+
+        [Required]
+        public bool Status { get; set; }
         [NotMapped]
         [Required]
-        [System.ComponentModel.DataAnnotations.Compare("MatKhau")]
+        [System.ComponentModel.DataAnnotations.Compare("Password")]
         public string ConfirmPassword { get; set; }
-        public string FullName()
-        {
-            return this.FirstName + " " + this.LastName;
-        }
+        
 
     }
 }

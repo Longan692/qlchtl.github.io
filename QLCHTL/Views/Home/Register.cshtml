@@ -12,10 +12,22 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>Register</title>
+    v  <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="/assets/img/favicon.ico">
+
+    <!-- CSS
+    ========================= -->
+    <!-- Plugins CSS -->
+    <link rel="stylesheet" href="/assets/css/plugins.css">
+
+    <!-- Main Style CSS -->
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="~/assets/css/SignUp.css">
 </head>
 <body>
-    <div class="row justify-content-md-center">
+    <!--<div class="row justify-content-md-center">
         <div class="col-md-5">
+            <h2 style="margin-top:100px;text-align:center">Đăng ký thành viên</h2
             @using (Html.BeginForm("Register", "Home", FormMethod.Post))
             {
                 //@Html.ValidationSummary()
@@ -23,22 +35,31 @@
 
                 <div class="card">
                     <div class="card-header">
-                        <div class="card-title">Register</div>
+                        <div class="card-title">Xin chào!</div>
                     </div>
                     <div class="card-body">
                         <div class="form-group">
-                            @Html.LabelFor(m => m.FirstName)
-                            @Html.TextBoxFor(m => m.FirstName, "", new { @class = "form-control", @placeholder = "First Name" })
-                            @Html.ValidationMessageFor(m => m.FirstName, "", new { @class = "badge badge-danger" })
+                            <label>Họ và tên <span>*</span></label>
+                            @Html.TextBoxFor(m => m.FullName, "", new { @class = "form-control", @placeholder = "First Name" })
+                            @Html.ValidationMessageFor(m => m.FullName, "", new { @class = "badge badge-danger" })
                         </div>
                         <div class="form-group">
-                            @Html.LabelFor(m => m.LastName)
-                            @Html.TextBoxFor(m => m.LastName, "", new { @class = "form-control", @placeholder = "Last Name" })
-                            @Html.ValidationMessageFor(m => m.LastName, "", new { @class = "badge badge-danger" })
+                            <label>Số điện thoại  <span>*</span></label>
+                            @Html.TextBoxFor(m => m.Phone, "", new { @class = "form-control", @placeholder = "Phone" })
+                            @Html.ValidationMessageFor(m => m.Phone, "", new { @class = "badge badge-danger" })
 
                         </div>
                         <div class="form-group">
-                            @Html.LabelFor(m => m.Email)
+                            <label>Tên đăng nhập  <span>*</span></label>
+                            @Html.TextBoxFor(m => m.UserName, "", new { @class = "form-control", @placeholder = "UserName" })
+                            @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "badge badge-danger" })
+                            @if (ViewBag.error != null)
+                            {
+                                <span class="badge badge-danger">@ViewBag.error</span>
+                            }
+                        </div>
+                        <div class="form-group">
+                            <label>Email  <span>*</span></label>
                             @Html.TextBoxFor(m => m.Email, "", new { @class = "form-control", @placeholder = "Email" })
                             @Html.ValidationMessageFor(m => m.Email, "", new { @class = "badge badge-danger" })
                             @if (ViewBag.error != null)
@@ -47,17 +68,17 @@
                             }
                         </div>
                         <div class="form-group">
-                            @Html.LabelFor(m => m.MatKhau)
-                            @Html.PasswordFor(m => m.MatKhau, new { @class = "form-control", @placeholder = "Password" })
-                            @Html.ValidationMessageFor(m => m.MatKhau, "", new { @class = "badge badge-danger" })
+                            <label>Mật khẩu  <span>*</span></label>
+                            @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "Password" })
+                            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "badge badge-danger" })
                         </div>
                         <div class="form-group">
-                            @Html.LabelFor(m => m.ConfirmPassword)
+                            <label>Nhập lại Mật khẩu  <span>*</span></label>
                             @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", @placeholder = "Confim Password" })
                             @Html.ValidationMessageFor(m => m.ConfirmPassword, "", new { @class = "badge badge-danger" })
                         </div>
-                        <div class="form-group">
-                            <input type="submit" name="submit" class="btn btn-danger" value="Register" />
+                        <div class="form-group" style="margin-top:50px;float:right">
+                            <input type="submit" name="submit" class="btn btn-danger" value="Đăng ký" />
                         </div>
                     </div>
                 </div>
@@ -65,6 +86,101 @@
             }
         </div>
     </div>
-    
+    <br /><br /><br /><br /><br /><br /><br /><br /><br /><br />-->
+    <!-- Plugins JS -->
+    <!--<script src="/assets/js/plugins.js"></script>-->
+    <!-- Main JS -->
+    <!--<script src="/assets/js/main.js"></script>
+
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAdWLY_Y6FL7QGW5vcO3zajUEsrKfQPNzI"></script>
+    <script src="https://www.google.com/jsapi"></script>
+    <script src="assets/js/map.js"></script>-->
+
+
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-10 col-xl-9 mx-auto">
+                <div class="card card-signin flex-row my-5">
+                    <div class="card-img-left d-none d-md-flex">
+                        <!-- Background image for card set in CSS! -->
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title text-center">Đăng ký thành viên</h5>
+                        @using (Html.BeginForm("Register", "Home", FormMethod.Post))
+                        {
+
+                            @Html.AntiForgeryToken()
+                    <form class="form-signin">
+                        <div class="form-label-group">
+                            @*<input type="text" id="inputUserame" class="form-control" placeholder="Username" required autofocus >
+            <label for="inputUserame">Username</label>*@
+                            @Html.TextBoxFor(m => m.FullName, "", new { @class = "form-control", @placeholder = "First Name", @id = "inputFullName" })
+                            @Html.ValidationMessageFor(m => m.FullName, "", new { @class = "badge badge-danger" })
+                            <label for="inputFullName">Họ và tên</label>
+
+                        </div>
+
+                        <div class="form-label-group">
+                            @*<input type="email" id="inputEmail" class="form-control" placeholder="Email address" required>*@
+
+                            @Html.TextBoxFor(m => m.Phone, "", new { @class = "form-control", @placeholder = "Phone", @id = "inputPhone" })
+                            @Html.ValidationMessageFor(m => m.Phone, "", new { @class = "badge badge-danger" })
+                            <label for="inputPhone">Số điện thoại</label>
+                        </div>
+
+                        <div class="form-label-group">
+
+                            @Html.TextBoxFor(m => m.Address, "", new { @class = "form-control", @placeholder = "Address", @id = "inputAdress" })
+                            @Html.ValidationMessageFor(m => m.Address, "", new { @class = "badge badge-danger" })
+                            <label for="inputAdress">Địa chỉ</label>
+                        </div>
+                        <div class="form-label-group">
+                            @Html.TextBoxFor(m => m.Email, "", new { @class = "form-control", @placeholder = "Email", @id = "inputEmail" })
+                            @Html.ValidationMessageFor(m => m.Email, "", new { @class = "badge badge-danger" })
+                            <label for="inputEmail">Email</label>
+                            @if (ViewBag.error != null)
+                            {
+                                <span class="badge badge-danger">@ViewBag.error</span>
+                            }
+
+                        </div>
+                        <hr>
+
+                        <div class="form-label-group">
+                            @Html.TextBoxFor(m => m.UserName, "", new { @class = "form-control", @placeholder = "UserName", @id = "inputUserName" })
+                            @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "badge badge-danger" })
+                            <label for="inputUserName">Tên đăng nhập</label>
+                        </div>
+                        <div class="form-label-group">
+
+                            @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "Password", @id = "inputPassword" })
+                            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "badge badge-danger" })
+                            <label for="inputPassword">Password</label>
+                        </div>
+
+                        <div class="form-label-group">
+                            @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", @placeholder = "Confim Password", @id = "inputConfirmPassword" })
+                            @Html.ValidationMessageFor(m => m.ConfirmPassword, "", new { @class = "badge badge-danger" })
+                            <label for="inputConfirmPassword">Confirm password</label>
+                        </div>
+                        
+                        <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Đăng ký</button>
+                        <a class="d-block text-center mt-2 small">Bạn đã có tài khoảng</a>
+                        <hr class="my-4">
+
+                        <button class="btn btn-lg btn-google btn-block text-uppercase" type="submit"> Đăng nhập</button>
+                        @*<button class="btn btn-lg btn-google btn-block text-uppercase" type="submit"><i class="fab fa-google mr-2"></i> Sign up with Google</button>
+        <button class="btn btn-lg btn-facebook btn-block text-uppercase" type="submit"><i class="fab fa-facebook-f mr-2"></i> Sign up with Facebook</button>*@
+                    </form>
+                        }
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
+

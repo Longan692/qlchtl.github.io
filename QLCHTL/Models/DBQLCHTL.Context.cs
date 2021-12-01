@@ -25,12 +25,16 @@ namespace QLCHTL.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<GIA> GIAs { get; set; }
         public virtual DbSet<HANG> HANGs { get; set; }
         public virtual DbSet<LOAIHANG> LOAIHANGs { get; set; }
         public virtual DbSet<NHACUNGCAP> NHACUNGCAPs { get; set; }
-        public virtual DbSet<Order> Orders { get; set; }
-        public virtual DbSet<OrderDetail> OrderDetails { get; set; }
-        public virtual DbSet<TaiKhoang> TaiKhoangs { get; set; }
+        public virtual DbSet<Account> Accounts { get; set; }
+        public virtual DbSet<GIA> GIAs { get; set; }
+        public virtual DbSet<CT_DONDATHANG> CT_DONDATHANG { get; set; }
+        public virtual DbSet<DONDATHANG> DONDATHANGs { get; set; }
+        public virtual DbSet<COMBO> COMBOes { get; set; }
+        public virtual DbSet<CT_COMBO> CT_COMBO { get; set; }
+        public virtual DbSet<DANHSACHHANGGIAM> DANHSACHHANGGIAMs { get; set; }
+        public virtual DbSet<KHUYENMAI> KHUYENMAIs { get; set; }
     }
 }

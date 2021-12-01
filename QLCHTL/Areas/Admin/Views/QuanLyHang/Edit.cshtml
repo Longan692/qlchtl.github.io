@@ -1,0 +1,125 @@
+﻿
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@model QLCHTL.Models.HANG
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Register</title>
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="/assets/img/favicon.ico">
+
+    <!-- CSS
+    ========================= -->
+    <!-- Plugins CSS -->
+    <link rel="stylesheet" href="/assets/css/plugins.css">
+
+    <!-- Main Style CSS -->
+    <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+    <div class="row justify-content-md-center">
+        <div class="col-md-5">
+            <h2 style="margin-top:100px;text-align:center">Chỉnh sửa</h2>
+            @using (Html.BeginForm("Edit", "QuanLyHang", FormMethod.Post))
+            {
+                //@Html.ValidationSummary()
+                @Html.AntiForgeryToken()
+
+                <div class="card">
+
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label>Mã sản phẩm <span>*</span></label>
+                            @Html.TextBoxFor(m => m.MaHang, "", new { @class = "form-control", @placeholder = "Mã sản phẩm" })
+                            @Html.ValidationMessageFor(m => m.MaHang, "", new { @class = "badge badge-danger" })
+                        </div>
+                        <div class="form-group">
+                            <label>Tên sản phẩm <span>*</span></label>
+                            @Html.TextBoxFor(m => m.TenHang, "", new { @class = "form-control", @placeholder = "Tên sản phẩm" })
+                            @Html.ValidationMessageFor(m => m.TenHang, "", new { @class = "badge badge-danger" })
+
+                        </div>
+                        <div class="form-group">
+                            <label>Mã loại hàng <span>*</span></label>
+                            @Html.TextBoxFor(m => m.MaLoaiHang, "", new { @class = "form-control", @placeholder = "Mã loại hàng" })
+                            @Html.ValidationMessageFor(m => m.MaLoaiHang, "", new { @class = "badge badge-danger" })
+                            @*<select name="test">
+                                    @foreach (var item in ViewBag.LoadLoaiHang)
+                                    {
+                                        <option value="@item.MaLoaiHang">@item.TenLoaiHang</option>
+                                    }
+                                </select>*@
+                            @*@Html.DropDownList("LoaiHang", ViewBag.LoadLoaiHang as SelectList, "--- Select ---")*@
+                            @*@Html.TextBoxFor(m => m.Email, "", new { @class = "form-control", @placeholder = "Email" })*@
+                            @*@Html.ValidationMessageFor(m => m.Email, "", new { @class = "badge badge-danger" })*@
+                            @if (ViewBag.error != null)
+                            {
+                                <span class="badge badge-danger">@ViewBag.error</span>
+                            }
+                        </div>
+                        <div class="form-group">
+                            <label>Mã nhà cung cấp  <span>*</span></label>
+                            @Html.TextBoxFor(m => m.MaNCC, "", new { @class = "form-control", @placeholder = "Mã nhà cung cấp" })
+                            @Html.ValidationMessageFor(m => m.MaNCC, "", new { @class = "badge badge-danger" })
+                            @*@Html.PasswordFor(m => m.MatKhau, new { @class = "form-control", @placeholder = "Password" })
+                                @Html.ValidationMessageFor(m => m.MatKhau, "", new { @class = "badge badge-danger" })*@
+                        </div>
+                        <div class="form-group">
+                            <label>Đơn vị tính<span>*</span></label>
+                            @Html.TextBoxFor(m => m.DVT, "", new { @class = "form-control", @placeholder = "Đơn vị tính" })
+                            @Html.ValidationMessageFor(m => m.DVT, "", new { @class = "badge badge-danger" })
+
+                        </div>
+                        <div class="form-group">
+                            <label>Mô tả<span>*</span></label>
+                            @Html.TextBoxFor(m => m.MoTa, "", new { @class = "form-control", @placeholder = "Mô tả" })
+                            @Html.ValidationMessageFor(m => m.MoTa, "", new { @class = "badge badge-danger" })
+
+                        </div>
+                        <div class="form-group">
+                            @*@Html.LabelFor(m=>m.HinhAnh, new {@class= "form-control" })*@
+                            <label>Hình ảnh<span>*</span></label>
+                            @Html.TextBoxFor(m => m.HinhAnh, "", new { @class = "form-control", @placeholder = "Hình ảnh" })
+                            @Html.ValidationMessageFor(m => m.MoTa, "", new { @class = "badge badge-danger" })
+                            <div class="col-md-10">
+                                <input type="file" name="ImageFile" required />
+                            </div>
+                        </div>
+
+                        <div class="form-group" style="margin-top:50px;float:right">
+                            <input type="submit" name="submit" class="btn btn-danger" value="Chỉnh sửa" />
+                        </div>
+                    </div>
+                </div>
+
+            }
+            <div>
+                <button type="button" class="btn btn-outline-success"> @Html.ActionLink("Quay lại", "Index")</button>
+
+            </div>
+        </div>
+    </div>
+    <br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+
+
+    <!-- Plugins JS -->
+    <script src="/assets/js/plugins.js"></script>
+
+    <!-- Main JS -->
+    <script src="/assets/js/main.js"></script>
+
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAdWLY_Y6FL7QGW5vcO3zajUEsrKfQPNzI"></script>
+    <script src="https://www.google.com/jsapi"></script>
+    <script src="assets/js/map.js"></script>
+</body>
+</html>
+
+

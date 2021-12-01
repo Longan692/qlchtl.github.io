@@ -11,11 +11,14 @@ namespace QLCHTL.Models
 
         public string iMaHang { get; set; }
         public string iTenHang { get; set; }
-       
+
         public string iDVT { get; set; }
         public string iHinhAnh { get; set; }
         public int soluong { get; set; }
         public double DonGia { get; set; }
+        public bool iStatus { get; set; }
+        public string Status { get; set; }
+        public string iMota { get; set; }
         public double ThanhTien
         {
             get { return soluong * DonGia; }
@@ -29,9 +32,20 @@ namespace QLCHTL.Models
             iHinhAnh = hang.HinhAnh;
             DonGia = double.Parse(gia.DonGia.ToString());
             soluong = 1;
+            iStatus = (bool)hang.Status;
+            iMota = hang.MoTa;
+            iDVT = hang.DVT;
+            if (iStatus == true)
+            {
+                Status = "Còn hàng";
+            }
+            else
+            {
+                Status = "Hết hàng";
+            }
         }
-        
-        
+
+
         //public HANG Product { get; set; }
         //public int Quantity { get; set; }
 

@@ -14,27 +14,41 @@ namespace QLCHTL.Controllers
         private QLCHTLEntities de = new QLCHTLEntities();
         public ActionResult Index()
         {
-
-            if (Session["idUser"] != null)
-            {
-
-
-
-                List<HANG> productname = de.HANGs.ToList();
-                List<GIA> giabanmoi = de.GIAs.ToList();
-                var item = from p in productname
-                           join g in giabanmoi
-                          on p.MaHang equals g.MaHang into tb1
-                           from g in tb1.DefaultIfEmpty()
-                           select new SanPham { productdetails = p, giabandetails = g };
-                return View(item);
-            }
-            else
-            {
-                return RedirectToAction("Login");
-            }
-
+            //if (Session["Id"] != null)
+            //{
+            //    List<HANG> productname = de.HANGs.ToList();
+            //    List<GIA> giabanmoi = de.GIAs.ToList();
+            //    var item = from p in productname
+            //               join g in giabanmoi
+            //              on p.MaHang equals g.MaHang into tb1
+            //               from g in tb1.DefaultIfEmpty()
+            //               select new SanPham { productdetails = p, giabandetails = g };
+            //    return View(item);
+            //}
+            //else
+            //{
+            //    return RedirectToAction("Login");
+            //}
+            List<HANG> productname = de.HANGs.ToList();
+            List<GIA> giabanmoi = de.GIAs.ToList();
+            var item = from p in productname
+                       join g in giabanmoi
+                      on p.MaHang equals g.MaHang into tb1
+                       from g in tb1.DefaultIfEmpty()
+                       select new SanPham { productdetails = p, giabandetails = g };
+            return View(item);
         }
+        //public ActionResult ThucAn(string maloai)
+        //{
+        //    List<HANG> productname = de.HANGs.Where(p => p.MaLoaiHang==maloai).ToList();
+        //    List<GIA> giabanmoi = de.GIAs.ToList();
+        //    var item = from p in productname
+        //               join g in giabanmoi
+        //              on p.MaHang equals g.MaHang into tb1
+        //               from g in tb1.DefaultIfEmpty()
+        //               select new SanPham { productdetails = p, giabandetails = g };
+        //    return View(item);
+        //}
         //GET: Register
 
         public ActionResult Register()
@@ -45,23 +59,25 @@ namespace QLCHTL.Controllers
         //POST: Register
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Register(TaiKhoang _user)
+        public ActionResult Register(Account _user)
         {
             if (ModelState.IsValid)
             {
-                var check = de.TaiKhoangs.FirstOrDefault(s => s.Email == _user.Email);
+                var check = de.Accounts.FirstOrDefault(s => s.Email == _user.Email || s.Username==_user.Username);
                 if (check == null)
                 {
-                    _user.IdUsers = "003";
-                    _user.MatKhau = GetMD5(_user.MatKhau);
+                    _user.Password = GetMD5(_user.Password);
+                    _user.IsAdmin =false;
+                   
+                    _user.Status = true;
                     de.Configuration.ValidateOnSaveEnabled = false;
-                    de.TaiKhoangs.Add(_user);
+                    de.Accounts.Add(_user);
                     de.SaveChanges();
-                    return RedirectToAction("Index");
+                    return RedirectToAction("Login");
                 }
                 else
                 {
-                    ViewBag.error = "Email already exists";
+                    ViewBag.error = "Account already exists";
                     return View();
                 }
 
@@ -80,21 +96,52 @@ namespace QLCHTL.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Login(string email, string Matkhau)
+        public ActionResult Login(string UserName, string PassWord)
         {
             if (ModelState.IsValid)
             {
 
+                var f_password = GetMD5(PassWord);
+                //var checkAdmin = de.Accounts.Where(_ => _.IsAdmin==false).ToList();
+                var data = de.Accounts.SingleOrDefault(s => s.Username.Equals(UserName) && s.Password.Equals(f_password));
 
-                var f_password = GetMD5(Matkhau);
-                var data = de.TaiKhoangs.Where(s => s.Email.Equals(email) && s.MatKhau.Equals(f_password)).ToList();
-                if (data.Count() > 0)
+                //if (data.Count() > 0)
+                //{
+                //    if (data.FirstOrDefault().IsAdmin!=false)
+                //    {
+                //        //add session admin
+                //        Session["UserName"] = data.FirstOrDefault().Username;
+                //        Session["FullName"] = data.FirstOrDefault().Fullname;
+                //        Session["Email"] = data.FirstOrDefault().Email;
+                //        Session["id"] = data.FirstOrDefault().Id;
+                //        return RedirectToAction("Index","Admin/QuanLyHang");
+
+                //    }
+                //    else
+                //    {
+                //        //add session
+                //        Session["UserName"] = data.FirstOrDefault().Username;
+                //        Session["FullName"] = data.FirstOrDefault().Fullname;
+                //        Session["Email"] = data.FirstOrDefault().Email;
+                //        Session["id"] = data.FirstOrDefault().Id;
+                //        return RedirectToAction("Index");
+                //    }
+                if (data!=null)
                 {
-                    //add session
-                    Session["FullName"] = data.FirstOrDefault().FirstName + " " + data.FirstOrDefault().LastName;
-                    Session["Email"] = data.FirstOrDefault().Email;
-                    Session["idUser"] = data.FirstOrDefault().IdUsers;
-                    return RedirectToAction("Index");
+                    if (data.IsAdmin != false)
+                    {
+                        //add session admin
+                        Session["user"] = data;
+                        return RedirectToAction("Index", "Admin/QuanLyHang");
+
+                    }
+                    else
+                    {
+                        //add session
+                        Session["user"] = data;
+                        return RedirectToAction("Index");
+                    }
+
                 }
                 else
                 {
@@ -122,10 +169,39 @@ namespace QLCHTL.Controllers
             }
             return byte2String;
         }
-
-
-       
+        public ActionResult ThucAn()
+        {
+        
+                List<HANG> productname = de.HANGs.ToList();
+                List<GIA> giabanmoi = de.GIAs.ToList();
+                var item = from p in productname
+                           join g in giabanmoi
+                          on p.MaHang equals g.MaHang into tb1
+                           from g in tb1.DefaultIfEmpty()
+                           select new SanPham { productdetails = p, giabandetails = g };
+                return View(item);
+          
            
+        }
+        public ActionResult DangXuat()
+        {
+            Session["user"] = null;
+            return RedirectToAction("Index", "Home");
+
+        }
+        //public ActionResult DangNhapPartial()
+        //{
+        //    if (TongSoLuong() == 0)
+        //    {
+        //        return PartialView();
+        //    }
+        //    ViewBag.TongSoLuong = TongSoLuong();
+        //    ViewBag.TongTien = TongThanhTien();
+        //    return PartialView();
+        //}
+
+
+
 
     }
 }
