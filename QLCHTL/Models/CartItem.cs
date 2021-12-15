@@ -19,6 +19,8 @@ namespace QLCHTL.Models
         public bool iStatus { get; set; }
         public string Status { get; set; }
         public string iMota { get; set; }
+        public double DiemThuong { get; set; }
+
         public double ThanhTien
         {
             get { return soluong * DonGia; }
@@ -44,11 +46,5 @@ namespace QLCHTL.Models
                 Status = "Hết hàng";
             }
         }
-
-
-        //public HANG Product { get; set; }
-        //public int Quantity { get; set; }
-
-
     }
 }

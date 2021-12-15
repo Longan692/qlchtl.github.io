@@ -107,73 +107,6 @@
     </div>
 </section>
 <!-- end features Area -->
-<!-- Start category Area -->
-<!--<section class="category-area">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-lg-8 col-md-12">
-                <div class="row">
-                    <div class="col-lg-8 col-md-8">
-                        <div class="single-deal">
-                            <div class="overlay"></div>
-                            <img class="img-fluid w-100" src="~/assets/img/category/snack.png" alt="">
-                            <a href="img/category/c1.jpg" class="img-pop-up" target="_blank">
-                                <div class="deal-details">
-                                    <h6 class="deal-title">Thực phẩm khô</h6>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-4">
-                        <div class="single-deal">
-                            <div class="overlay"></div>
-                            <img class="img-fluid w-100" src="~/assets/img/category/mp.png" alt="">
-                            <a href="img/category/c2.jpg" class="img-pop-up" target="_blank">
-                                <div class="deal-details">
-                                    <h6 class="deal-title">Bánh kẹo</h6>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-4">
-                        <div class="single-deal">
-                            <div class="overlay"></div>
-                            <img class="img-fluid w-100" src="~/assets/img/category/hangTH.png" alt="">
-                            <a href="img/category/c3.jpg" class="img-pop-up" target="_blank">
-                                <div class="deal-details">
-                                    <h6 class="deal-title">Nước giải khát lạnh</h6>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-lg-8 col-md-8">
-                        <div class="single-deal">
-                            <div class="overlay"></div>
-                            <img class="img-fluid w-100" src="~/assets/img/category/nuocgk.png" alt="">
-                            <a href="img/category/c4.jpg" class="img-pop-up" target="_blank">
-                                <div class="deal-details">
-                                    <h6 class="deal-title">Hàng hóa tổng hợp</h6>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6">
-                <div class="single-deal">
-                    <div class="overlay"></div>
-                    <img class="img-fluid w-100" src="img/category/c5.jpg" alt="">
-                    <a href="img/category/c5.jpg" class="img-pop-up" target="_blank">
-                        <div class="deal-details">
-                            <h6 class="deal-title">Sneaker for Sports</h6>
-                        </div>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>-->
-<!-- End category Area -->
 <!-- start product Area -->
 <section class="owl-carousel active-product-area section_gap">
     <!-- single product slide -->
@@ -182,7 +115,7 @@
             <div class="row justify-content-center">
                 <div class="col-lg-6 text-center">
                     <div class="section-title">
-                        <h1>Sản phẩm mới nhất</h1>
+                        <h1 style="color:#e3c418;font:bold 40px arial, verdana">Sản phẩm mới nhất</h1>
                         <p>
 
                         </p>
@@ -190,12 +123,10 @@
                 </div>
             </div>
             <div class="row">
-                @foreach (var p in Model)
+                @foreach (var p in @ViewBag.HangTongHop)
                 {
                     <!-- single product -->
                     <div class="col-lg-3 col-md-6">
-
-
                         <div class="single-product">
                             <img class="img-fluid" style="width:250px;height:224px" src="/@p.productdetails.HinhAnh" alt="@p.productdetails.HinhAnh">
                             <div class="product-details">
@@ -203,19 +134,21 @@
                                     @p.productdetails.TenHang
                                 </h6>
                                 <div class="price">
-                                    <h6>@p.giabandetails.DonGia.Value.ToString("#,##0").Replace(',', '.') VNĐ</h6>
-                                    <h6 class="l-through">$210.00</h6>
+                                    <h6>@p.giabandetails.DonGia.ToString("#,##0").Replace(',', '.') VNĐ</h6>
+                                    <h6 class="l-through"></h6>
                                 </div>
                                 <div class="prd-bottom">
                                     <a href="@Url.Action("ThemGioHang", "Cart", new { @ms = p.productdetails.MaHang, @strURL = Request.Url.ToString() }, null)" class="social-info">
                                         <span class="ti-bag"></span>
                                         <p class="hover-text">Mua hàng</p>
-                                      
+
                                     </a>
-                                    <a href="@Url.Action("AddProductDetail", "Product", new { @ms = p.productdetails.MaHang}, null)" class="social-info">
+                                    <a href="@Url.Action("Detail", "Product", new { @ms = p.productdetails.MaHang}, null)" class="social-info">
+
                                         <span class="lnr lnr-move"></span>
                                         <p class="hover-text">Xem chi tiết sản phẩm</p>
                                     </a>
+                                   
                                 </div>
                             </div>
                         </div>
@@ -230,11 +163,9 @@
             <div class="row justify-content-center">
                 <div class="col-lg-6 text-center">
                     <div class="section-title">
-                        <h1>Coming Products</h1>
+                        <h1>THỰC PHẨM KHÔ</h1>
                         <p>
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                            dolore
-                            magna aliqua.
+
                         </p>
                     </div>
                 </div>
@@ -242,30 +173,29 @@
             <div class="row">
                 <!-- single product -->
                 <div class="row">
-                    @foreach (var p in Model)
+                    @foreach (var p in @ViewBag.BanhKeo)
                     {
                         <!-- single product -->
                         <div class="col-lg-3 col-md-6">
 
 
                             <div class="single-product">
-                                <img class="img-fluid" src="@p.productdetails.HinhAnh" alt="@p.productdetails.HinhAnh">
+                                <img class="img-fluid" style="width:250px;height:224px" src="/@p.productdetails.HinhAnh" alt="@p.productdetails.HinhAnh">
                                 <div class="product-details">
                                     <h6>
                                         @p.productdetails.TenHang
                                     </h6>
                                     <div class="price">
-                                        <h6>@p.giabandetails.DonGia</h6>
-                                        <h6 class="l-through">$210.00</h6>
+                                        <h6>@p.giabandetails.DonGia.ToString("#,##0").Replace(',', '.') VNĐ</h6>
+                                        <h6 class="l-through"></h6>
                                     </div>
                                     <div class="prd-bottom">
-
-                                        <a class="social-info">
+                                        <a href="@Url.Action("ThemGioHang", "Cart", new { @ms = p.productdetails.MaHang, @strURL = Request.Url.ToString() }, null)" class="social-info">
                                             <span class="ti-bag"></span>
-                                            <p class="hover-text">Thêm vào giỏ hàng</p>
-                                            @Html.ActionLink(" ", "ThemGioHang", "Cart", new { @ms = p.productdetails.MaHang, @strURL = Request.Url.ToString() }, null)
+                                            <p class="hover-text">Mua hàng</p>
+
                                         </a>
-                                        <a href="" class="social-info">
+                                        <a href="@Url.Action("Detail", "Product", new { @ms = p.productdetails.MaHang}, null)" class="social-info">
                                             <span class="lnr lnr-move"></span>
                                             <p class="hover-text">Xem chi tiết sản phẩm</p>
                                         </a>

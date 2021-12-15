@@ -23,6 +23,13 @@ namespace QLCHTL.Models
         public int MaDonDatHang { get; set; }
         public Nullable<System.DateTime> NgayDat { get; set; }
         public Nullable<int> MaKH { get; set; }
+        public string HoTenNguoiNhan { get; set; }
+        public string SDT { get; set; }
+        public string DiaChi { get; set; }
+        public string GhiChu { get; set; }
+        public string Email { get; set; }
+        public Nullable<double> TongTien { get; set; }
+        public string TinhTrang { get; set; }
     
         public virtual Account Account { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

@@ -22,7 +22,6 @@ namespace QLCHTL.Models
         public Nullable<int> MaNVDuyet { get; set; }
         public Nullable<System.DateTime> NgayGiao { get; set; }
         public string MaNVGiao { get; set; }
-        public string TinhTrang { get; set; }
         public Nullable<int> TinhTrangThanhToan { get; set; }
     
         public virtual HANG HANG { get; set; }

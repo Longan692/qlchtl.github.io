@@ -16,9 +16,9 @@
           <Property Name="Phone" Type="nvarchar(max)" />
           <Property Name="Address" Type="nvarchar(max)" />
           <Property Name="Fullname" Type="nvarchar(max)" />
-          <Property Name="IsAdmin" Type="bit" Nullable="false" />
           <Property Name="Avatar" Type="nvarchar(max)" />
           <Property Name="Status" Type="bit" Nullable="false" />
+          <Property Name="Roles" Type="int" />
         </EntityType>
         <EntityType Name="COMBO">
           <Key>
@@ -50,7 +50,6 @@
           <Property Name="MaNVDuyet" Type="int" />
           <Property Name="NgayGiao" Type="date" />
           <Property Name="MaNVGiao" Type="char" MaxLength="15" />
-          <Property Name="TinhTrang" Type="nvarchar" MaxLength="20" />
           <Property Name="TinhTrangThanhToan" Type="int" />
         </EntityType>
         <EntityType Name="DANHSACHHANGGIAM">
@@ -69,6 +68,13 @@
           <Property Name="MaDonDatHang" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="NgayDat" Type="date" />
           <Property Name="MaKH" Type="int" />
+          <Property Name="HoTenNguoiNhan" Type="nvarchar" MaxLength="255" />
+          <Property Name="SDT" Type="varchar" MaxLength="20" />
+          <Property Name="DiaChi" Type="nvarchar" MaxLength="500" />
+          <Property Name="GhiChu" Type="nvarchar" MaxLength="4000" />
+          <Property Name="Email" Type="nvarchar" MaxLength="100" />
+          <Property Name="TongTien" Type="float" />
+          <Property Name="TinhTrang" Type="nvarchar" MaxLength="255" />
         </EntityType>
         <EntityType Name="GIA">
           <Key>
@@ -117,6 +123,23 @@
           <Property Name="SDT" Type="char" MaxLength="15" />
           <Property Name="DiaChi" Type="nvarchar" MaxLength="50" />
           <Property Name="MoTa" Type="nvarchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="TICHDIEM">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="TenKH" Type="nvarchar" MaxLength="50" />
+          <Property Name="DiemThuong" Type="float" />
+        </EntityType>
+        <EntityType Name="VOUCHER">
+          <Key>
+            <PropertyRef Name="MaVoucher" />
+          </Key>
+          <Property Name="MaVoucher" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="TenVoucher" Type="nvarchar" MaxLength="100" />
+          <Property Name="MaDotKM" Type="char" MaxLength="15" />
+          <Property Name="TyLeGiam" Type="float" />
         </EntityType>
         <Association Name="fk_COMBO_MaDotKM">
           <End Role="KHUYENMAI" Type="Self.KHUYENMAI" Multiplicity="0..1" />
@@ -250,6 +273,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_TichDiem_Acc">
+          <End Role="Accounts" Type="Self.Accounts" Multiplicity="1" />
+          <End Role="TICHDIEM" Type="Self.TICHDIEM" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Accounts">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TICHDIEM">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VOUCHER_KM">
+          <End Role="KHUYENMAI" Type="Self.KHUYENMAI" Multiplicity="0..1" />
+          <End Role="VOUCHER" Type="Self.VOUCHER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="KHUYENMAI">
+              <PropertyRef Name="MaDotKM" />
+            </Principal>
+            <Dependent Role="VOUCHER">
+              <PropertyRef Name="MaDotKM" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="QLCHTLModelStoreContainer">
           <EntitySet Name="Accounts" EntityType="Self.Accounts" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="COMBO" EntityType="Self.COMBO" Schema="dbo" store:Type="Tables" />
@@ -262,6 +309,8 @@
           <EntitySet Name="KHUYENMAI" EntityType="Self.KHUYENMAI" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LOAIHANG" EntityType="Self.LOAIHANG" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="NHACUNGCAP" EntityType="Self.NHACUNGCAP" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TICHDIEM" EntityType="Self.TICHDIEM" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="VOUCHER" EntityType="Self.VOUCHER" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="fk_COMBO_MaDotKM" Association="Self.fk_COMBO_MaDotKM">
             <End Role="KHUYENMAI" EntitySet="KHUYENMAI" />
             <End Role="COMBO" EntitySet="COMBO" />
@@ -305,6 +354,14 @@
           <AssociationSet Name="fk_HANG_MaNCC" Association="Self.fk_HANG_MaNCC">
             <End Role="NHACUNGCAP" EntitySet="NHACUNGCAP" />
             <End Role="HANG" EntitySet="HANG" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TichDiem_Acc" Association="Self.FK_TichDiem_Acc">
+            <End Role="Accounts" EntitySet="Accounts" />
+            <End Role="TICHDIEM" EntitySet="TICHDIEM" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VOUCHER_KM" Association="Self.FK_VOUCHER_KM">
+            <End Role="KHUYENMAI" EntitySet="KHUYENMAI" />
+            <End Role="VOUCHER" EntitySet="VOUCHER" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -429,6 +486,16 @@
             <End Role="HANG" EntitySet="HANGs" />
             <End Role="DANHSACHHANGGIAM" EntitySet="DANHSACHHANGGIAMs" />
           </AssociationSet>
+          <EntitySet Name="TICHDIEMs" EntityType="QLCHTLModel.TICHDIEM" />
+          <AssociationSet Name="FK_TichDiem_Acc" Association="QLCHTLModel.FK_TichDiem_Acc">
+            <End Role="Account" EntitySet="Accounts" />
+            <End Role="TICHDIEM" EntitySet="TICHDIEMs" />
+          </AssociationSet>
+          <EntitySet Name="VOUCHERs" EntityType="QLCHTLModel.VOUCHER" />
+          <AssociationSet Name="FK_VOUCHER_KM" Association="QLCHTLModel.FK_VOUCHER_KM">
+            <End Role="KHUYENMAI" EntitySet="KHUYENMAIs" />
+            <End Role="VOUCHER" EntitySet="VOUCHERs" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Account">
           <Key>
@@ -441,10 +508,11 @@
           <Property Name="Phone" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Fullname" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="IsAdmin" Type="Boolean" Nullable="false" />
           <Property Name="Avatar" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Status" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="DONDATHANGs" Relationship="QLCHTLModel.fk_DONDATHANG_MaKH" FromRole="Account" ToRole="DONDATHANG" />
+          <Property Name="Roles" Type="Int32" />
+          <NavigationProperty Name="TICHDIEM" Relationship="QLCHTLModel.FK_TichDiem_Acc" FromRole="Account" ToRole="TICHDIEM" />
         </EntityType>
         <EntityType Name="GIA">
           <Key>
@@ -481,7 +549,6 @@
           <Property Name="MaNVDuyet" Type="Int32" />
           <Property Name="NgayGiao" Type="DateTime" Precision="0" />
           <Property Name="MaNVGiao" Type="String" MaxLength="15" FixedLength="true" Unicode="false" />
-          <Property Name="TinhTrang" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="TinhTrangThanhToan" Type="Int32" />
           <NavigationProperty Name="HANG" Relationship="QLCHTLModel.fk_CT_CT_DONDATHANG_MaHang" FromRole="CT_DONDATHANG" ToRole="HANG" />
           <NavigationProperty Name="DONDATHANG" Relationship="QLCHTLModel.fk_CT_DONDATHANG_MaDonDatHang" FromRole="CT_DONDATHANG" ToRole="DONDATHANG" />
@@ -495,6 +562,13 @@
           <Property Name="MaKH" Type="Int32" />
           <NavigationProperty Name="Account" Relationship="QLCHTLModel.fk_DONDATHANG_MaKH" FromRole="DONDATHANG" ToRole="Account" />
           <NavigationProperty Name="CT_DONDATHANG" Relationship="QLCHTLModel.fk_CT_DONDATHANG_MaDonDatHang" FromRole="DONDATHANG" ToRole="CT_DONDATHANG" />
+          <Property Name="HoTenNguoiNhan" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="SDT" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="DiaChi" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="GhiChu" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="TongTien" Type="Double" />
+          <Property Name="TinhTrang" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="fk_DONDATHANG_MaKH">
           <End Type="QLCHTLModel.Account" Role="Account" Multiplicity="0..1" />
@@ -574,6 +648,7 @@
           <Property Name="NgayKetThuc" Type="DateTime" Precision="0" />
           <NavigationProperty Name="COMBOes" Relationship="QLCHTLModel.fk_COMBO_MaDotKM" FromRole="KHUYENMAI" ToRole="COMBO" />
           <NavigationProperty Name="DANHSACHHANGGIAMs" Relationship="QLCHTLModel.fk_DANHSACHGIAM_MaDotKM" FromRole="KHUYENMAI" ToRole="DANHSACHHANGGIAM" />
+          <NavigationProperty Name="VOUCHERs" Relationship="QLCHTLModel.FK_VOUCHER_KM" FromRole="KHUYENMAI" ToRole="VOUCHER" />
         </EntityType>
         <Association Name="fk_COMBO_MaDotKM">
           <End Type="QLCHTLModel.KHUYENMAI" Role="KHUYENMAI" Multiplicity="0..1" />
@@ -635,6 +710,49 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="TICHDIEM">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="TenKH" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DiemThuong" Type="Double" />
+          <NavigationProperty Name="Account" Relationship="QLCHTLModel.FK_TichDiem_Acc" FromRole="TICHDIEM" ToRole="Account" />
+        </EntityType>
+        <Association Name="FK_TichDiem_Acc">
+          <End Type="QLCHTLModel.Account" Role="Account" Multiplicity="1" />
+          <End Type="QLCHTLModel.TICHDIEM" Role="TICHDIEM" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Account">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TICHDIEM">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="VOUCHER">
+          <Key>
+            <PropertyRef Name="MaVoucher" />
+          </Key>
+          <Property Name="MaVoucher" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="TenVoucher" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="MaDotKM" Type="String" MaxLength="15" FixedLength="true" Unicode="false" />
+          <Property Name="TyLeGiam" Type="Double" />
+          <NavigationProperty Name="KHUYENMAI" Relationship="QLCHTLModel.FK_VOUCHER_KM" FromRole="VOUCHER" ToRole="KHUYENMAI" />
+        </EntityType>
+        <Association Name="FK_VOUCHER_KM">
+          <End Type="QLCHTLModel.KHUYENMAI" Role="KHUYENMAI" Multiplicity="0..1" />
+          <End Type="QLCHTLModel.VOUCHER" Role="VOUCHER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="KHUYENMAI">
+              <PropertyRef Name="MaDotKM" />
+            </Principal>
+            <Dependent Role="VOUCHER">
+              <PropertyRef Name="MaDotKM" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -677,9 +795,9 @@
           <EntitySetMapping Name="Accounts">
             <EntityTypeMapping TypeName="QLCHTLModel.Account">
               <MappingFragment StoreEntitySet="Accounts">
+                <ScalarProperty Name="Roles" ColumnName="Roles" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="Avatar" ColumnName="Avatar" />
-                <ScalarProperty Name="IsAdmin" ColumnName="IsAdmin" />
                 <ScalarProperty Name="Fullname" ColumnName="Fullname" />
                 <ScalarProperty Name="Address" ColumnName="Address" />
                 <ScalarProperty Name="Phone" ColumnName="Phone" />
@@ -703,7 +821,6 @@
             <EntityTypeMapping TypeName="QLCHTLModel.CT_DONDATHANG">
               <MappingFragment StoreEntitySet="CT_DONDATHANG">
                 <ScalarProperty Name="TinhTrangThanhToan" ColumnName="TinhTrangThanhToan" />
-                <ScalarProperty Name="TinhTrang" ColumnName="TinhTrang" />
                 <ScalarProperty Name="MaNVGiao" ColumnName="MaNVGiao" />
                 <ScalarProperty Name="NgayGiao" ColumnName="NgayGiao" />
                 <ScalarProperty Name="MaNVDuyet" ColumnName="MaNVDuyet" />
@@ -718,6 +835,13 @@
           <EntitySetMapping Name="DONDATHANGs">
             <EntityTypeMapping TypeName="QLCHTLModel.DONDATHANG">
               <MappingFragment StoreEntitySet="DONDATHANG">
+                <ScalarProperty Name="TinhTrang" ColumnName="TinhTrang" />
+                <ScalarProperty Name="TongTien" ColumnName="TongTien" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="GhiChu" ColumnName="GhiChu" />
+                <ScalarProperty Name="DiaChi" ColumnName="DiaChi" />
+                <ScalarProperty Name="SDT" ColumnName="SDT" />
+                <ScalarProperty Name="HoTenNguoiNhan" ColumnName="HoTenNguoiNhan" />
                 <ScalarProperty Name="MaKH" ColumnName="MaKH" />
                 <ScalarProperty Name="NgayDat" ColumnName="NgayDat" />
                 <ScalarProperty Name="MaDonDatHang" ColumnName="MaDonDatHang" />
@@ -758,6 +882,25 @@
                 <ScalarProperty Name="NgayBatDau" ColumnName="NgayBatDau" />
                 <ScalarProperty Name="TenDotKM" ColumnName="TenDotKM" />
                 <ScalarProperty Name="MaDotKM" ColumnName="MaDotKM" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TICHDIEMs">
+            <EntityTypeMapping TypeName="QLCHTLModel.TICHDIEM">
+              <MappingFragment StoreEntitySet="TICHDIEM">
+                <ScalarProperty Name="DiemThuong" ColumnName="DiemThuong" />
+                <ScalarProperty Name="TenKH" ColumnName="TenKH" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VOUCHERs">
+            <EntityTypeMapping TypeName="QLCHTLModel.VOUCHER">
+              <MappingFragment StoreEntitySet="VOUCHER">
+                <ScalarProperty Name="TyLeGiam" ColumnName="TyLeGiam" />
+                <ScalarProperty Name="MaDotKM" ColumnName="MaDotKM" />
+                <ScalarProperty Name="TenVoucher" ColumnName="TenVoucher" />
+                <ScalarProperty Name="MaVoucher" ColumnName="MaVoucher" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

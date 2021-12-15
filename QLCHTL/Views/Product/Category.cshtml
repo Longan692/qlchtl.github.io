@@ -1,0 +1,41 @@
+﻿@model IEnumerable<QLCHTL.Models.SanPham>
+@{
+    ViewBag.Title = "Category";
+    Layout = "~/Views/Shared/_LayoutCategory.cshtml";
+}
+
+<section class="lattest-product-area pb-40 category-list">
+    <div class="row">
+        <!-- single product -->
+        @foreach (var p in Model)
+        {
+            
+            <!-- single product -->
+            <div class="col-lg-3 col-md-6">
+                <div class="single-product">
+                    <img class="img-fluid" style="width:300px;height:224px" src="/@p.productdetails.HinhAnh" alt="@p.productdetails.HinhAnh">
+                    <div class="product-details">
+                        <h6>
+                            @p.productdetails.TenHang
+                        </h6>
+                        <div class="price">
+                            <h6>@p.giabandetails.DonGia.Value.ToString("#,##0").Replace(',', '.') VNĐ</h6>
+                            <h6 class="l-through">$210.00</h6>
+                        </div>
+                        <div class="prd-bottom">
+                            <a href="@Url.Action("ThemGioHang", "Cart", new { @ms = p.productdetails.MaHang, @strURL = Request.Url.ToString() }, null)" class="social-info">
+                                <span class="ti-bag"></span>
+                                <p class="hover-text">Mua hàng</p>
+
+                            </a>
+                            <a href="@Url.Action("Detail", "Product", new { @ms = p.productdetails.MaHang}, null)" class="social-info">
+                                <span class="lnr lnr-move"></span>
+                                <p class="hover-text">Xem chi tiết sản phẩm</p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</section>

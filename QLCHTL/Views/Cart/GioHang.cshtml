@@ -3,6 +3,9 @@
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@{
+    var u = Session["Voucher"] as QLCHTL.Models.VOUCHER;
+}
 <!-- Start Banner Area -->
 <section class="banner-area organic-breadcrumb">
     <div class="container">
@@ -18,111 +21,140 @@
     </div>
 </section>
 <!-- End Banner Area -->
-<br /><br /><br /><br /><br /><br /><br /><br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
 <!-- shopping cart area start -->
 <div class="shopping_cart_area">
     <div class="container">
-        
-           
-                <div class="row"> 
-                    <div class="col-12">
-                        @using (Html.BeginForm("CapNhatGioHang","Cart", FormMethod.Post))
-                        {
-                            <div class="table_desc">
-                                <div class="cart_page table-responsive">
-                                    <table>
-                                        <thead>
-                                            <tr>
-                                                <th class="product_remove">Xóa sản phẩm</th>
-                                                <th class="product_thumb">Hình ảnh</th>
-                                                <th class="product_name">Sản phẩm</th>
-                                                <th class="product-price">Giá</th>
-                                                <th class="product_quantity">Số lượng</th>
-                                                <th class="product_total">Tổng tiền</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach (var p in Model)
-                                            {
+        <span style="color:red;font-size:initial;text-align:center">*@ViewBag.ThongBao</span>
+        <div class="row">
+            <div class="col-12">
+                @using (Html.BeginForm("CapNhatGioHang", "Cart", FormMethod.Post))
+                {
+                    <div class="table_desc">
+                        <div class="cart_page table-responsive">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th class="product_remove">Xóa sản phẩm</th>
+                                        <th class="product_thumb">Hình ảnh</th>
+                                        <th class="product_name">Sản phẩm</th>
+                                        <th class="product-price">Giá</th>
+                                        <th class="product_quantity">Số lượng</th>
+                                        <th class="product_total">Tổng tiền</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var p in Model)
+                                    {
 
-                                                <tr>
-                                                    <td class="product_remove"><a href="@Url.Action("XoaGioHang", "Cart", new { @iMaSP = p.iMaHang},null)"><i class="fa fa-trash-o"></i></a></td>
-                                                    <td class="product_thumb"><a href="#"><img src="/@p.iHinhAnh" alt="@p.iTenHang"></a></td>
-                                                    <td class="product_name"><a href="#">@p.iTenHang</a></td>
-                                                    <td class="product-price">@p.DonGia.ToString("#,##0").Replace(',', '.') VNĐ </td>
-                                                    <td class="product_quantity"><input min="1" max="100" value="@p.soluong" type="number" name="soluong" id="soluong"></td>
-                                                    <td class="product_total">@p.ThanhTien.ToString("#,##0").Replace(',', '.') VNĐ </td>
-                                                </tr>
-                                            }
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="cart_submit">
-                                    <button type="submit">Cập nhật</button>
-                                </div>
-                            </div>
-                        }
+                                        <tr>
+                                            <td class="product_remove"><a href="@Url.Action("XoaGioHang", "Cart", new { @iMaSP = p.iMaHang},null)"><i class="fa fa-trash-o"></i></a></td>
+                                            <td class="product_thumb"><a href="#"><img src="/@p.iHinhAnh" alt="@p.iTenHang"></a></td>
+                                            <td class="product_name"><a href="#">@p.iTenHang</a></td>
+                                            <td class="product-price">@p.DonGia.ToString("#,##0").Replace(',', '.') VNĐ </td>
+                                            <td class="product_quantity"><input min="1" max="100" value="@p.soluong" type="number" name="soluong" id="soluong"></td>
+                                            <td class="product_total">@p.ThanhTien.ToString("#,##0").Replace(',', '.') VNĐ </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
                         </div>
-                </div>
+                        <div class="cart_submit">
+                            <button type="submit">Cập nhật</button>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
 
-                <!--coupon code area start-->
-                <div class="coupon_area">
-                    <div class="row">
-                        <div class="col-lg-6 col-md-6">
+        <!--coupon code area start-->
+        <div class="coupon_area">
+            <div class="row">
+                <div class="col-lg-6 col-md-6">
+                    @using (Html.BeginForm("Voucher", "Cart", FormMethod.Post))
+                    {
+                        if (u != null)
+                        {
                             <div class="coupon_code left">
                                 <h3>Coupon</h3>
                                 <div class="coupon_inner">
                                     <p>Hãy nhập mã giảm giá của bạn</p>
-                                    <input placeholder="Coupon code" type="text">
+                                    <input placeholder="Coupon code" type="text" name="maVoucher" id="maVoucher">
                                     <button type="submit">ÁP dụng</button>
+                                    <br />
+                                    <span style="color:lawngreen;font-size:small">@ViewBag.DungVoucher . <a href="@Url.Action("XoaVoucher","Cart")"> Bỏ sử dụng Coupon code</a></span>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-lg-6 col-md-6">
-                            <div class="coupon_code right">
-                                <h3>Tổng số tiền giỏ hàng</h3>
+                        }
+                        else
+                        {
+                            <div class="coupon_code left">
+                                <h3>Coupon</h3>
                                 <div class="coupon_inner">
-                                    <div class="cart_subtotal">
-                                        <p>Tổng số</p>
-                                        <p class="cart_amount">@ViewBag.TongSoLuong sản phẩm</p>
-                                    </div>
-                                    <div class="cart_subtotal ">
-                                        <p>Vận chuyển</p>
-                                        <p class="cart_amount"><span>Giá: </span></p>
-                                    </div>
-                                    <a href="#">Tính toán vận chuyển</a>
-
-                                    <div class="cart_subtotal">
-                                        <p>Tổng tiền </p>
-                                        <p class="cart_amount">@ViewBag.TongThanhTien.ToString("#,##0").Replace(',', '.') VNĐ </p>
-                                    </div>
-                                    <div class="checkout_btn">
-                                        @using (Html.BeginForm("DatHang", "Cart", new { @class = "" }))
-                                        {
-                                            <input type="submit" value="Đặt hàng"  class="btn-danger" style="color:black;font-style:oblique" />
-                                        }
-                                        
-                                    </div>
+                                    <p>Hãy nhập mã giảm giá của bạn</p>
+                                    <input placeholder="Coupon code" type="text" name="maVoucher" id="maVoucher">
+                                    <button type="submit">ÁP dụng</button>
+                                    <br />
+                                    <span style="color:red;font-size:small">@ViewBag.SaiVoucher</span>
+                                    <span style="color:lawngreen;font-size:small">@ViewBag.DungVoucher</span>
                                 </div>
+                            </div>
+                        }
+
+                    }
+                </div>
+                <div class="col-lg-6 col-md-6">
+                    <div class="coupon_code right">
+                        <h3>Tổng số tiền giỏ hàng</h3>
+                        <div class="coupon_inner">
+                            <div class="cart_subtotal">
+                                <p>Tổng số:</p>
+                                <p class="cart_amount">@ViewBag.TongSoLuong sản phẩm</p>
+                            </div>
+                            <div class="cart_subtotal">
+                                <p>Tạm tính:</p>
+                                <p class="cart_amount">@ViewBag.TamTinh.ToString("#,##0").Replace(',', '.') VNĐ</p>
+                            </div>
+                            <div class="cart_subtotal ">
+                                <p>Phí vận chuyển:</p>
+                                <p class="cart_amount" style="color: #ff6a00">@ViewBag.PhiShip</p>
+                            </div>
+                            <br />
+                            <div class="cart_subtotal ">
+                                <p>Khuyến mãi:</p>
+                                <p class="cart_amount" style="color: #ff6a00">@ViewBag.KM%</p>
+                            </div>
+                            <br />
+                            <br />
+                            <div class="cart_subtotal">
+                                <p style="font-size:x-large;color:red">Tổng tiền: </p>
+                                <p class="cart_amount" style="font-size:x-large;color:red">@ViewBag.TongThanhTien.ToString("#,##0").Replace(',', '.') VNĐ </p>
+                            </div>
+                            <div class="checkout_btn">
+                                @*@using (Html.BeginForm("DatHang", "Cart", new { @class = "" }))
+                                    {
+                                        <input type="submit" value="Đặt hàng" class="btn-danger" style="color:black;font-style:oblique" />
+                                    }*@
+                                <button type="button" class="btn btn-danger" onclick="location.href='@Url.Action("DatHang","Cart")'"><i class="fa fa-money-bill-alt"></i>  Đặt hàng</button>
+
                             </div>
                         </div>
                     </div>
                 </div>
-                <!--coupon code area end-->
-           
-       
+            </div>
+        </div>
+        <!--coupon code area end-->
+
+
     </div>
 </div>
-
-@*<script type="text/javascript">
-    $(document).ready(function () {
-
-        $("#quantity").keypress(function (e)){
-            if()
-        }
-    }
-    
-</script>*@
 
 
 

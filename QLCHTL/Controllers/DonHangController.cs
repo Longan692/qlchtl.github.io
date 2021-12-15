@@ -22,7 +22,7 @@ namespace QLCHTL.Controllers
             }
             Account kh = (Account)Session["user"];
             int maND = kh.Id;
-            var donhangs = db.DONDATHANGs.Include(d => d.Account).Where(d => d.MaKH == maND);
+            var donhangs = db.DONDATHANGs.Include(d => d.Account).Where(d => d.MaKH == maND && d.TinhTrang!="Đã giao");
             return View(donhangs.ToList());
         }
 

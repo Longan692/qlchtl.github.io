@@ -4,29 +4,33 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="ba899600b60b4278ab220ad5a8cc440d" Name="Diagram1">
+      <Diagram DiagramId="ba899600b60b4278ab220ad5a8cc440d" Name="Diagram1" ZoomLevel="79">
         <EntityTypeShape EntityType="QLCHTLModel.HANG" Width="1.5" PointX="3" PointY="0.625" IsExpanded="true" />
         <EntityTypeShape EntityType="QLCHTLModel.LOAIHANG" Width="1.5" PointX="0.75" PointY="1.625" IsExpanded="true" />
         <EntityTypeShape EntityType="QLCHTLModel.NHACUNGCAP" Width="1.5" PointX="8" PointY="2.625" IsExpanded="true" />
         <AssociationConnector Association="QLCHTLModel.fk_HANG_MaLoaiHang" ManuallyRouted="false" />
         <AssociationConnector Association="QLCHTLModel.fk_HANG_MaNCC" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="QLCHTLModel.Account" Width="1.5" PointX="2.875" PointY="5" />
+        <EntityTypeShape EntityType="QLCHTLModel.Account" Width="1.5" PointX="0.75" PointY="5.125" />
         <EntityTypeShape EntityType="QLCHTLModel.GIA" Width="1.5" PointX="5.25" PointY="1" />
         <AssociationConnector Association="QLCHTLModel.fk_GIA_MaHang" />
-        <EntityTypeShape EntityType="QLCHTLModel.CT_DONDATHANG" Width="1.5" PointX="10.75" PointY="2.625" />
+        <EntityTypeShape EntityType="QLCHTLModel.CT_DONDATHANG" Width="1.5" PointX="10.875" PointY="1.125" />
         <EntityTypeShape EntityType="QLCHTLModel.DONDATHANG" Width="1.5" PointX="6.25" PointY="5" />
         <AssociationConnector Association="QLCHTLModel.fk_DONDATHANG_MaKH" />
         <AssociationConnector Association="QLCHTLModel.fk_CT_CT_DONDATHANG_MaHang" />
         <AssociationConnector Association="QLCHTLModel.fk_CT_DONDATHANG_MaDonDatHang" />
         <EntityTypeShape EntityType="QLCHTLModel.COMBO" Width="1.5" PointX="6.25" PointY="12.75" />
         <EntityTypeShape EntityType="QLCHTLModel.CT_COMBO" Width="1.5" PointX="9.5" PointY="8" />
-        <EntityTypeShape EntityType="QLCHTLModel.DANHSACHHANGGIAM" Width="1.5" PointX="7.25" PointY="7.75" />
+        <EntityTypeShape EntityType="QLCHTLModel.DANHSACHHANGGIAM" Width="1.5" PointX="7.75" PointY="8.375" />
         <EntityTypeShape EntityType="QLCHTLModel.KHUYENMAI" Width="1.5" PointX="4" PointY="10" />
         <AssociationConnector Association="QLCHTLModel.fk_COMBO_MaDotKM" />
         <AssociationConnector Association="QLCHTLModel.fk_CT_COMBO_COMBO" />
         <AssociationConnector Association="QLCHTLModel.fk_CT_COMBO_MaDotKM" />
         <AssociationConnector Association="QLCHTLModel.fk_DANHSACHGIAM_MaDotKM" />
         <AssociationConnector Association="QLCHTLModel.fk_DANHSACHGIAM_MaHang" />
+        <EntityTypeShape EntityType="QLCHTLModel.TICHDIEM" Width="1.5" PointX="3" PointY="5.875" />
+        <AssociationConnector Association="QLCHTLModel.FK_TichDiem_Acc" />
+        <EntityTypeShape EntityType="QLCHTLModel.VOUCHER" Width="1.5" PointX="6.25" PointY="16.25" />
+        <AssociationConnector Association="QLCHTLModel.FK_VOUCHER_KM" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

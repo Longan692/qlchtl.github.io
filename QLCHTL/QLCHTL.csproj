@@ -261,6 +261,8 @@
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\BaseController.cs" />
     <Compile Include="Areas\Admin\Controllers\QuanLyHangController.cs" />
+    <Compile Include="Constants\RankMember.cs" />
+    <Compile Include="Constants\Role.cs" />
     <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\ComboSaleController.cs" />
     <Compile Include="Controllers\DonHangController.cs" />
@@ -286,6 +288,7 @@
     <Compile Include="Models\DANHSACHHANGGIAM.cs">
       <DependentUpon>DBQLCHTL.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\DatHang.cs" />
     <Compile Include="Models\DBQLCHTL.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -321,7 +324,13 @@
     </Compile>
     <Compile Include="Models\ProductDetail.cs" />
     <Compile Include="Models\SanPham.cs" />
+    <Compile Include="Models\TICHDIEM.cs">
+      <DependentUpon>DBQLCHTL.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\User.cs" />
+    <Compile Include="Models\VOUCHER.cs">
+      <DependentUpon>DBQLCHTL.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -342,6 +351,7 @@
     <Content Include="assets\css\SignIn.css" />
     <Content Include="assets\css\SignUp.css" />
     <Content Include="assets\css\style.css" />
+    <Content Include="assets\css\ThanhToan.css" />
     <Content Include="assets\css\themify-icons.css" />
     <Content Include="assets\fonts\fontawesome-webfont.svg" />
     <Content Include="assets\fonts\Linearicons-Free.svg" />
@@ -2705,11 +2715,18 @@
     <Content Include="Views\ComboSale\Index.cshtml" />
     <Content Include="Views\ComboSale\DanhsachCombo.cshtml" />
     <Content Include="Views\ComboSale\ChitietCombo.cshtml" />
+    <Content Include="Views\Cart\DatHang.cshtml" />
+    <Content Include="Views\Product\Category.cshtml" />
+    <Content Include="Views\Product\DanhMucPartial.cshtml" />
+    <Content Include="Views\Shared\_LayoutCategory.cshtml" />
+    <Content Include="Views\Product\ThucAnNhanh.cshtml" />
+    <Content Include="Views\Home\MenuCategoryPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Areas\Admin\Views\Base\" />
+    <Folder Include="Views\LoginCart\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

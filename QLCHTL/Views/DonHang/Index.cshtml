@@ -24,9 +24,9 @@
 <br />
 
 <h2>Danh sách đơn hàng</h2>
+ @ViewBag.tb
 
-
-<table class="table">
+<!--<table class="table">
     <tr>
         <th>
             Họ tên
@@ -50,7 +50,7 @@
                 @Html.DisplayFor(modelItem => item.NgayDat)
             </td>
             <td>
-                <div style="color:red">Đang chờ xác nhận</div>
+                <div style="color:red">@Html.DisplayFor(modelItem => item.TinhTrang)</div>
             </td>
             <td>
                 <button class="btn-primary">
@@ -67,3 +67,197 @@
 <br />
 <br />
 <br />
+<span class="badge badge-info">Danh sách đơn hàng</span>-->
+@*Danh sách sinh viên xuất sắc*@
+<!--<section>
+    <div class="container">
+        <table>
+            <thead>
+                <tr class="header">
+                    <th>
+                        Họ và tên
+
+                    </th>
+                    <th>
+                        Ngày đặt
+
+                    </th>
+                    <th>
+                        Họ tên người nhận
+
+                    </th>
+                    <th>
+                        Số điện thoại
+
+                    </th>
+                    <th>
+                        Điạ chỉ
+
+                    </th>
+                    <th>
+                        Tổng tiền
+
+                    </th>
+                    <th>
+                        Tình trạng đơn hàng
+
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var p in Model)
+                {
+                    <tr id="table-scroll">
+                        <td>@p.Account.Fullname</td>
+                        <td>@p.NgayDat.Value.ToString("MM/dd/yyyy")</td>
+                        <td>@p.HoTenNguoiNhan</td>
+                        <td>@p.SDT</td>
+                        <td>@p.DiaChi</td>
+                        <td>@p.SDT</td>
+                        <td>@p.TongTien</td>
+                        <td>@p.TinhTrang</td>
+                        <td>
+                            <button class="btn-primary">
+                                @Html.ActionLink("Chi tiết", "Details", new { id = p.MaDonDatHang }, new { @style = "color:white;" })
+                            </button>
+
+                        </td>
+
+                    </tr>
+
+
+                }
+            </tbody>
+        </table>
+    </div>-->
+@*<button class="btn-primary">
+        @Html.ActionLink("Chi tiết", "Details", new { id = item.MaDonDatHang }, new { @style = "color:white;" })
+    </button>*@
+<!--</section>-->
+@*<input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names..">
+    <br />
+    <br />
+    <table id="myTable">
+        <tr class="header">
+            <th>
+                Họ và tên
+
+            </th>
+            <th>
+                Ngày đặt
+
+            </th>
+            <th>
+                Họ tên người nhận
+
+            </th>
+            <th>
+                Số điện thoại
+
+            </th>
+            <th>
+                Điạ chỉ
+
+            </th>
+            <th>
+                Tổng tiền
+
+            </th>
+            <th>
+                Tình trạng đơn hàng
+
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var p in Model)
+        {
+            <tr>
+                <td>@p.Account.Fullname</td>
+                <td>@p.NgayDat.Value.ToString("MM/dd/yyyy")</td>
+                <td>@p.HoTenNguoiNhan</td>
+                <td>@p.SDT</td>
+                <td>@p.DiaChi</td>
+                <td>@p.TongTien</td>
+                <td>@p.TinhTrang</td>
+                <td>
+                    <button class="btn-primary">
+                        @Html.ActionLink("Chi tiết", "Details", new { id = p.MaDonDatHang }, new { @style = "color:white;" })
+                    </button>
+
+                </td>
+            </tr>
+
+
+        }
+    </table>*@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Bootstrap Example</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <div class="container" style="width:100%">
+        <table class="table">
+            <thead class="thead-light" style="background-color:#ffd800">
+                <tr>
+                    <th>
+                        Ngày đặt
+
+                    </th>
+                    <th>
+                        Họ tên người nhận
+
+                    </th>
+                    <th>
+                        Số điện thoại
+
+                    </th>
+                    <th>
+                        Điạ chỉ
+
+                    </th>
+                    <th>
+                        Tổng tiền
+
+                    </th>
+                    <th>
+                        Tình trạng đơn hàng
+
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var p in Model)
+                {
+                    <tr>
+                        <td>@p.NgayDat.Value.ToString("MM/dd/yyyy")</td>
+                        <td>@p.HoTenNguoiNhan</td>
+                        <td>@p.SDT</td>
+                        <td>@p.DiaChi</td>
+                        <td>@p.TongTien</td>
+                        <td>@p.TinhTrang</td>
+                        <td>
+                            <button class="btn-primary">
+                                @Html.ActionLink("Chi tiết", "Details", new { id = p.MaDonDatHang }, new { @style = "color:white;" })
+                            </button>
+
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

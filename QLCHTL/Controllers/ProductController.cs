@@ -10,41 +10,55 @@ namespace QLCHTL.Controllers
     {
         // GET: Product
         QLCHTLEntities db = new QLCHTLEntities();
-        public List<CartItem> LayGioHang()
-        {
-            List<CartItem> lstGioHang = Session["CartItem"] as List<CartItem>;
-            if (lstGioHang == null)
-            {
-                //chua co list gio hang thi khoi tao
-                lstGioHang = new List<CartItem>();
-                Session["CartItem"] = lstGioHang;
-            }
-            return lstGioHang;
-        }
-        public ActionResult AddProductDetail(string ms)
-        {
-            //lay gio hang
-            List<CartItem> lstGioHang = LayGioHang();
-            //kiem tra  ton tai 
-            CartItem SanPham = lstGioHang.Find(sp => sp.iMaHang.Equals(ms));
 
-            if (SanPham == null)
-            {
-                SanPham = new CartItem(ms);
-                lstGioHang.Add(SanPham);
-               
-            }
-            else
-            {
-                //Da co roi 
-                SanPham.soluong++;
-            }
-            return RedirectToAction("Detail", "Product");
-        }
-        public ActionResult Detail()
+
+
+        public ActionResult Detail(string ms)
         {
-            List<CartItem> lstGioHang = LayGioHang();
-            return View(lstGioHang);
+            List<HANG> productname = db.HANGs.Where(_ => _.MaHang.Equals(ms)).ToList();
+            List<GIA> giabanmoi = db.GIAs.Where(_ => _.MaHang.Equals(ms)).ToList();
+            var item = from p in productname
+                       join g in giabanmoi
+                      on p.MaHang equals g.MaHang into tb1
+                       from g in tb1.DefaultIfEmpty()
+                       select new SanPham { productdetails = p, giabandetails = g };
+            if (item == null)
+            {
+                Response.StatusCode = 404;
+                return null;
+            }
+            return View(item);
+
         }
+        public ActionResult Category(string maLoai)
+        {
+            List<HANG> productname = db.HANGs.ToList();
+            List<GIA> giabanmoi = db.GIAs.ToList();
+            var item = from p in productname
+                       join g in giabanmoi
+                      on p.MaHang equals g.MaHang into tb1
+                       from g in tb1.DefaultIfEmpty()
+                       select new SanPham { productdetails = p, giabandetails = g };
+            var list = item.Where(_ => _.productdetails.MaLoaiHang.Equals(maLoai)).ToList();
+            return View(list);
+        }
+        //public ActionResult ThucAnNhanh()
+        //{
+        //    List<HANG> productname = db.HANGs.ToList();
+        //    List<GIA> giabanmoi = db.GIAs.ToList();
+        //    var item = from p in productname
+        //               join g in giabanmoi
+        //              on p.MaHang equals g.MaHang into tb1
+        //               from g in tb1.DefaultIfEmpty()
+        //               select new SanPham { productdetails = p, giabandetails = g };
+        //    var list = item.Where(_ => _.productdetails.MaLoaiHang.Trim().Equals("LH001"));
+        //    return View(list);
+        //}
+        public ActionResult DanhMucPartial()
+        {
+            ViewBag.danhmuc = db.LOAIHANGs.ToList();
+            return View();
+        }
+        
     }
 }

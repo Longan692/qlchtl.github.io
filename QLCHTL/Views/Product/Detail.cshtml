@@ -1,4 +1,4 @@
-﻿@model  List<QLCHTL.Models.CartItem>
+﻿@model  IEnumerable<QLCHTL.Models.SanPham>
 @{
     ViewBag.Title = "Detail";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -29,25 +29,32 @@
                 <div class="col-lg-6">
                     <div class="s_Product_carousel">
                         <div class="single-prd-item">
-                            <img class="img-fluid" src="/@p.iHinhAnh" alt="">
+                            <img class="img-fluid" src="/@p.productdetails.HinhAnh" alt="">
                         </div>
                         <div class="single-prd-item">
-                            <img class="img-fluid" src="/@p.iHinhAnh" alt="">
+                            <img class="img-fluid" src="/@p.productdetails.HinhAnh" alt="">
                         </div>
                         <div class="single-prd-item">
-                            <img class="img-fluid" src="/@p.iHinhAnh" alt="">
+                            <img class="img-fluid" src="/@p.productdetails.HinhAnh" alt="">
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-5 offset-lg-1">
                     <div class="s_product_text">
-                        <h3>@p.iTenHang</h3>
-                        <h2>@p.DonGia.ToString("#,##0").Replace(',', '.') VNĐ</h2>
+                        <h3>@p.productdetails.TenHang</h3>
+                        <h2>@p.giabandetails.DonGia.Value.ToString("#,##0").Replace(',', '.') VNĐ</h2>
                         <ul class="list">
-                            <li><a class="active"><span>Đơn vị tính</span> @p.iDVT</a></li>
-                            <li><a><span>Trạng thái</span>@p.Status</a></li>
+                            <li><a class="active"><span>Đơn vị tính</span> @p.productdetails.DVT</a></li>
+                            @if (@p.productdetails.Status == true)
+                            {
+                                <li><a><span>Trạng thái</span>Còn hàng</a></li>
+                            }
+                            else
+                            {
+                                <li><a><span>Trạng thái</span>Hết hàng</a></li>
+                            }
                         </ul>
-                        <p>  @p.iMota</p>
+                        <p>  @p.productdetails.MoTa</p>
                         <div class="product_count">
                             <label for="qty">Số lượng:</label>
                             <input min="1" max="100" value="1" type="number">
@@ -61,9 +68,9 @@
                                 </button>*@
                         </div>
                         <div class="card_area d-flex align-items-center">
-                           
-                                <a class="primary-btn" href="@Url.Action("ThemGioHang", "Cart", new { @ms = p.iMaHang, @strURL ="http://localhost:11314/Cart/GioHang" },null)">Add to Cart</a>
-                               
+
+                            <a class="primary-btn" href="@Url.Action("ThemGioHang", "Cart", new { @ms = p.productdetails.MaHang, @strURL ="~/Cart/GioHang" },null)">Add to Cart</a>
+
                             <a class="icon_btn" href="#"><i class="lnr lnr lnr-diamond"></i></a>
                             <a class="icon_btn" href="#"><i class="lnr lnr lnr-heart"></i></a>
                         </div>

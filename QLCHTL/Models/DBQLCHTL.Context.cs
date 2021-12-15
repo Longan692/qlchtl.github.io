@@ -36,5 +36,7 @@ namespace QLCHTL.Models
         public virtual DbSet<CT_COMBO> CT_COMBO { get; set; }
         public virtual DbSet<DANHSACHHANGGIAM> DANHSACHHANGGIAMs { get; set; }
         public virtual DbSet<KHUYENMAI> KHUYENMAIs { get; set; }
+        public virtual DbSet<TICHDIEM> TICHDIEMs { get; set; }
+        public virtual DbSet<VOUCHER> VOUCHERs { get; set; }
     }
 }

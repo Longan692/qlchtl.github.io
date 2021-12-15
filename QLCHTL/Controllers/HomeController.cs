@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-using System.Web;
 using System.Web.Mvc;
+using QLCHTL.Constants;
 using QLCHTL.Models;
 namespace QLCHTL.Controllers
 {
@@ -36,19 +34,11 @@ namespace QLCHTL.Controllers
                       on p.MaHang equals g.MaHang into tb1
                        from g in tb1.DefaultIfEmpty()
                        select new SanPham { productdetails = p, giabandetails = g };
-            return View(item);
+            ViewBag.HangTongHop = item.Where(p => p.productdetails.MaLoaiHang.Trim().Equals("LH001")).Take(10).ToList();
+            ViewBag.BanhKeo = item.Where(p => p.productdetails.MaLoaiHang.Trim().Equals("LH003")).Take(10).ToList();
+            return View();
         }
-        //public ActionResult ThucAn(string maloai)
-        //{
-        //    List<HANG> productname = de.HANGs.Where(p => p.MaLoaiHang==maloai).ToList();
-        //    List<GIA> giabanmoi = de.GIAs.ToList();
-        //    var item = from p in productname
-        //               join g in giabanmoi
-        //              on p.MaHang equals g.MaHang into tb1
-        //               from g in tb1.DefaultIfEmpty()
-        //               select new SanPham { productdetails = p, giabandetails = g };
-        //    return View(item);
-        //}
+      
         //GET: Register
 
         public ActionResult Register()
@@ -67,11 +57,18 @@ namespace QLCHTL.Controllers
                 if (check == null)
                 {
                     _user.Password = GetMD5(_user.Password);
-                    _user.IsAdmin =false;
+                    _user.Roles =Role.KhachHang;
                    
                     _user.Status = true;
                     de.Configuration.ValidateOnSaveEnabled = false;
                     de.Accounts.Add(_user);
+                    de.SaveChanges();
+                    //Them khách hàng vào bảng tích điểm
+                    TICHDIEM td = new TICHDIEM();
+                    td.Id = _user.Id;
+                    td.TenKH = _user.Fullname;
+                    td.DiemThuong = 0;
+                    de.TICHDIEMs.Add(td);
                     de.SaveChanges();
                     return RedirectToAction("Login");
                 }
@@ -84,16 +81,11 @@ namespace QLCHTL.Controllers
 
             }
             return View();
-
-
         }
         public ActionResult Login()
         {
             return View();
         }
-
-
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Login(string UserName, string PassWord)
@@ -128,7 +120,7 @@ namespace QLCHTL.Controllers
                 //    }
                 if (data!=null)
                 {
-                    if (data.IsAdmin != false)
+                    if (data.Roles == Role.Admin)
                     {
                         //add session admin
                         Session["user"] = data;
@@ -145,7 +137,7 @@ namespace QLCHTL.Controllers
                 }
                 else
                 {
-                    ViewBag.error = "Login failed";
+                    ViewBag.error = "Đăng nhập không thành công, hãy thử lại";
                     return RedirectToAction("Login");
                 }
             }
@@ -171,7 +163,6 @@ namespace QLCHTL.Controllers
         }
         public ActionResult ThucAn()
         {
-        
                 List<HANG> productname = de.HANGs.ToList();
                 List<GIA> giabanmoi = de.GIAs.ToList();
                 var item = from p in productname
@@ -189,19 +180,10 @@ namespace QLCHTL.Controllers
             return RedirectToAction("Index", "Home");
 
         }
-        //public ActionResult DangNhapPartial()
-        //{
-        //    if (TongSoLuong() == 0)
-        //    {
-        //        return PartialView();
-        //    }
-        //    ViewBag.TongSoLuong = TongSoLuong();
-        //    ViewBag.TongTien = TongThanhTien();
-        //    return PartialView();
-        //}
-
-
-
-
+        public ActionResult MenuCategoryPartial()
+        {
+            ViewBag.MenuDanhMuc = de.LOAIHANGs.ToList();
+            return View();
+        }
     }
 }

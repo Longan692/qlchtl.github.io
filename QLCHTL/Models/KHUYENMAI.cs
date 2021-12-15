@@ -19,6 +19,7 @@ namespace QLCHTL.Models
         {
             this.COMBOes = new HashSet<COMBO>();
             this.DANHSACHHANGGIAMs = new HashSet<DANHSACHHANGGIAM>();
+            this.VOUCHERs = new HashSet<VOUCHER>();
         }
     
         public string MaDotKM { get; set; }
@@ -30,5 +31,7 @@ namespace QLCHTL.Models
         public virtual ICollection<COMBO> COMBOes { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DANHSACHHANGGIAM> DANHSACHHANGGIAMs { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<VOUCHER> VOUCHERs { get; set; }
     }
 }

@@ -109,7 +109,7 @@
 
                         </form>
                     }
-                    </div>
+                </div>
                 <div class="col-md-8 banner-sec">
                     <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
                         <ol class="carousel-indicators">
@@ -123,8 +123,10 @@
                                 <div class="carousel-caption d-none d-md-block">
                                     <div class="banner-text">
                                         <h2>Xin chào</h2>
-                                        <p>Chào mừng các bạn đến với cửa hàng tiện lợi của chúng tôi, đăng ký để nhận thêm nhiều ưu đãi hơn nhé!<br />
-                                        <button type="button" class="btn btn-outline-danger">@Html.ActionLink("Đăng ký","Register")</button></p>
+                                        <p>
+                                            Chào mừng các bạn đến với cửa hàng tiện lợi của chúng tôi, đăng ký để nhận thêm nhiều ưu đãi hơn nhé!<br />
+                                            <button type="button" class="btn btn-outline-danger">@Html.ActionLink("Đăng ký", "Register")</button>
+                                        </p>
                                     </div>
                                 </div>
                             </div>
@@ -152,7 +154,11 @@
                 </div>
             </div>
         </div>
+        <div class="alert alert-danger">
+            <strong>Cảnh báo</strong>@ViewBag.error
+        </div>
     </section>
+ 
 </body>
 </html>
 

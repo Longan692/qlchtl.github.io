@@ -1,0 +1,92 @@
+﻿@model QLCHTL.Models.DatHang
+@{
+    ViewBag.Title = "DatHang";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <!--important link source from "https://bootsnipp.com/snippets/qNB2D"-->
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="/assets/css/ThanhToan.css">
+    <!------ Include the above in your HEAD tag ---------->
+    <link href="https://fonts.googleapis.com/css?family=Quicksand:300,400,500,600,700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- Start Banner Area -->
+    <section class="banner-area organic-breadcrumb">
+        <div class="container">
+            <div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
+                <div class="col-first">
+                    <h1>Shopping Cart</h1>
+                    <nav class="d-flex align-items-center">
+                        <a href="#">Giỏ hàng<span class="lnr lnr-arrow-right"></span></a>
+                        <a href="category.html">Đặt hàng</a>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End Banner Area -->
+    <section class="ready__started project__form">
+        <div class="container">
+            <h3 class="text-center">Thông tin nhận hàng</h3>
+            <div class="ready__started-box">
+                @using (Html.BeginForm("DatHang", "Cart", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+                <form class="main__form">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="firstName">Họ tên người nhận</label>
+                                @Html.TextBoxFor(m => m.HoTenNguoiNhan, "", new { @class = "form-control", @placeholder = "Họ tên người nhận", @id = "firstName" })
+                                @*  <input type="text" class="form-control" id="firstName" aria-describedby="firstName" placeholder="John" required>*@
+
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="contactNumber">Số điện thoại người nhận</label>
+                                @* <input type="text" class="form-control" id="contactNumber" aria-describedby="contactNumber" placeholder="xxx-xxx-xxxx" required>*@
+                                @Html.TextBoxFor(m => m.SDT, "", new { @class = "form-control", @placeholder = "Số điện thoại nhận hàng", @id = "contactNumber" })
+
+
+                            </div>
+                        </div>
+                    </div>
+                   
+                    <div class="form-group form-message">
+                        <label for="lastName">Địa chỉ</label>
+                        @* <textarea class="form-control" id="message" rows="6" placeholder="Khách hàng có yêu cầu gì thêm, vui lòng ghi chú để cửa hàng phục vụ tốt nhất"></textarea>*@
+                        @* @Html.TextBoxFor(m => m.GhiChu, "", new { @class = "form-control", @placeholder = "Khách hàng có yêu cầu gì thêm, vui lòng ghi chú để cửa hàng phục vụ tốt nhất" })*@
+                        @Html.TextBoxFor(m => m.DiaChi, "", new { @class = "form-control", @placeholder = "Ví dụ: Số nhà+ Tên đường/ Phường/ Quận/ Thành phố", @id = "lastName" })
+
+                    </div>
+                    <div class="form-group form-message">
+                        <label for="message">Ghi chú</label>
+                        @* <textarea class="form-control" id="message" rows="6" placeholder="Khách hàng có yêu cầu gì thêm, vui lòng ghi chú để cửa hàng phục vụ tốt nhất"></textarea>*@
+                        @* @Html.TextBoxFor(m => m.GhiChu, "", new { @class = "form-control", @placeholder = "Khách hàng có yêu cầu gì thêm, vui lòng ghi chú để cửa hàng phục vụ tốt nhất" })*@
+                        @Html.TextAreaFor(m => m.GhiChu, new { @class = "form-control", @placeholder = "Khách hàng có yêu cầu gì thêm, vui lòng ghi chú để cửa hàng phục vụ tốt nhất", @id = "message" })
+
+                    </div>
+                    <div class="text-center">
+                        <label for="message"><span style="color:red">Thông tin đơn</span>: Quý khách đã đặt đơn hàng với giá trị <span style="font-weight: bold;"> @ViewBag.TongThanhTien.ToString("#,##0").Replace(',', '.') VNĐ</span> gồm <span style="font-weight: bold;">@ViewBag.TongSoLuong </span> sản phẩm</label>
+
+                    </div>
+                    <br />
+                    <br />
+                    <br />
+                    <div class="text-center">
+                        <button type="submit" class=" btn btn-get"><span> Thanh toán</span></button>
+                    </div>
+                </form>
+                }
+            </div>
+        </div>
+    </section>
+</body>
+</html>

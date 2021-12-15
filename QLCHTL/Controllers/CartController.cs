@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Web;
 using System.Web.Mvc;
 using QLCHTL.Models;
+using QLCHTL.Constants;
 namespace QLCHTL.Controllers
 {
     public class CartController : Controller
@@ -36,14 +40,13 @@ namespace QLCHTL.Controllers
             }
             return lstGioHang;
         }
-        public ActionResult ThemGioHang(string ms,string strURL)
+        public ActionResult ThemGioHang(string ms, string strURL)
         {
             //lay gio hang
             List<CartItem> lstGioHang = LayGioHang();
             //kiem tra  ton tai 
             CartItem SanPham = lstGioHang.Find(sp => sp.iMaHang.Equals(ms));
-            
-            if(SanPham==null)
+            if (SanPham == null)
             {
                 SanPham = new CartItem(ms);
                 lstGioHang.Add(SanPham);
@@ -80,22 +83,129 @@ namespace QLCHTL.Controllers
         }
         public ActionResult GioHang()
         {
+
+            List<CartItem> lstGioHang = LayGioHang();
             if (Session["cartitem"] == null)
             {
                 return RedirectToAction("Index", "Home");
 
             }
-            List<CartItem> lstGioHang = LayGioHang();
-            ViewBag.TongThanhTien = TongThanhTien();
+            if (Session["Voucher"] == null)
+            {
+                //Kiểm tra đăng đăng nhập
+                if (Session["user"] == null || Session["user"].ToString() == "")
+                {
+                    ViewBag.ThongBao = "Đăng nhập để nhận được nhiều khuyến mãi từ cửa hàng";
+                    ViewBag.TamTinh = TongThanhTien();
+                    if (TongThanhTien() > 200000)
+                    {
+                        ViewBag.TongThanhTien = TongThanhTien();
+                        ViewBag.PhiShip = "Miễn phí";
+                        ViewBag.KM = 0;
+                    }
+                    else
+                    {
+                        ViewBag.TongThanhTien = TongThanhTien() + 28000;
+                        ViewBag.PhiShip = "28.000 VNĐ";
+                        ViewBag.KM = 0;
+                    }
+                }
+                else
+                {
+                    Account Kh = (Account)Session["user"];
+                    var diem = db.TICHDIEMs.Where(_ => _.Id == Kh.Id).FirstOrDefault();
+                    ViewBag.TamTinh = TongThanhTien();
+                    if (diem.DiemThuong >= RankMember.KimCuong)
+                    {
+                        if (TongThanhTien() > 200000)
+                        {
+                            ViewBag.TongThanhTien = TongThanhTien() * ((100 - TiLeGiam.KimCuong) / 100);
+                            ViewBag.PhiShip = "Miễn phí";
+                            ViewBag.KM = TiLeGiam.KimCuong;
+                        }
+                        else
+                        {
+                            ViewBag.TongThanhTien = TongThanhTien() * ((100 - TiLeGiam.KimCuong) / 100) + 28000;
+                            ViewBag.PhiShip = "28.000 VNĐ";
+                            ViewBag.KM = TiLeGiam.KimCuong;
+                        }
+                    }
+                    else if (diem.DiemThuong < RankMember.KimCuong && diem.DiemThuong >= RankMember.Vang)
+                    {
+                        if (TongThanhTien() > 200000)
+                        {
+                            ViewBag.TongThanhTien = TongThanhTien() * ((100 - TiLeGiam.Vang) / 100);
+                            ViewBag.PhiShip = "Miễn phí";
+                            ViewBag.KM = TiLeGiam.Vang;
+                        }
+                        else
+                        {
+                            ViewBag.TongThanhTien = TongThanhTien() * ((100 - TiLeGiam.Vang) / 100) + 28000;
+                            ViewBag.PhiShip = "28.000 VNĐ";
+                            ViewBag.KM = TiLeGiam.Vang;
+                        }
+                    }
+                    else if (diem.DiemThuong < RankMember.Vang && diem.DiemThuong >= RankMember.Bac)
+                    {
+                        if (TongThanhTien() > 200000)
+                        {
+                            ViewBag.TongThanhTien = TongThanhTien() * ((100 - TiLeGiam.Bac) / 100);
+                            ViewBag.PhiShip = "Miễn phí";
+                            ViewBag.KM = TiLeGiam.Bac;
+                        }
+                        else
+                        {
+                            ViewBag.TongThanhTien = TongThanhTien() * ((100 - TiLeGiam.Bac) / 100) + 28000;
+                            ViewBag.PhiShip = "28.000 VNĐ";
+                            ViewBag.KM = TiLeGiam.Bac;
+                        }
+                    }
+                    else if (diem.DiemThuong < RankMember.Bac)
+                    {
+                        if (TongThanhTien() > 200000)
+                        {
+                            ViewBag.TongThanhTien = TongThanhTien();
+                            ViewBag.PhiShip = "Miễn phí";
+                            ViewBag.KM = 0;
+                        }
+                        else
+                        {
+                            ViewBag.TongThanhTien = TongThanhTien() + 28000;
+                            ViewBag.PhiShip = "28.000 VNĐ";
+                            ViewBag.KM = 0;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                VOUCHER vc = (VOUCHER)Session["Voucher"];
+                var giamgia = ((100 - vc.TyLeGiam) / 100);
+                ViewBag.TamTinh = TongThanhTien();
+                if (TongThanhTien() > 200000)
+                {
+                    ViewBag.TongThanhTien = TongThanhTien()*giamgia;
+                    ViewBag.PhiShip = "Miễn phí";
+                    ViewBag.KM = vc.TyLeGiam;
+                }
+                else
+                {
+                    ViewBag.TongThanhTien = TongThanhTien() * giamgia + 28000;
+                    ViewBag.PhiShip = "28.000 VNĐ";
+                    ViewBag.KM = vc.TyLeGiam;
+                }
+                ViewBag.DungVoucher = "*Mã hợp lệ bạn được giảm "+vc.TyLeGiam+"% trên tổng đơn hàng.";
+            }
+
             ViewBag.TongSoLuong = TongSoLuong();
             return View(lstGioHang);
         }
         //Partial View giỏ hàng:
-
         public ActionResult GioHangPartial()
         {
             if (TongSoLuong() == 0)
             {
+                ViewBag.TongSoLuong = TongSoLuong();
                 return PartialView();
             }
             ViewBag.TongSoLuong = TongSoLuong();
@@ -106,13 +216,10 @@ namespace QLCHTL.Controllers
         public ActionResult CapNhatGioHang(FormCollection f)
         {
             string[] quantities = f.GetValues("soluong");
-          
             List<CartItem> lstCart = (List<CartItem>)Session["cartitem"];
             for (int i = 0; i < lstCart.Count(); i++)
             {
                 lstCart[i].soluong = Convert.ToInt32(quantities[i]);
-                
-
             }
             Session["cartitem"] = lstCart;
             return RedirectToAction("GioHang");
@@ -142,9 +249,9 @@ namespace QLCHTL.Controllers
             {
                 return RedirectToAction("Index", "Home");
             }
+
             return RedirectToAction("GioHang");
         }
-        [HttpPost]
         public ActionResult DatHang()
         {
             //Kiểm tra đăng đăng nhập
@@ -152,38 +259,236 @@ namespace QLCHTL.Controllers
             {
                 return RedirectToAction("Login", "Home");
             }
+            else
+            {
+                Account Kh = (Account)Session["user"];
+                TICHDIEM diem = db.TICHDIEMs.Find(Kh.Id);
+                if (diem.DiemThuong >= RankMember.KimCuong)
+                {
+                    if (TongThanhTien() > 200000)
+                    {
+
+                        ViewBag.TongThanhTien = TongThanhTien() * ((100 - TiLeGiam.KimCuong) / 100);
+                    }
+                    else
+                    {
+
+                        ViewBag.TongThanhTien = TongThanhTien() * ((100 - TiLeGiam.KimCuong) / 100) + 28000;
+                    }
+                }
+                else if (diem.DiemThuong < RankMember.KimCuong && diem.DiemThuong >= RankMember.Vang)
+                {
+                    if (TongThanhTien() > 200000)
+                    {
+
+                        ViewBag.TongThanhTien = TongThanhTien() * ((100 - TiLeGiam.Vang) / 100);
+                    }
+                    else
+                    {
+
+                        ViewBag.TongThanhTien = TongThanhTien() * ((100 - TiLeGiam.Vang) / 100) + 28000;
+                    }
+                }
+                else if (diem.DiemThuong < RankMember.Vang && diem.DiemThuong >= RankMember.Bac)
+                {
+                    if (TongThanhTien() > 200000)
+                    {
+
+                        ViewBag.TongThanhTien = TongThanhTien() * ((100 - TiLeGiam.Bac) / 100);
+
+                    }
+                    else
+                    {
+                        ViewBag.TongThanhTien = TongThanhTien() * ((100 - TiLeGiam.Bac) / 100) + 28000;
+                    }
+                }
+                else if (diem.DiemThuong < RankMember.Bac)
+                {
+                    if (TongThanhTien() > 200000)
+                    {
+                        ViewBag.TongThanhTien = TongThanhTien();
+                    }
+                    else
+                    {
+                        ViewBag.TongThanhTien = TongThanhTien();
+                    }
+                }
+            }
             //Kiểm tra giỏ hàng
             if (Session["cartitem"] == null)
             {
                 RedirectToAction("Index", "Home");
             }
-            //Thêm đơn hàng mới:
-            DONDATHANG ddh = new DONDATHANG();
-            Account Kh = (Account)Session["user"];
-            List<CartItem> gh = LayGioHang();
-            ddh.MaKH = Kh.Id;
-            ddh.NgayDat = DateTime.Now;
-            Console.WriteLine(ddh);
-            db.DONDATHANGs.Add(ddh);
-            db.SaveChanges();
+            ViewBag.TongSoLuong = TongSoLuong();
+            return View();
+        }
 
-            //TheM CHI TIET DON HANG
-            foreach(var item in gh)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult DatHang(DatHang datHang)
+        {
+            if (ModelState.IsValid)
             {
-                CT_DONDATHANG ctDDH = new CT_DONDATHANG();
-                ctDDH.MaDonDatHang = ddh.MaDonDatHang;
-                ctDDH.MaHang = item.iMaHang;
-                ctDDH.TenHang = item.iTenHang;
-                ctDDH.SoLuong = item.soluong;
-                ctDDH.TinhTrang = "Đang chờ duyệt";
-                //tinh trang =0 la chưa thanh toan
-                ctDDH.TinhTrangThanhToan = 0;
-                db.CT_DONDATHANG.Add(ctDDH);
+                DONDATHANG ddh = new DONDATHANG();
+                Account Kh = (Account)Session["user"];
+                TICHDIEM diem = db.TICHDIEMs.Find(Kh.Id);
+                List<CartItem> gh = LayGioHang();
+                //Thêm đơn hàng mới:
+                ddh.Email = Kh.Email;
+                ddh.MaKH = Kh.Id;
+                ddh.NgayDat = DateTime.Now;
+                ddh.HoTenNguoiNhan = datHang.HoTenNguoiNhan;
+                ddh.SDT = datHang.SDT;
+                ddh.DiaChi = datHang.DiaChi;
+                ddh.GhiChu = datHang.GhiChu;
+                ddh.TinhTrang = "Đang chờ duyệt";
+                if (diem.DiemThuong >= RankMember.KimCuong)
+                {
+                    if (TongThanhTien() > 200000)
+                    {
+                        ddh.TongTien = TongThanhTien() * ((100 - TiLeGiam.KimCuong) / 100);
+                        ViewBag.TongThanhTien = TongThanhTien() * ((100 - TiLeGiam.KimCuong) / 100);
+                    }
+                    else
+                    {
+                        ddh.TongTien = TongThanhTien() * ((100 - TiLeGiam.KimCuong) / 100) + 28000;
+                        ViewBag.TongThanhTien = TongThanhTien() * ((100 - TiLeGiam.KimCuong) / 100) + 28000;
+                    }
+                }
+                else if (diem.DiemThuong < RankMember.KimCuong && diem.DiemThuong >= RankMember.Vang)
+                {
+                    if (TongThanhTien() > 200000)
+                    {
+                        ddh.TongTien = TongThanhTien() * ((100 - TiLeGiam.Vang) / 100);
+                        ViewBag.TongThanhTien = TongThanhTien() * ((100 - TiLeGiam.Vang) / 100);
+                    }
+                    else
+                    {
+                        ddh.TongTien = TongThanhTien() * ((100 - TiLeGiam.Vang) / 100) + 28000;
+                        ViewBag.TongThanhTien = TongThanhTien() * ((100 - TiLeGiam.Vang) / 100) + 28000;
+                    }
+                }
+                else if (diem.DiemThuong < RankMember.Vang && diem.DiemThuong >= RankMember.Bac)
+                {
+                    if (TongThanhTien() > 200000)
+                    {
+                        ddh.TongTien = TongThanhTien() * ((100 - TiLeGiam.Bac) / 100);
+                        ViewBag.TongThanhTien = TongThanhTien() * ((100 - TiLeGiam.Bac) / 100);
+
+                    }
+                    else
+                    {
+                        ddh.TongTien = TongThanhTien() * ((100 - TiLeGiam.Bac) / 100) + 28000;
+                        ViewBag.TongThanhTien = TongThanhTien() * ((100 - TiLeGiam.Bac) / 100) + 28000;
+                    }
+                }
+                else if (diem.DiemThuong < RankMember.Bac)
+                {
+                    if (TongThanhTien() > 200000)
+                    {
+                        ddh.TongTien = TongThanhTien();
+                        ViewBag.TongThanhTien = TongThanhTien();
+                    }
+                    else
+                    {
+                        ddh.TongTien = TongThanhTien() + 28000;
+                        ViewBag.TongThanhTien = TongThanhTien();
+                    }
+                }
+                Console.WriteLine(ddh);
+                db.DONDATHANGs.Add(ddh);
+                db.SaveChanges();
+
+                //TTCH DIEM CHO THANH VIEN
+                diem.Id = Kh.Id;
+                diem.TenKH = Kh.Fullname;
+                diem.DiemThuong = diem.DiemThuong + (TongThanhTien() / 10000);
+                db.Entry(diem).State = EntityState.Modified;
+                db.SaveChanges();
+                //TheM CHI TIET DON HANG
+                foreach (var item in gh)
+                {
+                    CT_DONDATHANG ctDDH = new CT_DONDATHANG();
+                    ctDDH.MaDonDatHang = ddh.MaDonDatHang;
+                    ctDDH.MaHang = item.iMaHang;
+                    ctDDH.TenHang = item.iTenHang;
+                    ctDDH.SoLuong = item.soluong;
+                    //tinh trang =0 la chưa thanh toan
+                    ctDDH.TinhTrangThanhToan = 0;
+                    db.CT_DONDATHANG.Add(ctDDH);
+                }
+                db.SaveChanges();
+                Session["cartitem"] = null;
+                string subject = "THÔNG TIN ĐƠN ĐẶT HÀNG DOUBLE_A";
+                string body = "Cảm ơn bạn đã đặt hàng tại cửa hàng chúng tôi. " +
+                    " Tổng đơn hàng của bạn là " + ddh.TongTien.Value.ToString("#,##0").Replace(',', '.') + "VNĐ. " +
+                    "Nhân viên sẽ gọi xác nhận đơn hàng của bạn trong thời gian sớm nhất. Mọi thông tin thắc mắc xin vui lòng liên hệ đến hotline: 0845.475.575";
+                sendMail(Kh.Email, subject, body);
+                ViewBag.tb = "Thông tin đơn hàng đã được gửi đến mail của bạn vui lòng kiểm tra để bạn nhé!";
+                return RedirectToAction("Index", "DonHang");
             }
-            db.SaveChanges();
-            Session["cartitem"] = null;
-            return RedirectToAction("Index","DonHang");
-        }    
+
+            return View();
+        }
+
+        public bool sendMail(string Emailto, string subject, string body)
+        {
+            var Email = System.Configuration.ConfigurationManager.AppSettings["Gmail"].ToString();
+            MailMessage obj = new MailMessage(Email, Emailto);
+            obj.Subject = subject;
+            obj.Body = body;
+            obj.IsBodyHtml = true;
+            string Message = null;
+
+            MailAddress bcc = new MailAddress("devddv123@gmail.com");
+            obj.Bcc.Add(bcc);
+            using (SmtpClient smtp = new SmtpClient())
+            {
+                var Password = System.Configuration.ConfigurationManager.AppSettings["PasswordGmail"].ToString();
+
+                smtp.Host = "smtp.gmail.com";
+                smtp.EnableSsl = true;
+                NetworkCredential NetworkCred = new NetworkCredential(Email, Password);
+                smtp.UseDefaultCredentials = true;
+                smtp.Credentials = NetworkCred;
+                smtp.Port = 587;
+                try
+                {
+                    smtp.Send(obj);
+                    Message = "Gửi mail thành công";
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    Message = "Err:" + ex.ToString();
+                    return false;
+                }
+            }
+        }
+        [HttpPost]
+        public ActionResult Voucher(string maVoucher)
+        {
+            var check = db.VOUCHERs.FirstOrDefault(_ => _.MaVoucher.Equals(maVoucher));
+            //Kiểm tra đăng đăng nhập
+            if (Session["user"] == null || Session["user"].ToString() == "")
+            {
+                return RedirectToAction("Login", "Home");
+            }
+            if (check != null)
+            {
+                Session["Voucher"] = check;
+            }
+            else
+            {
+                ViewBag.SaiVoucher = "*Mã COUPON không hợp lệ, khách hàng vui lòng sử dụng mã khác";
+            }
+            return RedirectToAction("GioHang");
+        }
+        public ActionResult XoaVoucher()
+        {
+            Session["Voucher"] = null;
+            return RedirectToAction("GioHang");
+        }
 
     }
 
