@@ -26,7 +26,7 @@ namespace QLCHTL.Models
             iHinhAnh = hang.HinhAnh;
             DonGia = double.Parse(gia.DonGia.ToString());
             Soluong = 1;
-            iStatus = (bool)hang.Status;
+            
           
         }
     }

@@ -1,18 +1,19 @@
-﻿@model IEnumerable<QLCHTL.Models.CT_COMBO>
+﻿@model List<QLCHTL.Models.AddCombo>
 @{
     ViewBag.Title = "ChitietCombo";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
 
 <!-- Start Banner Area -->
 <section class="banner-area organic-breadcrumb">
     <div class="container">
         <div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
             <div class="col-first">
-                <h1>Shopping Cart</h1>
+                <h1>KHUYẾN MÃI</h1>
                 <nav class="d-flex align-items-center">
-                    <a href="index.html">Home<span class="lnr lnr-arrow-right"></span></a>
-                    <a href="category.html">Sale</a>
+                    <a href="#">COMBO KHUYẾN MÃI<span class="lnr lnr-arrow-right"></span></a>
+                    <a href="#">CHI TIẾT COMBO KHUYẾN MÃI</a>
                 </nav>
             </div>
         </div>
@@ -23,44 +24,50 @@
 <br />
 <br />
 <br />
-<br />
-<br />
-
-
-<div class="container">
-    <h2>Chi tiết các sản phẩm trong combo</h2>
-    
-    <table class="table table-hover">
-        <thead>
-            <tr>
-                <th>Tên sản phẩm</th>
-                <th>Hình ảnh</th>
-                <th>Mô tả</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
+<section class="lattest-product-area pb-40 category-list" style="text-align:center;margin-left:300px">
+    <br />
+    <br />
+    @using (Html.BeginForm("ThemCombo", "Cart", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        <div class="row">
+            @for (int i = 0; i < Model.Count(); i++)
             {
+                <!-- single product -->
+                <div class="col-lg-3 col-md-6"  >
+                    <div class="single-product">
+                        <img class="img-fluid" style="width:250px;height:224px" src="/@Html.DisplayFor(modelItem => Model[i].Giadetail.HANG.HinhAnh)">
+                        <div class="product_sale">
+                            <span>- @Model[i].addgia.combodetail.TyLeKM %</span>
+                        </div>
+                        <div class="product-details" style="text-align:center">
+                            <h6 style="color:#ff6a00">
+                                @Html.DisplayFor(modelItem => Model[i].Giadetail.HANG.TenHang)
+                            </h6>
+                            <div class="price">
+                                @{
+                                    var temp= @Model[i].Giadetail.DonGia * ((100 - @Model[i].addgia.combodetail.TyLeKM) / 100);
+                                }
+                                <h6 style="text-align:center">@temp.Value.ToString("#,##0").Replace(',', '.') VNĐ </h6>
+                                @*<h6 class="l-through">@((@Model[i].Giadetail.DonGia)*(100-@Model[i].addgia.combodetail.TyLeKM)/100) </h6>*@
+                            <h6 class="l-through">@Model[i].Giadetail.DonGia.Value.ToString("#,##0").Replace(',', '.') VNĐ</h6>
+                            </div>
+                            <div class="prd-bottom">
+                                @Html.TextBoxFor(m => Model[i].addgia.ct_combodetail.MaHang, new { @type = "hidden",@name="MaHang" })
+                                @Html.TextBoxFor(m => Model[i].addgia.combodetail.TyLeKM, new { @type = "hidden", @name = "KhuyenMai" })
+                                <button type="button" style="color:darkorange" class="btn btn-dark" onclick="location.href='@Url.Action("Detail", "Product", new { @ms = Model[i].addgia.ct_combodetail.MaHang}, null)'">Xem chi tiết<span class="ti-arrow-up"></span></button>
 
-                <tr>
-
-                    <td>
-                        @Html.DisplayFor(modelItem => item.HANG.TenHang)
-                    </td>
-                    <td class="product_thumb" style="width:100px;height:100px"><a href="#"><img src="/@Html.DisplayFor(modelItem => item.HANG.HinhAnh)"></a></td>
-
-                    <td>
-                        @Html.DisplayFor(modelItem => item.HANG.MoTa)
-                    </td>
-
-                </tr>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             }
-        </tbody>
-    </table>
-</div>
+        </div>
 
+        <input type="submit" class="btn btn-outline-danger" style="float:right;margin-right:190px" value="MUA COMBO" />
+    }
+</section>
 
-<button type="button" class="btn btn-outline-danger" style="float:right;margin-right:190px">Mua combo</button>
 
 <br />
 <br />

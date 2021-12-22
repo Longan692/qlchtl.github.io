@@ -1,7 +1,6 @@
 ﻿
 @{
     ViewBag.Title = "Login";
-
     Layout = null;
 }
 @model QLCHTL.Models.User
@@ -21,56 +20,9 @@
     <link rel="stylesheet" href="~/assets/css/SignIn.css">
 </head>
 <body>
-
-    <!--<div class="customer_login" style="margin-top:100px;margin-bottom:100px">
-        <div class="container">
-            <div class="row">-->
-    <!--login area start-->
-    <!--<div class="account_form">
-        <h2 style="text-align:center">ĐĂNG NHẬP</h2>
-        @using (Html.BeginForm("Login", "Home", FormMethod.Post))
-        {
-            @Html.AntiForgeryToken()
-            <form action="#">
-                <p>
-                    <label>Username<span>*</span></label>
-
-                    @Html.TextBoxFor(m => m.UserName, "", new { @class = "form-control", @placeholder = "UserName" })
-                </p>
-                <p>
-
-                    <label>Passwords <span>*</span></label>
-                    @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "Password" })
-                </p>
-                <div class="login_submit">
-                    <a href="#">Lost your password?</a>
-                    <label for="remember">
-                        <input id="remember" type="checkbox">
-                        Remember me
-                    </label>
-
-                    <div class="form-group">
-                        <button type="submit">Đăng nhập</button>
-
-                    </div>
-                </div>
-
-            </form>
-        }
-    </div>-->
-    <!--login area start-->
-    <!--</div>
-        </div>
-    </div>-->
-    <!-- Plugins JS -->
-    <!--<script src="/assets/js/plugins.js"></script>-->
-    <!-- Main JS -->
-    <!--<script src="/assets/js/main.js"></script>
-
-
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAdWLY_Y6FL7QGW5vcO3zajUEsrKfQPNzI"></script>
     <script src="https://www.google.com/jsapi"></script>
-    <script src="assets/js/map.js"></script>-->
+    <script src="assets/js/map.js"></script>
     <!--important link source from "https://bootsnipp.com/snippets/GlaW2"-->
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
@@ -89,20 +41,38 @@
                             <div class="form-group">
                                 <label for="exampleInputEmail1" class="text-uppercase">Username</label>
                                 @Html.TextBoxFor(m => m.UserName, "", new { @class = "form-control", @placeholder = "UserName" })
-
-
+                                @if (ViewBag.error != null)
+                                {
+                                    @Html.ValidationMessageFor(m => m.UserName, "*Kiểm tra lại Username", new { @class = "badge badge-danger" })
+                                }
+                                @if (@ViewBag.SaiName != null)
+                                {
+                                    <span class="badge badge-danger">@ViewBag.SaiName</span>
+                                }
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputPassword1" class="text-uppercase">Password</label>
                                 @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "Password" })
+                                @if (ViewBag.error != null)
+                                {
+                                    @Html.ValidationMessageFor(m => m.UserName, "*Kiểm tra lại Password", new { @class = "badge badge-danger" })
+                                }
+                                @if (@ViewBag.SaiPass != null)
+                                {
+                                    <span class="badge badge-danger">@ViewBag.SaiPass</span>
+                                }
                             </div>
 
-
                             <div class="form-check">
+                                <div class="text-right">
+                                    @Html.ActionLink("Quên mật khẩu?", "QuenMatKhau", "Home", null, new { @class = "small" })
+                                </div>
                                 <label class="form-check-label">
                                     <input type="checkbox" class="form-check-input">
                                     <small>Remember Me</small>
                                 </label>
+                                <br />
+                                <br />
                                 <button type="submit" class="btn btn-login float-right">Đăng nhập</button>
 
                             </div>
@@ -125,7 +95,7 @@
                                         <h2>Xin chào</h2>
                                         <p>
                                             Chào mừng các bạn đến với cửa hàng tiện lợi của chúng tôi, đăng ký để nhận thêm nhiều ưu đãi hơn nhé!<br />
-                                            <button type="button" class="btn btn-outline-danger">@Html.ActionLink("Đăng ký", "Register")</button>
+                                            <button type="button" class="btn btn-warning">@Html.ActionLink("Đăng ký", "Register")</button>
                                         </p>
                                     </div>
                                 </div>
@@ -154,11 +124,15 @@
                 </div>
             </div>
         </div>
-        <div class="alert alert-danger">
-            <strong>Cảnh báo</strong>@ViewBag.error
-        </div>
+
+        @if (ViewBag.error != null)
+        {
+            <div class="alert alert-danger" style="margin-left:175px;width:380px">
+                <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                @ViewBag.error
+            </div>
+        }
     </section>
- 
 </body>
 </html>
 

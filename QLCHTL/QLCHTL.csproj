@@ -109,6 +109,12 @@
     <Reference Include="Nito.Disposables, Version=2.2.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Nito.Disposables.2.2.0\lib\net461\Nito.Disposables.dll</HintPath>
     </Reference>
+    <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
+    </Reference>
+    <Reference Include="PagedList.Mvc, Version=4.5.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
@@ -263,18 +269,21 @@
     <Compile Include="Areas\Admin\Controllers\QuanLyHangController.cs" />
     <Compile Include="Constants\RankMember.cs" />
     <Compile Include="Constants\Role.cs" />
+    <Compile Include="Constants\StatusProduct.cs" />
     <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\ComboSaleController.cs" />
     <Compile Include="Controllers\DonHangController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ItemCart.cs" />
     <Compile Include="Controllers\ProductController.cs" />
+    <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Account.cs">
       <DependentUpon>DBQLCHTL.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\AddCombo.cs" />
     <Compile Include="Models\CartItem.cs" />
     <Compile Include="Models\COMBO.cs">
       <DependentUpon>DBQLCHTL.tt</DependentUpon>
@@ -283,6 +292,9 @@
       <DependentUpon>DBQLCHTL.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CT_DONDATHANG.cs">
+      <DependentUpon>DBQLCHTL.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DANGNHAP.cs">
       <DependentUpon>DBQLCHTL.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DANHSACHHANGGIAM.cs">
@@ -322,9 +334,15 @@
     <Compile Include="Models\NHACUNGCAP.cs">
       <DependentUpon>DBQLCHTL.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\NHANVIEN.cs">
+      <DependentUpon>DBQLCHTL.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ProductDetail.cs" />
     <Compile Include="Models\SanPham.cs" />
     <Compile Include="Models\TICHDIEM.cs">
+      <DependentUpon>DBQLCHTL.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TONKHO.cs">
       <DependentUpon>DBQLCHTL.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\User.cs" />
@@ -409,6 +427,50 @@
     <Content Include="assets\img\category\nuocgk.png" />
     <Content Include="assets\img\category\snack.png" />
     <Content Include="assets\img\category\thucphamkho.png" />
+    <Content Include="assets\img\product\Hang\3D.jpg" />
+    <Content Include="assets\img\product\Hang\7UP330ml.jpg" />
+    <Content Include="assets\img\product\Hang\Acnes100g.jpg" />
+    <Content Include="assets\img\product\Hang\Alpenliebe120g.jpg" />
+    <Content Include="assets\img\product\Hang\BanhCracker.jpg" />
+    <Content Include="assets\img\product\Hang\BanhGao100g.jpg" />
+    <Content Include="assets\img\product\Hang\BanhQuy100g.jpg" />
+    <Content Include="assets\img\product\Hang\D-nee3L.jpg" />
+    <Content Include="assets\img\product\Hang\DalatMilk180ml.jpg" />
+    <Content Include="assets\img\product\Hang\DauNanh350ml.jpg" />
+    <Content Include="assets\img\product\Hang\DauPhong100g.jpg" />
+    <Content Include="assets\img\product\Hang\EnsureGold237ml.jpg" />
+    <Content Include="assets\img\product\Hang\Fami200ml.jpg" />
+    <Content Include="assets\img\product\Hang\HuongDuong130g.jpg" />
+    <Content Include="assets\img\product\Hang\IpekCottonPads.jpg" />
+    <Content Include="assets\img\product\Hang\KeoGum58g.jpg" />
+    <Content Include="assets\img\product\Hang\KhoaiTay160g.jpg" />
+    <Content Include="assets\img\product\Hang\Laurier20.jpg" />
+    <Content Include="assets\img\product\Hang\Listerine750ml.jpg" />
+    <Content Include="assets\img\product\Hang\MaskKT09.jpg" />
+    <Content Include="assets\img\product\Hang\Milo400g.jpg" />
+    <Content Include="assets\img\product\Hang\MitSay100g.jpg" />
+    <Content Include="assets\img\product\Hang\Nestea252g.jpg" />
+    <Content Include="assets\img\product\Hang\NguCoc500g.jpg" />
+    <Content Include="assets\img\product\Hang\Nivea200ml.jpg" />
+    <Content Include="assets\img\product\Hang\NutiFood110ml.jpg" />
+    <Content Include="assets\img\product\Hang\NutriBoot1L.jpg" />
+    <Content Include="assets\img\product\Hang\Pantene650g.jpg" />
+    <Content Include="assets\img\product\Hang\Rejoice650g.jpg" />
+    <Content Include="assets\img\product\Hang\SensiCoolFresh.png" />
+    <Content Include="assets\img\product\Hang\Sensodyne100g.jpg" />
+    <Content Include="assets\img\product\Hang\Silcot82.png" />
+    <Content Include="assets\img\product\Hang\Silkwell250.jpg" />
+    <Content Include="assets\img\product\Hang\Silkwell280.jpg" />
+    <Content Include="assets\img\product\Hang\SuSuVinamilk80g.jpg" />
+    <Content Include="assets\img\product\Hang\Tiger300ml.jpg" />
+    <Content Include="assets\img\product\Hang\Vinacafe480g.jpg" />
+    <Content Include="assets\img\product\Hang\Vinamilk100g.jpg" />
+    <Content Include="assets\img\product\Hang\Vinamilk120g.jpg" />
+    <Content Include="assets\img\product\Hang\Vinamilk1lit.jpg" />
+    <Content Include="assets\img\product\Hang\VinMart4Kg.jpg" />
+    <Content Include="assets\img\product\Hang\VinMart4L.jpg" />
+    <Content Include="assets\img\product\Hang\VinMartHome.jpg" />
+    <Content Include="assets\img\product\Hang\VinMartHomeeNK.jpg" />
     <Content Include="assets\img\icon\bkg_grid4.png" />
     <Content Include="assets\img\icon\bkg_grid5.png" />
     <Content Include="assets\img\icon\bkg_grid_hover.png" />
@@ -499,6 +561,14 @@
     <Content Include="assets\img\product\suadac.jfif" />
     <Content Include="assets\img\product\suatuoi.jpg" />
     <Content Include="assets\img\product\tao.jfif" />
+    <Content Include="assets\img\product\Thuc_an_nhanh\TAN_banhbao.png" />
+    <Content Include="assets\img\product\Thuc_an_nhanh\TAN_banhgio.png" />
+    <Content Include="assets\img\product\Thuc_an_nhanh\TAN_banhmichabong.png" />
+    <Content Include="assets\img\product\Thuc_an_nhanh\TAN_banhmisua.png" />
+    <Content Include="assets\img\product\Thuc_an_nhanh\TAN_banhmy.png" />
+    <Content Include="assets\img\product\Thuc_an_nhanh\TAN_comnam.png" />
+    <Content Include="assets\img\product\Thuc_an_nhanh\TAN_mytron.png" />
+    <Content Include="assets\img\product\Thuc_an_nhanh\TAN_xoi.png" />
     <Content Include="assets\img\product\toboki.jpg" />
     <Content Include="assets\img\product\trung.jfif" />
     <Content Include="assets\img\product\tải xuống.jfif" />
@@ -597,6 +667,7 @@
     <Content Include="Content\js\demo\datatables-demo.js" />
     <Content Include="Content\js\sb-admin-2.js" />
     <Content Include="Content\js\sb-admin-2.min.js" />
+    <Content Include="Content\PagedList.css" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
@@ -2679,6 +2750,7 @@
     <Content Include="assets\scss\theme\_product.scss" />
     <Content Include="assets\scss\theme\_reset.scss" />
     <Content Include="assets\scss\theme\_variables.scss" />
+    <Content Include="assets\img\product\Hang\333Export330ml.2kg" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -2721,12 +2793,16 @@
     <Content Include="Views\Shared\_LayoutCategory.cshtml" />
     <Content Include="Views\Product\ThucAnNhanh.cshtml" />
     <Content Include="Views\Home\MenuCategoryPartial.cshtml" />
+    <Content Include="Views\Home\QuenMatKhau.cshtml" />
+    <Content Include="Views\Home\DoiMatKhau.cshtml" />
+    <Content Include="Views\Profile\ThongTinCaNhan.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Areas\Admin\Views\Base\" />
-    <Folder Include="Views\LoginCart\" />
+    <Folder Include="Views\ThongTinCaNhan\" />
+    <Folder Include="Views\User\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

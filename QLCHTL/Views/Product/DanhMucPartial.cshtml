@@ -1,15 +1,15 @@
-﻿@model QLCHTL.Models.LOAIHANG
+﻿@model IEnumerable<QLCHTL.Models.LOAIHANG>
 @{
 
     Layout = null;
 }
 <ul class="main-categories">
-    @foreach (var p in @ViewBag.danhmuc)
+    @foreach (var p in Model)
     {
         <li class="main-nav-list">
 
-            <a href="@Url.Action("Category", "Product", new { @maLoai = p.MaLoaiHang}, null)" >
-                <span class="lnr lnr-arrow-right"></span>@p.TenLoaiHang<span class="number">(53)</span>
+            <a href="@Url.Action("Category", "Product", new { @maLoai = p.MaLoaiHang.Trim(), @sortOrder=""}, null)" >
+                <span class="lnr lnr-arrow-right"></span>@p.TenLoaiHang<span class="number"></span>
             </a>
             @*<ul class="collapse" id="fruitsVegetable" data-toggle="collapse" aria-expanded="false" aria-controls="fruitsVegetable">
                     <li class="main-nav-list child"><a href="#">Frozen Fish<span class="number">(13)</span></a></li>

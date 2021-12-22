@@ -38,5 +38,8 @@ namespace QLCHTL.Models
         public virtual DbSet<KHUYENMAI> KHUYENMAIs { get; set; }
         public virtual DbSet<TICHDIEM> TICHDIEMs { get; set; }
         public virtual DbSet<VOUCHER> VOUCHERs { get; set; }
+        public virtual DbSet<DANGNHAP> DANGNHAPs { get; set; }
+        public virtual DbSet<NHANVIEN> NHANVIENs { get; set; }
+        public virtual DbSet<TONKHO> TONKHOes { get; set; }
     }
 }

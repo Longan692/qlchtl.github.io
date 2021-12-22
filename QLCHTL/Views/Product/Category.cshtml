@@ -3,13 +3,30 @@
     ViewBag.Title = "Category";
     Layout = "~/Views/Shared/_LayoutCategory.cshtml";
 }
+<div class="filter-bar d-flex flex-wrap align-items-center" style="background-color:orange">
+    <div class="sorting">
+        <button type="button" style="color:aliceblue" class="btn btn-outline-danger" onclick="location.href='@Url.Action( "Category", "Product", new { @maLoai = Request.Url.ToString().Substring(47, 5), sortOrder = "Gia" }, null)'">Sắp xếp theo giá <span class="ti-arrow-up"></span></button>
 
+    </div>
+    <div class="sorting mr-auto">
+
+    </div>
+    <div class="pagination">
+        @using (Html.BeginForm())
+        {
+            <input type="text" id="searchString" name="searchString" class="form-control" placeholder="Nhập tên để tìm kiếm..." style="width:200px" />
+            <button type="submit" value="Search" class="btn btn-outline-info"><span class="ti-search"></span></button>
+            @*Tìm theo tên sản phẩm: @Html.TextBox("SearchString")*@
+        }
+    </div>
+</div>
 <section class="lattest-product-area pb-40 category-list">
     <div class="row">
+        @ViewBag.Loi
         <!-- single product -->
         @foreach (var p in Model)
         {
-            
+
             <!-- single product -->
             <div class="col-lg-3 col-md-6">
                 <div class="single-product">
@@ -20,14 +37,48 @@
                         </h6>
                         <div class="price">
                             <h6>@p.giabandetails.DonGia.Value.ToString("#,##0").Replace(',', '.') VNĐ</h6>
-                            <h6 class="l-through">$210.00</h6>
+                            <h6 class="l-through"></h6>
                         </div>
                         <div class="prd-bottom">
-                            <a href="@Url.Action("ThemGioHang", "Cart", new { @ms = p.productdetails.MaHang, @strURL = Request.Url.ToString() }, null)" class="social-info">
-                                <span class="ti-bag"></span>
-                                <p class="hover-text">Mua hàng</p>
+                            @if (p.productdetails.MaLoaiHang.Trim() == "LH001")
+                            {
+                                if (@p.productdetails.Soluong == 0)
+                                {
+                                    <a class="social-info">
+                                        <span class="ti-bag"></span>
+                                        <p class="hover-text" style="color:red">Hết hàng</p>
 
-                            </a>
+                                    </a>
+                                }
+                                else
+                                {
+                                    <a class="social-info">
+                                        <span class="ti-bag"></span>
+                                        <p class="hover-text">Bán tại store</p>
+
+                                    </a>
+                                }
+                            }
+                            else
+                            {
+
+                                if (@p.productdetails.Soluong == 0)
+                                {
+                                    <a class="social-info">
+                                        <span class="ti-bag"></span>
+                                        <p class="hover-text" style="color:red">Hết hàng</p>
+
+                                    </a>
+                                }
+                                else
+                                {
+                                    <a href="@Url.Action("ThemGioHang", "Cart", new { @ms = p.productdetails.MaHang, @strURL = Request.Url.ToString(),@sl=1 }, null)" class="social-info">
+                                        <span class="ti-bag"></span>
+                                        <p class="hover-text">Mua hàng</p>
+
+                                    </a>
+                                }
+                            }
                             <a href="@Url.Action("Detail", "Product", new { @ms = p.productdetails.MaHang}, null)" class="social-info">
                                 <span class="lnr lnr-move"></span>
                                 <p class="hover-text">Xem chi tiết sản phẩm</p>
@@ -39,3 +90,29 @@
         }
     </div>
 </section>
+<style type="text/css">
+    .pagination {
+        float: right;
+    }
+
+        .pagination input[type=text] {
+            float: left;
+            padding: 6px;
+            border: none;
+            margin-top: 2px;
+            margin-right: 5px;
+            font-size: 14px;
+        }
+
+        .pagination button {
+            float: right;
+            padding: 6px 10px;
+            margin-top: 4px;
+            margin-right: 16px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+        }
+</style>
+
+

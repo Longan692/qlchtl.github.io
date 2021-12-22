@@ -26,7 +26,7 @@
           </Key>
           <Property Name="MaCombo" Type="char" MaxLength="15" Nullable="false" />
           <Property Name="MaDotKM" Type="char" MaxLength="15" />
-          <Property Name="TyLeGiam" Type="int" />
+          <Property Name="TyLeKM" Type="float" />
         </EntityType>
         <EntityType Name="CT_COMBO">
           <Key>
@@ -51,6 +51,16 @@
           <Property Name="NgayGiao" Type="date" />
           <Property Name="MaNVGiao" Type="char" MaxLength="15" />
           <Property Name="TinhTrangThanhToan" Type="int" />
+        </EntityType>
+        <EntityType Name="DANGNHAP">
+          <Key>
+            <PropertyRef Name="MaNV" />
+            <PropertyRef Name="MatKhau" />
+          </Key>
+          <Property Name="MaNV" Type="char" MaxLength="15" Nullable="false" />
+          <Property Name="MatKhau" Type="char" MaxLength="20" Nullable="false" />
+          <Property Name="PhanQuyen" Type="int" />
+          <Property Name="TinhTrang" Type="int" />
         </EntityType>
         <EntityType Name="DANHSACHHANGGIAM">
           <Key>
@@ -96,7 +106,8 @@
           <Property Name="MaNCC" Type="char" MaxLength="15" />
           <Property Name="MoTa" Type="nvarchar" MaxLength="500" />
           <Property Name="HinhAnh" Type="varchar" MaxLength="100" />
-          <Property Name="Status" Type="bit" />
+          <Property Name="Soluong" Type="int" />
+          <Property Name="TrangThai" Type="int" />
         </EntityType>
         <EntityType Name="KHUYENMAI">
           <Key>
@@ -124,6 +135,21 @@
           <Property Name="DiaChi" Type="nvarchar" MaxLength="50" />
           <Property Name="MoTa" Type="nvarchar" MaxLength="500" />
         </EntityType>
+        <EntityType Name="NHANVIEN">
+          <Key>
+            <PropertyRef Name="MaNV" />
+          </Key>
+          <Property Name="MaNV" Type="char" MaxLength="15" Nullable="false" />
+          <Property Name="TenNV" Type="nvarchar" MaxLength="50" />
+          <Property Name="NgaySinh" Type="date" />
+          <Property Name="GioiTinh" Type="nvarchar" MaxLength="10" />
+          <Property Name="SDT" Type="char" MaxLength="15" />
+          <Property Name="DiaChi" Type="nvarchar" MaxLength="50" />
+          <Property Name="NgayVaoLam" Type="date" />
+          <Property Name="ChucVu" Type="nvarchar" MaxLength="100" />
+          <Property Name="TinhTrang" Type="int" />
+          <Property Name="HinhAnh" Type="varchar" MaxLength="100" />
+        </EntityType>
         <EntityType Name="TICHDIEM">
           <Key>
             <PropertyRef Name="Id" />
@@ -131,6 +157,18 @@
           <Property Name="Id" Type="int" Nullable="false" />
           <Property Name="TenKH" Type="nvarchar" MaxLength="50" />
           <Property Name="DiemThuong" Type="float" />
+        </EntityType>
+        <EntityType Name="TONKHO">
+          <Key>
+            <PropertyRef Name="MaHang" />
+            <PropertyRef Name="NgayTon" />
+          </Key>
+          <Property Name="MaHang" Type="char" MaxLength="15" Nullable="false" />
+          <Property Name="NgayTon" Type="date" Nullable="false" />
+          <Property Name="TonDau" Type="int" />
+          <Property Name="SoLuongNhap" Type="int" />
+          <Property Name="SoLuongBan" Type="int" />
+          <Property Name="TonCuoi" Type="int" />
         </EntityType>
         <EntityType Name="VOUCHER">
           <Key>
@@ -198,6 +236,18 @@
             </Principal>
             <Dependent Role="CT_DONDATHANG">
               <PropertyRef Name="MaDonDatHang" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_DANGNHAP_MaNV">
+          <End Role="NHANVIEN" Type="Self.NHANVIEN" Multiplicity="1" />
+          <End Role="DANGNHAP" Type="Self.DANGNHAP" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NHANVIEN">
+              <PropertyRef Name="MaNV" />
+            </Principal>
+            <Dependent Role="DANGNHAP">
+              <PropertyRef Name="MaNV" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -285,6 +335,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="fk_TONKHO_MaHang">
+          <End Role="HANG" Type="Self.HANG" Multiplicity="1" />
+          <End Role="TONKHO" Type="Self.TONKHO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HANG">
+              <PropertyRef Name="MaHang" />
+            </Principal>
+            <Dependent Role="TONKHO">
+              <PropertyRef Name="MaHang" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_VOUCHER_KM">
           <End Role="KHUYENMAI" Type="Self.KHUYENMAI" Multiplicity="0..1" />
           <End Role="VOUCHER" Type="Self.VOUCHER" Multiplicity="*" />
@@ -302,6 +364,7 @@
           <EntitySet Name="COMBO" EntityType="Self.COMBO" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CT_COMBO" EntityType="Self.CT_COMBO" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CT_DONDATHANG" EntityType="Self.CT_DONDATHANG" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DANGNHAP" EntityType="Self.DANGNHAP" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DANHSACHHANGGIAM" EntityType="Self.DANHSACHHANGGIAM" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DONDATHANG" EntityType="Self.DONDATHANG" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GIA" EntityType="Self.GIA" Schema="dbo" store:Type="Tables" />
@@ -309,7 +372,9 @@
           <EntitySet Name="KHUYENMAI" EntityType="Self.KHUYENMAI" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LOAIHANG" EntityType="Self.LOAIHANG" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="NHACUNGCAP" EntityType="Self.NHACUNGCAP" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NHANVIEN" EntityType="Self.NHANVIEN" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TICHDIEM" EntityType="Self.TICHDIEM" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TONKHO" EntityType="Self.TONKHO" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="VOUCHER" EntityType="Self.VOUCHER" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="fk_COMBO_MaDotKM" Association="Self.fk_COMBO_MaDotKM">
             <End Role="KHUYENMAI" EntitySet="KHUYENMAI" />
@@ -330,6 +395,10 @@
           <AssociationSet Name="fk_CT_DONDATHANG_MaDonDatHang" Association="Self.fk_CT_DONDATHANG_MaDonDatHang">
             <End Role="DONDATHANG" EntitySet="DONDATHANG" />
             <End Role="CT_DONDATHANG" EntitySet="CT_DONDATHANG" />
+          </AssociationSet>
+          <AssociationSet Name="fk_DANGNHAP_MaNV" Association="Self.fk_DANGNHAP_MaNV">
+            <End Role="NHANVIEN" EntitySet="NHANVIEN" />
+            <End Role="DANGNHAP" EntitySet="DANGNHAP" />
           </AssociationSet>
           <AssociationSet Name="fk_DANHSACHGIAM_MaDotKM" Association="Self.fk_DANHSACHGIAM_MaDotKM">
             <End Role="KHUYENMAI" EntitySet="KHUYENMAI" />
@@ -359,6 +428,10 @@
             <End Role="Accounts" EntitySet="Accounts" />
             <End Role="TICHDIEM" EntitySet="TICHDIEM" />
           </AssociationSet>
+          <AssociationSet Name="fk_TONKHO_MaHang" Association="Self.fk_TONKHO_MaHang">
+            <End Role="HANG" EntitySet="HANG" />
+            <End Role="TONKHO" EntitySet="TONKHO" />
+          </AssociationSet>
           <AssociationSet Name="FK_VOUCHER_KM" Association="Self.FK_VOUCHER_KM">
             <End Role="KHUYENMAI" EntitySet="KHUYENMAI" />
             <End Role="VOUCHER" EntitySet="VOUCHER" />
@@ -381,11 +454,13 @@
           <Property Name="HinhAnh" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="LOAIHANG" Relationship="Self.fk_HANG_MaLoaiHang" FromRole="HANG" ToRole="LOAIHANG" />
           <NavigationProperty Name="NHACUNGCAP" Relationship="Self.fk_HANG_MaNCC" FromRole="HANG" ToRole="NHACUNGCAP" />
-          <Property Name="Status" Type="Boolean" />
           <NavigationProperty Name="GIAs" Relationship="QLCHTLModel.fk_GIA_MaHang" FromRole="HANG" ToRole="GIA" />
           <NavigationProperty Name="CT_DONDATHANG" Relationship="QLCHTLModel.fk_CT_CT_DONDATHANG_MaHang" FromRole="HANG" ToRole="CT_DONDATHANG" />
           <NavigationProperty Name="CT_COMBO" Relationship="QLCHTLModel.fk_CT_COMBO_MaDotKM" FromRole="HANG" ToRole="CT_COMBO" />
           <NavigationProperty Name="DANHSACHHANGGIAMs" Relationship="QLCHTLModel.fk_DANHSACHGIAM_MaHang" FromRole="HANG" ToRole="DANHSACHHANGGIAM" />
+          <Property Name="Soluong" Type="Int32" />
+          <NavigationProperty Name="TONKHOes" Relationship="QLCHTLModel.fk_TONKHO_MaHang" FromRole="HANG" ToRole="TONKHO" />
+          <Property Name="TrangThai" Type="Int32" />
         </EntityType>
         <EntityType Name="LOAIHANG">
           <Key>
@@ -495,6 +570,17 @@
           <AssociationSet Name="FK_VOUCHER_KM" Association="QLCHTLModel.FK_VOUCHER_KM">
             <End Role="KHUYENMAI" EntitySet="KHUYENMAIs" />
             <End Role="VOUCHER" EntitySet="VOUCHERs" />
+          </AssociationSet>
+          <EntitySet Name="DANGNHAPs" EntityType="QLCHTLModel.DANGNHAP" />
+          <EntitySet Name="NHANVIENs" EntityType="QLCHTLModel.NHANVIEN" />
+          <EntitySet Name="TONKHOes" EntityType="QLCHTLModel.TONKHO" />
+          <AssociationSet Name="fk_DANGNHAP_MaNV" Association="QLCHTLModel.fk_DANGNHAP_MaNV">
+            <End Role="NHANVIEN" EntitySet="NHANVIENs" />
+            <End Role="DANGNHAP" EntitySet="DANGNHAPs" />
+          </AssociationSet>
+          <AssociationSet Name="fk_TONKHO_MaHang" Association="QLCHTLModel.fk_TONKHO_MaHang">
+            <End Role="HANG" EntitySet="HANGs" />
+            <End Role="TONKHO" EntitySet="TONKHOes" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Account">
@@ -612,9 +698,9 @@
           </Key>
           <Property Name="MaCombo" Type="String" Nullable="false" MaxLength="15" FixedLength="true" Unicode="false" />
           <Property Name="MaDotKM" Type="String" MaxLength="15" FixedLength="true" Unicode="false" />
-          <Property Name="TyLeGiam" Type="Int32" />
           <NavigationProperty Name="KHUYENMAI" Relationship="QLCHTLModel.fk_COMBO_MaDotKM" FromRole="COMBO" ToRole="KHUYENMAI" />
           <NavigationProperty Name="CT_COMBO" Relationship="QLCHTLModel.fk_CT_COMBO_COMBO" FromRole="COMBO" ToRole="CT_COMBO" />
+          <Property Name="TyLeKM" Type="Double" />
         </EntityType>
         <EntityType Name="CT_COMBO">
           <Key>
@@ -753,6 +839,70 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="DANGNHAP">
+          <Key>
+            <PropertyRef Name="MaNV" />
+            <PropertyRef Name="MatKhau" />
+          </Key>
+          <Property Name="MaNV" Type="String" Nullable="false" MaxLength="15" FixedLength="true" Unicode="false" />
+          <Property Name="MatKhau" Type="String" Nullable="false" MaxLength="20" FixedLength="true" Unicode="false" />
+          <Property Name="PhanQuyen" Type="Int32" />
+          <Property Name="TinhTrang" Type="Int32" />
+          <NavigationProperty Name="NHANVIEN" Relationship="QLCHTLModel.fk_DANGNHAP_MaNV" FromRole="DANGNHAP" ToRole="NHANVIEN" />
+        </EntityType>
+        <EntityType Name="NHANVIEN">
+          <Key>
+            <PropertyRef Name="MaNV" />
+          </Key>
+          <Property Name="MaNV" Type="String" Nullable="false" MaxLength="15" FixedLength="true" Unicode="false" />
+          <Property Name="TenNV" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="NgaySinh" Type="DateTime" Precision="0" />
+          <Property Name="GioiTinh" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="SDT" Type="String" MaxLength="15" FixedLength="true" Unicode="false" />
+          <Property Name="DiaChi" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="NgayVaoLam" Type="DateTime" Precision="0" />
+          <Property Name="ChucVu" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="TinhTrang" Type="Int32" />
+          <Property Name="HinhAnh" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="DANGNHAPs" Relationship="QLCHTLModel.fk_DANGNHAP_MaNV" FromRole="NHANVIEN" ToRole="DANGNHAP" />
+        </EntityType>
+        <EntityType Name="TONKHO">
+          <Key>
+            <PropertyRef Name="MaHang" />
+            <PropertyRef Name="NgayTon" />
+          </Key>
+          <Property Name="MaHang" Type="String" Nullable="false" MaxLength="15" FixedLength="true" Unicode="false" />
+          <Property Name="NgayTon" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="TonDau" Type="Int32" />
+          <Property Name="SoLuongNhap" Type="Int32" />
+          <Property Name="SoLuongBan" Type="Int32" />
+          <Property Name="TonCuoi" Type="Int32" />
+          <NavigationProperty Name="HANG" Relationship="QLCHTLModel.fk_TONKHO_MaHang" FromRole="TONKHO" ToRole="HANG" />
+        </EntityType>
+        <Association Name="fk_DANGNHAP_MaNV">
+          <End Type="QLCHTLModel.NHANVIEN" Role="NHANVIEN" Multiplicity="1" />
+          <End Type="QLCHTLModel.DANGNHAP" Role="DANGNHAP" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NHANVIEN">
+              <PropertyRef Name="MaNV" />
+            </Principal>
+            <Dependent Role="DANGNHAP">
+              <PropertyRef Name="MaNV" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_TONKHO_MaHang">
+          <End Type="QLCHTLModel.HANG" Role="HANG" Multiplicity="1" />
+          <End Type="QLCHTLModel.TONKHO" Role="TONKHO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HANG">
+              <PropertyRef Name="MaHang" />
+            </Principal>
+            <Dependent Role="TONKHO">
+              <PropertyRef Name="MaHang" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -762,7 +912,8 @@
           <EntitySetMapping Name="HANGs">
             <EntityTypeMapping TypeName="QLCHTLModel.HANG">
               <MappingFragment StoreEntitySet="HANG">
-                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="TrangThai" ColumnName="TrangThai" />
+                <ScalarProperty Name="Soluong" ColumnName="Soluong" />
                 <ScalarProperty Name="MaHang" ColumnName="MaHang" />
                 <ScalarProperty Name="TenHang" ColumnName="TenHang" />
                 <ScalarProperty Name="MaLoaiHang" ColumnName="MaLoaiHang" />
@@ -851,7 +1002,7 @@
           <EntitySetMapping Name="COMBOes">
             <EntityTypeMapping TypeName="QLCHTLModel.COMBO">
               <MappingFragment StoreEntitySet="COMBO">
-                <ScalarProperty Name="TyLeGiam" ColumnName="TyLeGiam" />
+                <ScalarProperty Name="TyLeKM" ColumnName="TyLeKM" />
                 <ScalarProperty Name="MaDotKM" ColumnName="MaDotKM" />
                 <ScalarProperty Name="MaCombo" ColumnName="MaCombo" />
               </MappingFragment>
@@ -901,6 +1052,44 @@
                 <ScalarProperty Name="MaDotKM" ColumnName="MaDotKM" />
                 <ScalarProperty Name="TenVoucher" ColumnName="TenVoucher" />
                 <ScalarProperty Name="MaVoucher" ColumnName="MaVoucher" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DANGNHAPs">
+            <EntityTypeMapping TypeName="QLCHTLModel.DANGNHAP">
+              <MappingFragment StoreEntitySet="DANGNHAP">
+                <ScalarProperty Name="TinhTrang" ColumnName="TinhTrang" />
+                <ScalarProperty Name="PhanQuyen" ColumnName="PhanQuyen" />
+                <ScalarProperty Name="MatKhau" ColumnName="MatKhau" />
+                <ScalarProperty Name="MaNV" ColumnName="MaNV" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NHANVIENs">
+            <EntityTypeMapping TypeName="QLCHTLModel.NHANVIEN">
+              <MappingFragment StoreEntitySet="NHANVIEN">
+                <ScalarProperty Name="HinhAnh" ColumnName="HinhAnh" />
+                <ScalarProperty Name="TinhTrang" ColumnName="TinhTrang" />
+                <ScalarProperty Name="ChucVu" ColumnName="ChucVu" />
+                <ScalarProperty Name="NgayVaoLam" ColumnName="NgayVaoLam" />
+                <ScalarProperty Name="DiaChi" ColumnName="DiaChi" />
+                <ScalarProperty Name="SDT" ColumnName="SDT" />
+                <ScalarProperty Name="GioiTinh" ColumnName="GioiTinh" />
+                <ScalarProperty Name="NgaySinh" ColumnName="NgaySinh" />
+                <ScalarProperty Name="TenNV" ColumnName="TenNV" />
+                <ScalarProperty Name="MaNV" ColumnName="MaNV" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TONKHOes">
+            <EntityTypeMapping TypeName="QLCHTLModel.TONKHO">
+              <MappingFragment StoreEntitySet="TONKHO">
+                <ScalarProperty Name="TonCuoi" ColumnName="TonCuoi" />
+                <ScalarProperty Name="SoLuongBan" ColumnName="SoLuongBan" />
+                <ScalarProperty Name="SoLuongNhap" ColumnName="SoLuongNhap" />
+                <ScalarProperty Name="TonDau" ColumnName="TonDau" />
+                <ScalarProperty Name="NgayTon" ColumnName="NgayTon" />
+                <ScalarProperty Name="MaHang" ColumnName="MaHang" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

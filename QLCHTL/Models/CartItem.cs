@@ -16,10 +16,12 @@ namespace QLCHTL.Models
         public string iHinhAnh { get; set; }
         public int soluong { get; set; }
         public double DonGia { get; set; }
-        public bool iStatus { get; set; }
+        public int iStatus { get; set; }
         public string Status { get; set; }
         public string iMota { get; set; }
         public double DiemThuong { get; set; }
+        public int Stock { get; set; }
+        public double GiaCu { get; set; }
 
         public double ThanhTien
         {
@@ -33,18 +35,20 @@ namespace QLCHTL.Models
             iTenHang = hang.TenHang;
             iHinhAnh = hang.HinhAnh;
             DonGia = double.Parse(gia.DonGia.ToString());
-            soluong = 1;
-            iStatus = (bool)hang.Status;
+            //soluong = 1;
+            iStatus = (int)hang.TrangThai;
             iMota = hang.MoTa;
             iDVT = hang.DVT;
-            if (iStatus == true)
-            {
-                Status = "Còn hàng";
-            }
-            else
-            {
-                Status = "Hết hàng";
-            }
+            Stock = (int)hang.Soluong;
+            GiaCu = 0;
+            //if (iStatus == true)
+            //{
+            //    Status = "Còn hàng";
+            //}
+            //else
+            //{
+            //    Status = "Hết hàng";
+            //}
         }
     }
 }

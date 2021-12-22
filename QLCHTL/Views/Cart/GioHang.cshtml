@@ -5,6 +5,7 @@
 }
 @{
     var u = Session["Voucher"] as QLCHTL.Models.VOUCHER;
+    var d = Session["user"] as QLCHTL.Models.Account;
 }
 <!-- Start Banner Area -->
 <section class="banner-area organic-breadcrumb">
@@ -32,7 +33,7 @@
 <!-- shopping cart area start -->
 <div class="shopping_cart_area">
     <div class="container">
-        <span style="color:red;font-size:initial;text-align:center">*@ViewBag.ThongBao</span>
+        <span style="color:red;font-size:initial;text-align:center">@ViewBag.ThongBao</span>
         <div class="row">
             <div class="col-12">
                 @using (Html.BeginForm("CapNhatGioHang", "Cart", FormMethod.Post))
@@ -53,13 +54,23 @@
                                 <tbody>
                                     @foreach (var p in Model)
                                     {
-
                                         <tr>
                                             <td class="product_remove"><a href="@Url.Action("XoaGioHang", "Cart", new { @iMaSP = p.iMaHang},null)"><i class="fa fa-trash-o"></i></a></td>
                                             <td class="product_thumb"><a href="#"><img src="/@p.iHinhAnh" alt="@p.iTenHang"></a></td>
                                             <td class="product_name"><a href="#">@p.iTenHang</a></td>
-                                            <td class="product-price">@p.DonGia.ToString("#,##0").Replace(',', '.') VNĐ </td>
-                                            <td class="product_quantity"><input min="1" max="100" value="@p.soluong" type="number" name="soluong" id="soluong"></td>
+                                            @if (p.GiaCu ==0)
+                                            {
+                                                <td class="product-price">@p.DonGia.ToString("#,##0").Replace(',', '.') VNĐ</td>
+                                            }
+                                            else
+                                            {
+                                        <td class="product-price">
+                                            <span class="current_price" style="color:darkgray;font-size:small;text-decoration: line-through">@p.GiaCu.ToString("#,##0").Replace(',', '.') VNĐ</span><br />
+                                            <span class="old_price">@p.DonGia.ToString("#,##0").Replace(',', '.') VNĐ</span>
+                                           
+                                        </td>
+                                            }
+                                            <td class="product_quantity"><input min="1" max="@p.Stock" value="@p.soluong" type="number" name="soluong" id="soluong"></td>
                                             <td class="product_total">@p.ThanhTien.ToString("#,##0").Replace(',', '.') VNĐ </td>
                                         </tr>
                                     }
@@ -89,23 +100,42 @@
                                     <input placeholder="Coupon code" type="text" name="maVoucher" id="maVoucher">
                                     <button type="submit">ÁP dụng</button>
                                     <br />
-                                    <span style="color:lawngreen;font-size:small">@ViewBag.DungVoucher . <a href="@Url.Action("XoaVoucher","Cart")"> Bỏ sử dụng Coupon code</a></span>
+                                    <span style="color:lawngreen;font-size:small">@ViewBag.DungVoucher . <br /><br /><br /><a href="@Url.Action("XoaVoucher","Cart")"> Bỏ sử dụng Coupon code</a></span>
                                 </div>
                             </div>
                         }
                         else
                         {
-                            <div class="coupon_code left">
-                                <h3>Coupon</h3>
-                                <div class="coupon_inner">
-                                    <p>Hãy nhập mã giảm giá của bạn</p>
-                                    <input placeholder="Coupon code" type="text" name="maVoucher" id="maVoucher">
-                                    <button type="submit">ÁP dụng</button>
-                                    <br />
-                                    <span style="color:red;font-size:small">@ViewBag.SaiVoucher</span>
-                                    <span style="color:lawngreen;font-size:small">@ViewBag.DungVoucher</span>
+                            if (d != null)
+                            {
+                                <div class="coupon_code left">
+                                    <h3>Coupon</h3>
+                                    <div class="coupon_inner">
+                                        <p>Hãy nhập mã giảm giá của bạn</p>
+                                        <input placeholder="Coupon code" type="text" name="maVoucher" id="maVoucher">
+                                        <button type="submit">ÁP dụng</button>
+                                        <br />
+                                        <span style="color:red;font-size:small"></span>
+                                        <span style="color:lawngreen;font-size:small"></span>
+                                    </div>
                                 </div>
-                            </div>
+                            }
+                            else
+                            {
+                                <div class="coupon_code left">
+                                    <h3>Coupon</h3>
+                                    <div class="coupon_inner">
+                                        <p>Hãy nhập mã giảm giá của bạn</p>
+                                        <input placeholder="Coupon code" type="text" name="maVoucher" id="maVoucher">
+                                        <button type="submit">ÁP dụng</button>
+                                        <br />
+                                        <span style="color:red;font-size:small">Đăng nhập để sử dụng Voucher</span>
+                                        <span style="color:lawngreen;font-size:small"></span>
+                                    </div>
+                                </div>
+                            }
+
+
                         }
 
                     }

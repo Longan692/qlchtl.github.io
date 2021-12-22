@@ -45,9 +45,9 @@
                         <h2>@p.giabandetails.DonGia.Value.ToString("#,##0").Replace(',', '.') VNĐ</h2>
                         <ul class="list">
                             <li><a class="active"><span>Đơn vị tính</span> @p.productdetails.DVT</a></li>
-                            @if (@p.productdetails.Status == true)
+                            @if (@p.productdetails.Soluong > 0)
                             {
-                                <li><a><span>Trạng thái</span>Còn hàng</a></li>
+                                <li><a><span>Số lượng còn:</span>@p.productdetails.Soluong</a></li>
                             }
                             else
                             {
@@ -55,25 +55,43 @@
                             }
                         </ul>
                         <p>  @p.productdetails.MoTa</p>
-                        <div class="product_count">
-                            <label for="qty">Số lượng:</label>
-                            <input min="1" max="100" value="1" type="number">
-                            @*<input type="text" name="qty" id="sst" maxlength="12" value="@p.soluong" title="Quantity:" class="input-text qty">
-                                <button class="increase items-count" type="button">
-                                    <i class="lnr lnr-chevron-up"></i>
-                                </button>
-                                <button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst ) &amp;&amp; sst > 0 ) result.value--;return false;"
-                                        class="reduced items-count" type="button">
-                                    <i class="lnr lnr-chevron-down"></i>
-                                </button>*@
-                        </div>
-                        <div class="card_area d-flex align-items-center">
-
-                            <a class="primary-btn" href="@Url.Action("ThemGioHang", "Cart", new { @ms = p.productdetails.MaHang, @strURL ="~/Cart/GioHang" },null)">Add to Cart</a>
-
-                            <a class="icon_btn" href="#"><i class="lnr lnr lnr-diamond"></i></a>
-                            <a class="icon_btn" href="#"><i class="lnr lnr lnr-heart"></i></a>
-                        </div>
+                        @using (Html.BeginForm("ThemGioHang", "Cart"))
+                        {
+                            <div class="product_count">
+                                <label for="qty">Số lượng:</label>
+                                <input min="1" max="@p.productdetails.Soluong" name="sl" id="sl" value="1" type="number">
+                                @*<input type="text" name="qty" id="sst" maxlength="12" value="@p.soluong" title="Quantity:" class="input-text qty">
+                                    <button class="increase items-count" type="button">
+                                        <i class="lnr lnr-chevron-up"></i>
+                                    </button>
+                                    <button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst ) &amp;&amp; sst > 0 ) result.value--;return false;"
+                                            class="reduced items-count" type="button">
+                                        <i class="lnr lnr-chevron-down"></i>
+                                    </button>*@
+                            </div>
+                            if (p.productdetails.MaLoaiHang.Trim() == "LH001")
+                            {
+                                <div class="card_area d-flex align-items-center">
+                                    <a style="display:none">
+                                        <input type="text" id="ms" name="ms" value="@p.productdetails.MaHang" />
+                                        <input type="text" id="strURL" name="strURL" value="~/Cart/GioHang" />
+                                    </a>
+                                    @*<a class="primary-btn" href="@Url.Action("ThemGioHang", "Cart", new { @ms = p.productdetails.MaHang, @strURL = "~/Cart/GioHang" }, null)">Add to Cart</a>*@
+                                    <span class="primary-btn">Chỉ bán tại của hàng</span>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="card_area d-flex align-items-center">
+                                    <a style="display:none">
+                                        <input type="text" id="ms" name="ms" value="@p.productdetails.MaHang" />
+                                        <input type="text" id="strURL" name="strURL" value="~/Cart/GioHang" />
+                                    </a>
+                                    @*<a class="primary-btn" href="@Url.Action("ThemGioHang", "Cart", new { @ms = p.productdetails.MaHang, @strURL = "~/Cart/GioHang" }, null)">Add to Cart</a>*@
+                                    <button type="submit" class="primary-btn">Mua hàng</button>
+                                </div>
+                            }
+                        }
                     </div>
                 </div>
             }

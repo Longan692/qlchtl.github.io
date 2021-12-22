@@ -25,6 +25,13 @@
     <link rel="stylesheet" href="~/assets/css/SignUp.css">
 </head>
 <body>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAdWLY_Y6FL7QGW5vcO3zajUEsrKfQPNzI"></script>
+    <script src="https://www.google.com/jsapi"></script>
+    <script src="assets/js/map.js"></script>
+    <!--important link source from "https://bootsnipp.com/snippets/GlaW2"-->
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <div class="container">
         <div class="row">
             <div class="col-lg-10 col-xl-9 mx-auto">
@@ -37,68 +44,96 @@
                         @using (Html.BeginForm("Register", "Home", FormMethod.Post))
                         {
                             @Html.AntiForgeryToken()
-                    <form class="form-signin">
-                        <div class="form-label-group">
-                            @*<input type="text" id="inputUserame" class="form-control" placeholder="Username" required autofocus >
-            <label for="inputUserame">Username</label>*@
-                            @Html.TextBoxFor(m => m.FullName, "", new { @class = "form-control", @placeholder = "First Name", @id = "inputFullName" })
-                            @Html.ValidationMessageFor(m => m.FullName, "", new { @class = "badge badge-danger" })
-                            <label for="inputFullName">Họ và tên</label>
+                            <form class="form-signin">
+                                <div class="form-label-group">
+                                    @*<input type="text" id="inputUserame" class="form-control" placeholder="Username" required autofocus >
+                                        <label for="inputUserame">Username</label>*@
+                                    @Html.TextBoxFor(m => m.FullName, "", new { @class = "form-control", @placeholder = "First Name", @id = "inputFullName" })
+                                    @if (@ViewBag.error != null)
+                                    {
+                                        @Html.ValidationMessageFor(m => m.FullName, "Vui lòng nhập đầy đủ thông tin", new { @class = "badge badge-danger" })
+                                    }
 
-                        </div>
+                                    <label for="inputFullName">Họ và tên</label>
+                                </div>
 
-                        <div class="form-label-group">
-                            @*<input type="email" id="inputEmail" class="form-control" placeholder="Email address" required>*@
+                                <div class="form-label-group">
+                                    @Html.TextBoxFor(m => m.Phone, "", new { @class = "form-control", @placeholder = "Phone", @id = "inputPhone" })
+                                    @if (@ViewBag.error != null)
+                                    {
+                                        @Html.ValidationMessageFor(m => m.Phone, "Vui lòng nhập đầy đủ thông tin", new { @class = "badge badge-danger", @id = "inputPhone" })
+                                    }
+                                    <label for="inputPhone">Số điện thoại</label>
+                                </div>
 
-                            @Html.TextBoxFor(m => m.Phone, "", new { @class = "form-control", @placeholder = "Phone", @id = "inputPhone" })
-                            @Html.ValidationMessageFor(m => m.Phone, "", new { @class = "badge badge-danger" })
-                            <label for="inputPhone">Số điện thoại</label>
-                        </div>
+                                <div class="form-label-group">
 
-                        <div class="form-label-group">
+                                    @Html.TextBoxFor(m => m.Address, "", new { @class = "form-control", @placeholder = "Address", @id = "inputAdress" })
+                                    @if (@ViewBag.error != null)
+                                    {
+                                        @Html.ValidationMessageFor(m => m.Address, "Vui lòng nhập đầy đủ thông tin", new { @class = "badge badge-danger" })
+                                    }
 
-                            @Html.TextBoxFor(m => m.Address, "", new { @class = "form-control", @placeholder = "Address", @id = "inputAdress" })
-                            @Html.ValidationMessageFor(m => m.Address, "", new { @class = "badge badge-danger" })
-                            <label for="inputAdress">Địa chỉ</label>
-                        </div>
-                        <div class="form-label-group">
-                            @Html.TextBoxFor(m => m.Email, "", new { @class = "form-control", @placeholder = "Email", @id = "inputEmail" })
-                            @Html.ValidationMessageFor(m => m.Email, "", new { @class = "badge badge-danger" })
-                            <label for="inputEmail">Email</label>
-                            @if (ViewBag.error != null)
-                            {
-                                <span class="badge badge-danger">@ViewBag.error</span>
-                            }
+                                    <label for="inputAdress">Địa chỉ</label>
+                                </div>
+                                <div class="form-label-group">
+                                    @Html.TextBoxFor(m => m.Email, "", new { @class = "form-control", @placeholder = "Email", @id = "inputEmail" })
 
-                        </div>
-                        <hr>
+                                    <label for="inputEmail">Email</label>
+                                    @if (@ViewBag.TrungMail != null)
+                                    {
+                                        <span class="badge badge-danger">@ViewBag.TrungMail</span>
+                                    }
+                                    @if (@ViewBag.error != null)
+                                    {
+                                        <span class="badge badge-danger">@ViewBag.error</span>
+                                    }
 
-                        <div class="form-label-group">
-                            @Html.TextBoxFor(m => m.UserName, "", new { @class = "form-control", @placeholder = "UserName", @id = "inputUserName" })
-                            @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "badge badge-danger" })
-                            <label for="inputUserName">Tên đăng nhập</label>
-                        </div>
-                        <div class="form-label-group">
+                                </div>
+                                <hr>
 
-                            @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "Password", @id = "inputPassword" })
-                            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "badge badge-danger" })
-                            <label for="inputPassword">Password</label>
-                        </div>
+                                <div class="form-label-group">
+                                    @Html.TextBoxFor(m => m.UserName, "", new { @class = "form-control", @placeholder = "UserName", @id = "inputUserName" })
 
-                        <div class="form-label-group">
-                            @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", @placeholder = "Confim Password", @id = "inputConfirmPassword" })
-                            @Html.ValidationMessageFor(m => m.ConfirmPassword, "", new { @class = "badge badge-danger" })
-                            <label for="inputConfirmPassword">Confirm password</label>
-                        </div>
-                        
-                        <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Đăng ký</button>
-                        <a class="d-block text-center mt-2 small">Bạn đã có tài khoảng</a>
-                        <hr class="my-4">
+                                    <label for="inputUserName">Tên đăng nhập</label>
+                                    @if (@ViewBag.TrungName != null)
+                                    {
+                                        <span class="badge badge-danger">@ViewBag.TrungName</span>
+                                    }
+                                    @if (@ViewBag.error != null)
+                                    {
+                                        <span class="badge badge-danger">@ViewBag.error</span>
+                                    }
+                                </div>
+                                <div class="form-label-group">
 
-                        <button class="btn btn-lg btn-google btn-block text-uppercase" type="submit"> Đăng nhập</button>
-                        @*<button class="btn btn-lg btn-google btn-block text-uppercase" type="submit"><i class="fab fa-google mr-2"></i> Sign up with Google</button>
-        <button class="btn btn-lg btn-facebook btn-block text-uppercase" type="submit"><i class="fab fa-facebook-f mr-2"></i> Sign up with Facebook</button>*@
-                    </form>
+                                    @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "Password", @id = "inputPassword" })
+
+                                    <label for="inputPassword">Password</label>
+                                    @if (@ViewBag.error != null)
+                                    {
+                                        <span class="badge badge-danger">@ViewBag.error</span>
+                                    }
+                                </div>
+
+                                <div class="form-label-group">
+                                    @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", @placeholder = "Confim Password", @id = "inputConfirmPassword" })
+
+                                    <label for="inputConfirmPassword">Confirm password</label>
+                                    @if (@ViewBag.SaiPass != null)
+                                    {
+                                        <span class="badge badge-danger">@ViewBag.SaiPass</span>
+                                    }
+                                </div>
+
+                                <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Đăng ký</button>
+                                <a class="d-block text-center mt-2 small">Bạn đã có tài khoảng</a>
+                                <hr class="my-4">
+
+                                <button class="btn btn-lg btn-google btn-block text-uppercase" type="submit"> Đăng nhập</button>
+                                @*<button class="btn btn-lg btn-google btn-block text-uppercase" type="submit"><i class="fab fa-google mr-2"></i> Sign up with Google</button>
+                                    <button class="btn btn-lg btn-facebook btn-block text-uppercase" type="submit"><i class="fab fa-facebook-f mr-2"></i> Sign up with Facebook</button>*@
+                            </form>
                         }
                     </div>
 

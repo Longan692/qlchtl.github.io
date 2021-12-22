@@ -43,9 +43,12 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="firstName">Họ tên người nhận</label>
-                                @Html.TextBoxFor(m => m.HoTenNguoiNhan, "", new { @class = "form-control", @placeholder = "Họ tên người nhận", @id = "firstName" })
+                                @Html.TextBoxFor(m => m.HoTenNguoiNhan,Model.HoTenNguoiNhan, new { @class = "form-control", @placeholder = "Họ tên người nhận", @id = "firstName" })
                                 @*  <input type="text" class="form-control" id="firstName" aria-describedby="firstName" placeholder="John" required>*@
-
+                                @if (@ViewBag.ErroName != null)
+                                {
+                                    <span class="badge badge-danger">@ViewBag.ErroName</span>
+                                }
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -53,18 +56,24 @@
                                 <label for="contactNumber">Số điện thoại người nhận</label>
                                 @* <input type="text" class="form-control" id="contactNumber" aria-describedby="contactNumber" placeholder="xxx-xxx-xxxx" required>*@
                                 @Html.TextBoxFor(m => m.SDT, "", new { @class = "form-control", @placeholder = "Số điện thoại nhận hàng", @id = "contactNumber" })
-
+                                @if (@ViewBag.ErroSDT != null)
+                                {
+                                    <span class="badge badge-danger">@ViewBag.ErroSDT</span>
+                                }
 
                             </div>
                         </div>
                     </div>
-                   
+
                     <div class="form-group form-message">
                         <label for="lastName">Địa chỉ</label>
                         @* <textarea class="form-control" id="message" rows="6" placeholder="Khách hàng có yêu cầu gì thêm, vui lòng ghi chú để cửa hàng phục vụ tốt nhất"></textarea>*@
                         @* @Html.TextBoxFor(m => m.GhiChu, "", new { @class = "form-control", @placeholder = "Khách hàng có yêu cầu gì thêm, vui lòng ghi chú để cửa hàng phục vụ tốt nhất" })*@
                         @Html.TextBoxFor(m => m.DiaChi, "", new { @class = "form-control", @placeholder = "Ví dụ: Số nhà+ Tên đường/ Phường/ Quận/ Thành phố", @id = "lastName" })
-
+                        @if (@ViewBag.ErroDiaChi != null)
+                        {
+                            <span class="badge badge-danger">@ViewBag.ErroDiaChi</span>
+                        }
                     </div>
                     <div class="form-group form-message">
                         <label for="message">Ghi chú</label>
@@ -78,10 +87,17 @@
 
                     </div>
                     <br />
+                    @if (ViewBag.Erro != null)
+                    {
+                        <div class="alert alert-danger" >
+                            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                            @ViewBag.Erro
+                        </div>
+                    }
                     <br />
                     <br />
                     <div class="text-center">
-                        <button type="submit" class=" btn btn-get"><span> Thanh toán</span></button>
+                        <button type="submit" class=" btn btn-get"><span> Đặt hàng</span></button>
                     </div>
                 </form>
                 }

@@ -661,7 +661,10 @@
                                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                                        aria-expanded="false"><span class="ti-face-smile"></span> Hi:@u.Fullname</a>
                                     <ul class="dropdown-menu">
+                                        <li class="nav-item"><a class="nav-link" href="@Url.Action("ThongTinCaNhan", "Profile")">Xem thông tin</a></li>
+                                        <li class="nav-item"><a class="nav-link" href="@Url.Action("DoiMatKhau", "Home")">Đổi mật khẩu</a></li>
                                         <li class="nav-item"><a class="nav-link" href="@Url.Action("DangXuat", "Home")">Đăng xuất</a></li>
+
                                     </ul>
 
 
@@ -669,10 +672,10 @@
                                 else
                                 {
                                     <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                                       aria-expanded="false"><span class="ti-user"> Tài khoảng</span></a>
+                                       aria-expanded="false"><span class="ti-user"> Tài khoản</span></a>
                                     <ul class="dropdown-menu">
-                                        <li class="nav-item"><a class="nav-link" href="@Url.Action("Login", "Home")">Login</a></li>
-                                        <li class="nav-item"><a class="nav-link" href="@Url.Action("Register", "Home")">Register</a></li>
+                                        <li class="nav-item"><a class="nav-link" href="@Url.Action("Login", "Home")">Đăng nhập</a></li>
+                                        <li class="nav-item"><a class="nav-link" href="@Url.Action("Register", "Home")">Đăng ký</a></li>
 
                                     </ul>
                                 }
@@ -825,5 +828,7 @@
     <script src=@Url.Content("https://maps.googleapis.com/maps/api/js?key=AIzaSyCjCGmQ0Uq4exrzdcL6rvxywDDOvfAu6eE")></script>
     <script src=@Url.Content("~/assets/js/gmaps.min.js")></script>
     <script src=@Url.Content("~/assets/js/mainn.js")></script>
+
+    
 </body>
 </html>

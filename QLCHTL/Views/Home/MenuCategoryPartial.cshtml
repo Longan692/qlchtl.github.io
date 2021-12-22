@@ -6,6 +6,6 @@
 @model QLCHTL.Models.LOAIHANG
 @foreach (var p in @ViewBag.MenuDanhMuc)
 {
-    <li class="nav-item"><a class="nav-link" href="@Url.Action("Category", "Product", new { @maLoai = p.MaLoaiHang}, null)">@p.TenLoaiHang</a></li>
+    <li class="nav-item"><a class="nav-link" href="@Url.Action("Category", "Product", new { @maLoai = p.MaLoaiHang.Trim()}, null)">@p.TenLoaiHang</a></li>
 
 }

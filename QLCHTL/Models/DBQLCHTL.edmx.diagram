@@ -31,6 +31,11 @@
         <AssociationConnector Association="QLCHTLModel.FK_TichDiem_Acc" />
         <EntityTypeShape EntityType="QLCHTLModel.VOUCHER" Width="1.5" PointX="6.25" PointY="16.25" />
         <AssociationConnector Association="QLCHTLModel.FK_VOUCHER_KM" />
+        <EntityTypeShape EntityType="QLCHTLModel.DANGNHAP" Width="1.5" PointX="12.625" PointY="11.5" />
+        <EntityTypeShape EntityType="QLCHTLModel.NHANVIEN" Width="1.5" PointX="10.375" PointY="11" />
+        <EntityTypeShape EntityType="QLCHTLModel.TONKHO" Width="1.5" PointX="5.25" PointY="19.5" />
+        <AssociationConnector Association="QLCHTLModel.fk_DANGNHAP_MaNV" />
+        <AssociationConnector Association="QLCHTLModel.fk_TONKHO_MaHang" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
