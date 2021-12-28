@@ -1,0 +1,72 @@
+﻿@model QLCHTL.Models.Account
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAD2.cshtml";
+}
+
+<h2>Chỉnh sửa thông tin người dùng</h2>
+
+@using (Html.BeginForm())
+{
+    <div class="form-horizontal">
+
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Id)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Fullname, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Fullname, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Fullname, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Phone, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group" style="margin-left:18px;width:985px">
+            <label class="form-label">Khóa tài khoản</label>
+            <select class="form-control" id="Status" name="Status">
+                <option value="true">Hoạt động</option>
+                <option value="false">Khóa tài khoản</option>
+            </select>
+        </div>
+        <div class="form-group" style="margin-left:18px;width:985px">
+            <label class="form-label">Cấp quyền admin cho tài khoản này?</label>
+            <select class="form-control" id="TrangThai" name="Roles">
+                <option value="2">Khách hàng</option>
+                <option value="1">ADMIN</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-success" />
+            </div>
+        </div>
+    </div>
+}
+@if (@ViewBag.ThanhCong != null)
+{
+    <div class="alert alert-danger">
+        <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+        @ViewBag.ThanhCong
+    </div>
+}
+<div>
+    <button class="btn btn-badge-info"> @Html.ActionLink("Trở lại", "DanhSachTaiKhoan")</button>
+</div>
+
+

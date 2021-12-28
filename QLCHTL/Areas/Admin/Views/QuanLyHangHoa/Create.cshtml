@@ -1,0 +1,90 @@
+﻿@model QLCHTL.Models.SanPham
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="bg-gradient-primary shadow-primary border-radius-lg py-3 pe-1">
+    <h4 class="text-white font-weight-bolder text-center mt-2 mb-0">Tạo sản phẩm mới</h4>
+</div>
+
+<div class="card-body">
+    @using (Html.BeginForm("Create", "QuanLyHangHoa", FormMethod.Post, new { @class = "text-start", enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        @*<form role="form" class="text-start">*@
+        <div class="input-group input-group-outline my-3">
+            <label class="form-label">Tên sản phẩm</label>
+            @Html.EditorFor(model => model.productdetails.TenHang, new { htmlAttributes = new { @class = "form-control" } })
+            @if (@ViewBag.ERTen != null)
+            {
+                <span class="badge badge-danger">@ViewBag.ERTen</span>
+            }
+        </div>
+        @*<div class="input-group input-group-outline my-3">
+                <label class="form-label">Tên sản phẩm</label>
+                <input type="text" class="form-control">
+            </div>*@
+        <div class="input-group input-group-outline mb-3">
+            <label class="form-label">Đơn vị tính</label>
+            @Html.EditorFor(model => model.productdetails.DVT, new { htmlAttributes = new { @class = "form-control" } })
+            @if (@ViewBag.ERDVT != null)
+            {
+                <span class="badge badge-danger">@ViewBag.ERDVT</span>
+            }
+        </div>
+        <div class="input-group input-group-outline mb-3">
+            <label class="form-label">Mô tả</label>
+            @Html.EditorFor(model => model.productdetails.MoTa, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.productdetails.MoTa, "", new { @class = "badge badge-danger" })
+        </div>
+        <div class="input-group input-group-outline mb-3">
+            <label class="form-label">Số lượng</label>
+            <input min="1" name="productdetails.Soluong" id="Soluong" type="number" class="form-control" required>
+        </div>
+        <label>Trạng thái</label>
+        <div class="input-group input-group-outline mb-3">
+            <select class="form-control" id="TrangThai" name="productdetails.TrangThai">
+                <option value="0">Chưa mở bán</option>
+                <option value="1">Mở bán</option>
+                <option value="2">Sắp mở bán</option>
+            </select>
+        </div>
+        <label class="form-label">Loại sản phẩm</label>
+        <div class="input-group input-group-outline mb-3">
+            @Html.DropDownListFor(model => model.productdetails.MaLoaiHang, new SelectList(ViewBag.Maloaihang, "MaLoaiHang", "TenLoaiHang", "-Chọn loại sản phẩm-"), new { @class = "form-control" })
+
+
+        </div>
+        <label class="form-label">Nhà cung cấp</label>
+        <div class="input-group input-group-outline mb-3">
+            @Html.DropDownListFor(model => model.productdetails.MaNCC, new SelectList(ViewBag.MaNCC, "MaNCC", "TenNCC", "-Chọn nhà cung cấp-"), new { @class = "form-control" })
+
+            @*@Html.DropDownList("Mahdh", null, htmlAttributes: new { @class = "form-control", @name = "productdetails.MaNCC" })
+                @Html.ValidationMessageFor(model => model.productdetails.MaLoaiHang, "", new { @class = "text-danger" })*@
+
+        </div>
+        <label class="form-label">Hình ảnh</label>
+        <div class="input-group input-group-outline mb-3">
+            <input type="file" name="ImageFile" id="ImageFile" class="form-control" required />
+            @*@Html.EditorFor(model => model.ImageFile, new { htmlAttributes = new { @class = "form-control" } })*@
+        </div>
+        <div class="text-center">
+            <button type="submit" class="btn bg-gradient-primary w-100 my-4 mb-2">Tạo mới</button>
+        </div>
+        @*<p class="mt-4 text-sm text-center">
+                Don't have an account?
+                <a href="../pages/sign-up.html" class="text-primary text-gradient font-weight-bold"></a>
+            </p>*@
+        @*</form>*@
+    }
+
+
+</div>
+@if (@ViewBag.Success != null)
+{
+    <div class="alert alert-danger">
+        <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+        @ViewBag.Success
+    </div>
+}

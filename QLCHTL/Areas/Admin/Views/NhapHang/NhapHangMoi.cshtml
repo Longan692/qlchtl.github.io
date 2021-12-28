@@ -1,0 +1,37 @@
+﻿@model QLCHTL.Models.NhapHang
+@{
+    ViewBag.Title = "NhapHangMoi";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="bg-gradient-primary shadow-primary border-radius-lg py-3 pe-1">
+    <h4 class="text-white font-weight-bolder text-center mt-2 mb-0">Tạo sản phẩm mới</h4>
+</div>
+
+<div class="card-body">
+    @using (Html.BeginForm("ThemDatHang", "NhapHang", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        <input name="strURL" type="hidden" value="/Admin/NhapHang/NhapHang" />
+        @*<form role="form" class="text-start">*@
+        <label class="form-label">Tên sản phẩm</label>
+        <div class="input-group input-group-outline my-3">
+
+            @Html.DropDownListFor(model => model.iMaHang, new SelectList(ViewBag.MaHang, "MaHang", "TenHang", "-Chọn hàng-"), new { @class = "form-control" })
+
+        </div>
+        <div class="input-group input-group-outline mb-3">
+            <label class="form-label">Đơn giá</label>
+            @Html.EditorFor(model => model.DonGia, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.DonGia, "", new { @class = "badge badge-danger" })
+        </div>
+        <div class="input-group input-group-outline mb-3">
+            <label class="form-label">Số lượng</label>
+            <input min="1" name="soluong" id="soluong" type="number" class="form-control" required>
+        </div>
+        <div class="text-center">
+            <button type="submit" class="btn bg-gradient-primary w-100 my-4 mb-2">Tạo mới</button>
+        </div>
+    }
+</div>
+

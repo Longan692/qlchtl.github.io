@@ -1,0 +1,44 @@
+﻿@model QLCHTL.Models.DONDATHANG
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAD2.cshtml";
+}
+<div class="bg-gradient-primary shadow-primary border-radius-lg py-3 pe-1">
+    <h4 class="text-white font-weight-bolder text-center mt-2 mb-0">Bạn có chắc xóa đơn hàng này không! </h4>
+</div>
+<div class="card-body pt-4 p-3">
+    <ul class="list-group">
+        <li class="list-group-item border-0 d-flex p-4 mb-2 bg-gray-100 border-radius-lg">
+            <div class="d-flex flex-column">
+                <h6 class="mb-3 text-sm"></h6>
+                <span class="mb-2 text-xs">Mã đơn hàng: <span class="text-dark font-weight-bold ms-sm-2">@Model.MaDonDatHang</span></span>
+                <span class="mb-2 text-xs">Ngày đặt: <span class="text-dark font-weight-bold ms-sm-2">@Model.NgayDat.Value.ToString("dd/MM/yyyy")</span></span>
+                <span class="mb-2 text-xs">Người nhận hàng: <span class="text-dark font-weight-bold ms-sm-2">@Model.HoTenNguoiNhan</span></span>
+                <span class="mb-2 text-xs">Số điện thoại: <span class="text-dark font-weight-bold ms-sm-2">@Model.SDT</span></span>
+                <span class="mb-2 text-xs">Email: <span class="text-dark font-weight-bold ms-sm-2">@Model.Email</span></span>
+                <span class="mb-2 text-xs">Địa chỉ  <span class="text-dark font-weight-bold ms-sm-2">@Model.DiaChi</span></span>
+                <span class="mb-2 text-xs">Ghi chú: <span class="text-dark font-weight-bold ms-sm-2">@Model.GhiChu</span></span>
+                <span class="mb-2 text-xs">Tình trạng: <span class="text-dark font-weight-bold ms-sm-2">@Model.TinhTrang</span></span>
+                <span class="mb-2 text-xs">Tổng tiền: <span class="text-dark ms-sm-2 font-weight-bold">@Model.TongTien.Value.ToString("#,##0").Replace(',', '.') VNĐ</span></span>
+               
+            </div>
+           
+        </li>
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            <li class="list-group-item border-0 d-flex p-4 mb-2 bg-gray-100 border-radius-lg">
+                <div class="d-flex flex-column">
+                    <button type="button" class="btn btn-outline-info"><i class="material-icons opacity-10">arrow_back</i> @Html.ActionLink("Quay lại", "DonHang") </button>
+                </div>
+                <div class="ms-auto text-end">
+                    <button type="submit" value="Delete" class="btn btn-outline-danger">Xóa đơn hàng</button>
+                </div>
+            </li>
+
+
+        }
+
+    </ul>
+</div>
+

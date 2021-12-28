@@ -41,5 +41,7 @@ namespace QLCHTL.Models
         public virtual DbSet<DANGNHAP> DANGNHAPs { get; set; }
         public virtual DbSet<NHANVIEN> NHANVIENs { get; set; }
         public virtual DbSet<TONKHO> TONKHOes { get; set; }
+        public virtual DbSet<CT_PHIEUNHAPHANG> CT_PHIEUNHAPHANG { get; set; }
+        public virtual DbSet<PHIEUNHAPHANG> PHIEUNHAPHANGs { get; set; }
     }
 }

@@ -12,6 +12,11 @@ namespace QLCHTL.Areas.Admin.Controllers
         QLCHTLEntities db = new QLCHTLEntities();
         public ActionResult Index()
         {
+            ////Kiểm tra đăng đăng nhập
+            //if (Session["user"] == null || Session["user"].ToString() == "")
+            //{
+            //    return RedirectToAction("Login", "Home");
+            //}
             List<HANG> productname = db.HANGs.ToList();
             List<GIA> giabanmoi = db.GIAs.ToList();
             var item = from p in productname
@@ -102,6 +107,10 @@ namespace QLCHTL.Areas.Admin.Controllers
             var categories = db.NHACUNGCAPs.ToList();
             return categories;
 
+        }
+        public ActionResult TEST()
+        {
+            return View();
         }
     }
 }

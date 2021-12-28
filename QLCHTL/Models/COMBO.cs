@@ -23,6 +23,8 @@ namespace QLCHTL.Models
         public string MaCombo { get; set; }
         public string MaDotKM { get; set; }
         public Nullable<double> TyLeKM { get; set; }
+        public string AnhBia { get; set; }
+        public string TenCB { get; set; }
     
         public virtual KHUYENMAI KHUYENMAI { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

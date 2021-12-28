@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="ba899600b60b4278ab220ad5a8cc440d" Name="Diagram1" ZoomLevel="79">
+      <Diagram DiagramId="ba899600b60b4278ab220ad5a8cc440d" Name="Diagram1" ZoomLevel="82">
         <EntityTypeShape EntityType="QLCHTLModel.HANG" Width="1.5" PointX="3" PointY="0.625" IsExpanded="true" />
         <EntityTypeShape EntityType="QLCHTLModel.LOAIHANG" Width="1.5" PointX="0.75" PointY="1.625" IsExpanded="true" />
         <EntityTypeShape EntityType="QLCHTLModel.NHACUNGCAP" Width="1.5" PointX="8" PointY="2.625" IsExpanded="true" />
@@ -13,8 +13,8 @@
         <EntityTypeShape EntityType="QLCHTLModel.Account" Width="1.5" PointX="0.75" PointY="5.125" />
         <EntityTypeShape EntityType="QLCHTLModel.GIA" Width="1.5" PointX="5.25" PointY="1" />
         <AssociationConnector Association="QLCHTLModel.fk_GIA_MaHang" />
-        <EntityTypeShape EntityType="QLCHTLModel.CT_DONDATHANG" Width="1.5" PointX="10.875" PointY="1.125" />
-        <EntityTypeShape EntityType="QLCHTLModel.DONDATHANG" Width="1.5" PointX="6.25" PointY="5" />
+        <EntityTypeShape EntityType="QLCHTLModel.CT_DONDATHANG" Width="1.5" PointX="13.375" PointY="1.25" />
+        <EntityTypeShape EntityType="QLCHTLModel.DONDATHANG" Width="1.5" PointX="14.625" PointY="6.375" />
         <AssociationConnector Association="QLCHTLModel.fk_DONDATHANG_MaKH" />
         <AssociationConnector Association="QLCHTLModel.fk_CT_CT_DONDATHANG_MaHang" />
         <AssociationConnector Association="QLCHTLModel.fk_CT_DONDATHANG_MaDonDatHang" />
@@ -36,6 +36,10 @@
         <EntityTypeShape EntityType="QLCHTLModel.TONKHO" Width="1.5" PointX="5.25" PointY="19.5" />
         <AssociationConnector Association="QLCHTLModel.fk_DANGNHAP_MaNV" />
         <AssociationConnector Association="QLCHTLModel.fk_TONKHO_MaHang" />
+        <EntityTypeShape EntityType="QLCHTLModel.CT_PHIEUNHAPHANG" Width="1.5" PointX="10.75" PointY="0.5" />
+        <EntityTypeShape EntityType="QLCHTLModel.PHIEUNHAPHANG" Width="1.5" PointX="15.75" PointY="11.5" />
+        <AssociationConnector Association="QLCHTLModel.fk_CT_PHIEUNHAPHANG_MaHang" />
+        <AssociationConnector Association="QLCHTLModel.fk_CT_PHIEUNHAPHANG_MaPhieuNH" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -1,0 +1,88 @@
+﻿@model IEnumerable<QLCHTL.Models.CT_DONDATHANG>
+@{
+    ViewBag.Title = "ChiTietDonHang";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAD2.cshtml";
+}
+
+<div class="row">
+    <div class="col-15">
+        <div class="card my-4">
+            <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+                    <h6 class="text-white text-capitalize ps-3">Danh sách sản phẩm</h6>
+                </div>
+            </div>
+            <div class="card-body px-0 pb-2">
+                <div class="table-responsive p-0" @*style="height: 500px;overflow-x:hidden ;overflow-y: auto;"*@>
+                    <table class="table align-items-center mb-0" @*style="height: 800px;"*@>
+                        <thead>
+                            <tr>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Mã SP</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tên SP</th>
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Số lượng</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Ngày duyệt</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Mã Nhân viên duyệt</th>
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Trạng thái</th>
+                            </tr>
+                        </thead>
+                        <tbody id="myTable">
+                            @foreach (var p in Model)
+                            {
+                                <tr id="test">
+                                    <td>
+                                        <p class="text-xs font-weight-bold mb-0">@p.MaHang</p>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex px-2 py-1">
+                                            <div>
+                                                <img src="/@p.HANG.HinhAnh" class="avatar avatar-sm me-3 border-radius-lg">
+                                            </div>
+                                            <div class="d-flex flex-column justify-content-center">
+                                                <h6 class="mb-0 text-sm">@p.TenHang</h6>
+                                                @*<p class="text-xs text-secondary mb-0">john@creative-tim.com</p>*@
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="align-middle text-center text-sm">
+                                        <span class="badge badge-sm bg-gradient-success">@p.SoLuong</span>
+                                    </td>
+                                    @if (p.DateDuyet == null)
+                                    {
+
+
+                                        <td class="align-middle text-center">
+                                            <span class="text-secondary text-xs font-weight-bold"></span>
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td class="align-middle text-center">
+                                            <span class="text-secondary text-xs font-weight-bold">@p.DateDuyet.Value.ToString("dd/MM/yyyy")</span>
+                                        </td>
+                                    }
+
+                                    <td class="align-middle text-center">
+                                        <span class="text-danger text-xs font-weight-bold">@p.MaNVDuyet</span>
+                                    </td>
+                                    @if (p.TinhTrangThanhToan == 0)
+                                    {
+                                        <td class="align-middle text-center text-sm">
+                                            <span class="badge badge-sm bg-gradient-danger">Chưa thanh toán</span>
+                                        </td>
+                                    }
+                                    else if (p.TinhTrangThanhToan == 1)
+                                    {
+                                        <td class="align-middle text-center text-sm">
+                                            <span class="badge badge-sm bg-gradient-info">Đã thanh toán</span>
+                                        </td>
+                                    }
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -64,6 +64,7 @@ namespace QLCHTL.Controllers
                     }
                     _user.Password = GetMD5(_user.Password);
                     _user.Roles = Role.KhachHang;
+                    _user.NgayTao = DateTime.Now;
                     _user.Status = true;
                     de.Configuration.ValidateOnSaveEnabled = false;
                     de.Accounts.Add(_user);
@@ -117,7 +118,7 @@ namespace QLCHTL.Controllers
                     {
                         //add session admin
                         Session["user"] = data;
-                        return RedirectToAction("Index", "Admin/QuanLyHang");
+                        return RedirectToAction("Index", "Admin/Dashboard");
 
                     }
                     else
@@ -248,9 +249,12 @@ namespace QLCHTL.Controllers
                 account.Password = GetMD5(password);
                 de.SaveChanges();
                 Account acc = de.Accounts.Where(s => s.Email == email).FirstOrDefault();
-                string body = "Xin chào!  "+acc.Email+" Đây là mật khẩu mới của bạn sau khi yêu cầu thay đổi: " + password + ". Vui lòng thay đổi mật khẩu sau khi đăng nhập lại!";
-                sendMail(acc.Email, subject, body);
-                ViewBag.tb = "Yêu cầu lấy lại mật khẩu thành công, vui lòng quay lại trang đăng nhập";
+                string content = System.IO.File.ReadAllText(Server.MapPath("/assets/template/MailQuenPass.html"));
+                content = content.Replace("{{Fullname}}", acc.Fullname);
+                content = content.Replace("{{password}}", password);
+                //string body = "Xin chào!  "+acc.Email+" Đây là mật khẩu mới của bạn sau khi yêu cầu thay đổi: " + password + ". Vui lòng thay đổi mật khẩu sau khi đăng nhập lại!";
+                sendMail(acc.Email, subject, content);
+                ViewBag.tb = "Yêu cầu lấy lại mật khẩu thành công, vui lòng kiểm tra email và quay lại trang đăng nhập";
             }
             catch
             {

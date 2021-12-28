@@ -497,12 +497,25 @@ namespace QLCHTL.Controllers
                     db.CT_DONDATHANG.Add(ctDDH);
                 }
                 db.SaveChanges();
+                var tongsl = TongSoLuong();
                 Session["cartitem"] = null;
-                string subject = "THÔNG TIN ĐƠN ĐẶT HÀNG DOUBLE_A";
-                string body = "Cảm ơn bạn đã đặt hàng tại cửa hàng chúng tôi. " +
-                    " Tổng đơn hàng của bạn là " + ddh.TongTien.Value.ToString("#,##0").Replace(',', '.') + "VNĐ. " +
-                    "Nhân viên sẽ gọi xác nhận đơn hàng của bạn trong thời gian sớm nhất. Mọi thông tin thắc mắc xin vui lòng liên hệ đến hotline: 0845.475.575";
-                sendMail(Kh.Email, subject, body);
+                
+                string subject = "THÔNG TIN BÁO XÁC NHẬN ĐƠN HÀNG DOUBLE A";
+                string content = System.IO.File.ReadAllText(Server.MapPath("/assets/template/MailXacNhanDonHang.html"));
+                content = content.Replace("{{Fullname}}", Kh.Fullname);
+                content = content.Replace("{{TongSanPham}}", tongsl.ToString());
+                content = content.Replace("{{TongTien}}", ddh.TongTien.Value.ToString("#,##0").Replace(',', '.'));
+
+                content = content.Replace("{{Email}}", ddh.Email);
+                content = content.Replace("{{NgayDat}}", ddh.NgayDat.ToString());
+                content = content.Replace("{{Hotennguoinhan}}", ddh.HoTenNguoiNhan.ToString());
+                content = content.Replace("{{SDT}}", ddh.SDT.ToString());
+                content = content.Replace("{{DiaChi}}", ddh.DiaChi.ToString());
+               
+                //string body = "Cảm ơn bạn đã đặt hàng tại cửa hàng chúng tôi. " +
+                //    " Tổng đơn hàng của bạn là " + ddh.TongTien.Value.ToString("#,##0").Replace(',', '.') + "VNĐ. " +
+                //    "Nhân viên sẽ gọi xác nhận đơn hàng của bạn trong thời gian sớm nhất. Mọi thông tin thắc mắc xin vui lòng liên hệ đến hotline: 0845.475.575";
+                sendMail(Kh.Email, subject, content);
                 ViewBag.tb = "Thông tin đơn hàng đã được gửi đến mail của bạn vui lòng kiểm tra để bạn nhé!";
                 return RedirectToAction("Index", "DonHang");
             }
@@ -568,7 +581,7 @@ namespace QLCHTL.Controllers
             Session["Voucher"] = null;
             return RedirectToAction("GioHang");
         }
-        #region Them combo vào giỏ hàng
+        #region MUA combo vào giỏ hàng
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult ThemCombo(List<AddCombo> combo)

@@ -18,11 +18,10 @@ namespace QLCHTL.Models
         public string MaHang { get; set; }
         public string TenHang { get; set; }
         public Nullable<int> SoLuong { get; set; }
-        public string NgayDuyet { get; set; }
         public Nullable<int> MaNVDuyet { get; set; }
         public Nullable<System.DateTime> NgayGiao { get; set; }
-        public string MaNVGiao { get; set; }
         public Nullable<int> TinhTrangThanhToan { get; set; }
+        public Nullable<System.DateTime> DateDuyet { get; set; }
     
         public virtual HANG HANG { get; set; }
         public virtual DONDATHANG DONDATHANG { get; set; }

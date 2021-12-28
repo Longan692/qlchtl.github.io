@@ -30,6 +30,7 @@ namespace QLCHTL.Models
         public string Avatar { get; set; }
         public bool Status { get; set; }
         public Nullable<int> Roles { get; set; }
+        public Nullable<System.DateTime> NgayTao { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DONDATHANG> DONDATHANGs { get; set; }

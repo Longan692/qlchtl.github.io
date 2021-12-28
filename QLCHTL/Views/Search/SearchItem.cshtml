@@ -1,0 +1,105 @@
+﻿@model IEnumerable<QLCHTL.Models.SanPham>
+@{
+    ViewBag.Title = "Search";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<!-- Start Banner Area -->
+<section class="banner-area organic-breadcrumb">
+    <div class="container">
+        <div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
+            <div class="col-first">
+                <h1>TÌM KIẾM</h1>
+                <nav class="d-flex align-items-center">
+                    <a href="#"><span class="lnr lnr-arrow-right"></span></a>
+                    <a href="#">Sản phẩm tìm kiếm</a>
+                </nav>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- End Banner Area -->
+
+<br />
+<br />
+<br />
+<br />
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-6 text-center">
+            <div class="section-title">
+                <h1 style="color:red;font:bold 40px arial, verdana">SẢN PHẨM BẠN TÌM KIẾM</h1>
+
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <!-- single product -->
+        <div class="row">
+            @foreach (var p in Model)
+            {
+                <!-- single product -->
+                <div class="col-lg-3 col-md-6">
+                    <div class="single-product">
+                        <img class="img-fluid" style="width:250px;height:224px" src="/@p.productdetails.HinhAnh" alt="@p.productdetails.HinhAnh">
+                        <div class="product-details">
+                            <h6>
+                                @p.productdetails.TenHang
+                            </h6>
+                            <div class="price">
+                                <h6>@p.giabandetails.DonGia.Value.ToString("#,##0").Replace(',', '.') VNĐ</h6>
+                                <h6 class="l-through"></h6>
+                            </div>
+                            <div class="prd-bottom">
+                                @if (p.productdetails.MaLoaiHang.Trim() == "LH001")
+                                {
+                                    if (@p.productdetails.Soluong == 0)
+                                    {
+                                        <a class="social-info">
+                                            <span class="ti-bag"></span>
+                                            <p class="hover-text" style="color:red">Hết hàng</p>
+
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <a class="social-info">
+                                            <span class="ti-bag"></span>
+                                            <p class="hover-text">Bán tại store</p>
+
+                                        </a>
+                                    }
+                                }
+                                else
+                                {
+
+                                    if (@p.productdetails.Soluong == 0)
+                                    {
+                                        <a class="social-info">
+                                            <span class="ti-bag"></span>
+                                            <p class="hover-text" style="color:red">Hết hàng</p>
+
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <a href="@Url.Action("ThemGioHang", "Cart", new { @ms = p.productdetails.MaHang, @strURL ="/Search/SearchItem",@sl=1 }, null)" class="social-info">
+                                            <span class="ti-bag"></span>
+                                            <p class="hover-text">Mua hàng</p>
+
+                                        </a>
+                                    }
+                                }
+                                <a href="@Url.Action("Detail", "Product", new { @ms = p.productdetails.MaHang}, null)" class="social-info">
+                                    <span class="lnr lnr-move"></span>
+                                    <p class="hover-text">Xem chi tiết sản phẩm</p>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+

@@ -22,6 +22,7 @@ namespace QLCHTL.Models
             this.CT_COMBO = new HashSet<CT_COMBO>();
             this.DANHSACHHANGGIAMs = new HashSet<DANHSACHHANGGIAM>();
             this.TONKHOes = new HashSet<TONKHO>();
+            this.CT_PHIEUNHAPHANG = new HashSet<CT_PHIEUNHAPHANG>();
         }
     
         public string MaHang { get; set; }
@@ -46,5 +47,7 @@ namespace QLCHTL.Models
         public virtual ICollection<DANHSACHHANGGIAM> DANHSACHHANGGIAMs { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TONKHO> TONKHOes { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CT_PHIEUNHAPHANG> CT_PHIEUNHAPHANG { get; set; }
     }
 }
