@@ -60,35 +60,19 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-white " href="../pages/billing.html">
+                <a class="nav-link text-white " href="~/Admin/KhuyenMai/DanhSachKhuyenMai">
+                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="material-icons opacity-10">style</i>
+                    </div>
+                    <span class="nav-link-text ms-1">Quản lý khuyến mãi</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-white " href="~/Admin/ThongKeDoanhThu/ThongKeDoanhThu">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="material-icons opacity-10">receipt_long</i>
                     </div>
-                    <span class="nav-link-text ms-1">Billing</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link text-white " href="../pages/virtual-reality.html">
-                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                        <i class="material-icons opacity-10">view_in_ar</i>
-                    </div>
-                    <span class="nav-link-text ms-1">Virtual Reality</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link text-white " href="../pages/rtl.html">
-                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                        <i class="material-icons opacity-10">format_textdirection_r_to_l</i>
-                    </div>
-                    <span class="nav-link-text ms-1">RTL</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link text-white " href="../pages/notifications.html">
-                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                        <i class="material-icons opacity-10">notifications</i>
-                    </div>
-                    <span class="nav-link-text ms-1">Notifications</span>
+                    <span class="nav-link-text ms-1">Thống kê</span>
                 </a>
             </li>
             <li class="nav-item mt-3">
@@ -248,13 +232,13 @@
                             <i class="material-icons opacity-10">shopping_basket</i>
                         </div>
                         <div class="text-end pt-1">
-                            <p class="text-sm mb-0 text-capitalize">TỔNG SỐ SẢN PHẨM</p>
+                            <p class="text-sm mb-0 text-capitalize">Tổng sản phẩm</p>
                             <h4 class="mb-0">@ViewBag.TongSanPham</h4>
                         </div>
                     </div>
                     <hr class="dark horizontal my-0">
                     <div class="card-footer p-3">
-                        <p class="mb-0"><span class="text-success text-sm font-weight-bolder">Tổng:</span> Sản phẩm đang bán</p>
+                        <p class="mb-0"><span class="text-success text-sm font-weight-bolder">Tổng:</span> Sản phẩm</p>
                     </div>
                 </div>
             </div>
@@ -279,16 +263,16 @@
                 <div class="card">
                     <div class="card-header p-3 pt-2">
                         <div class="icon icon-lg icon-shape bg-gradient-success shadow-success text-center border-radius-xl mt-n4 position-absolute">
-                            <i class="material-icons opacity-10">person_add</i>
+                            <i class="material-icons opacity-10">local_offer</i>
                         </div>
                         <div class="text-end pt-1">
-                            <p class="text-sm mb-0 text-capitalize">Khách hàng mới</p>
-                            <h4 class="mb-0">@ViewBag.TongUserNew</h4>
+                            <p class="text-sm mb-0 text-capitalize">Chương trình khuyến mãi</p>
+                            <h4 class="mb-0">@ViewBag.TongKhuyenMai</h4>
                         </div>
                     </div>
                     <hr class="dark horizontal my-0">
                     <div class="card-footer p-3">
-                        <p class="mb-0"><span class="text-success text-sm font-weight-bolder">Tổng:</span> Khách hàng đăng ký mới</p>
+                        <p class="mb-0"><span class="text-success text-sm font-weight-bolder">Tổng: </span>Khuyến mãi đang chạy</p>
                     </div>
                 </div>
             </div>
@@ -306,6 +290,107 @@
                     <hr class="dark horizontal my-0">
                     <div class="card-footer p-3">
                         <p class="mb-0"><span class="text-success text-sm font-weight-bolder">Tổng:</span> Đơn hàng đang chờ duyệt</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid py-4">
+        <div class="row">
+            <div class="col-15" style="width:65%;float:left">
+                <div class="card my-4">
+                    <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                        <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+                            <h6 class="text-white text-capitalize ps-3">SẢN PHẨM MỚI</h6>
+                        </div>
+                    </div>
+                    <div class="card-body px-0 pb-2">
+                        <div class="table-responsive p-0" style="height: 500px ;overflow-y: auto;">
+                            <table class="table align-items-center mb-0" style="height: 800px;">
+                                <thead>
+                                    <tr>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tên sản phẩm</th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Loại sản phẩm</th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Giá</th>
+                                        
+                                    </tr>
+                                </thead>
+                                <tbody id="myTable">
+                                    @{
+                                        List<QLCHTL.Models.SanPham> temp = ViewBag.TongSanPhamMoi;
+                                    }
+                                    @foreach (var item in temp)
+                                    {
+                                        @*@foreach (var p in ViewBag.Hang)
+                                            {*@
+                                    <tr id="test">
+                                        <td>
+                                            <div class="d-flex px-2 py-1">
+                                                <div>
+                                                    <img src="/@item.productdetails.HinhAnh" class="avatar avatar-sm me-3 border-radius-lg">
+                                                </div>
+                                                <div class="d-flex flex-column justify-content-center">
+                                                    <h6 class="mb-0 text-sm">@item.productdetails.TenHang</h6>
+                                                    @*<p class="text-xs text-secondary mb-0">john@creative-tim.com</p>*@
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <p class="text-xs font-weight-bold mb-0">@item.productdetails.LOAIHANG.TenLoaiHang</p>
+                                      
+                                        </td>
+                                        <td>
+                                            <span class="badge badge-sm bg-gradient-warning">@item.giabandetails.DonGia.Value.ToString("#,##0").Replace(',', '.') VNĐ</span>
+                                       
+                                       </td>
+                                    </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-15" style="width:35%;float:right">
+                <div class="card my-4">
+                    <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                        <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+                            <h6 class="text-white text-capitalize ps-3">KHÁCH HÀNG ĐĂNG KÝ MỚI</h6>
+                        </div>
+                    </div>
+                    <div class="card-body px-0 pb-2">
+                        <div class="table-responsive p-0" style="height: 500px ;overflow-y: auto;">
+                            <table class="table align-items-center mb-0" style="height: 800px;">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">FullName</th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Phone & Email</th>
+                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">UserName</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody id="myTable">
+                                    @{
+                                        List<QLCHTL.Models.Account> accounts = ViewBag.TongUserNew;
+                                    }
+                                    @foreach (var p in accounts)
+                                    {
+                                        <tr id="test">
+                                            <td>
+                                                <p class="text-xs font-weight-bold mb-0">@p.Fullname</p>
+                                            </td>
+                                            <td>
+                                                <span class="badge badge-sm bg-gradient-primary">@p.Phone</span>
+                                               
+                                            </td>
+                                            <td class="align-middle text-center text-sm">
+                                                <span class="badge badge-sm bg-gradient-info">@p.Username</span>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>

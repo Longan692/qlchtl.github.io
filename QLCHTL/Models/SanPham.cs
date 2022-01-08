@@ -13,6 +13,14 @@ namespace QLCHTL.Models
 
         public HANG productdetails { get; set; }
         public HttpPostedFileBase ImageFile { get; set; }
+    }  
+    public class SanPhamV1
+    {
+
+        public GIA giabandetails { get; set; }
+
+        public HANG productdetails { get; set; }
+       
     }
 
 

@@ -33,7 +33,8 @@
     <OutputPath>bin\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+    <WarningLevel>0</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -69,8 +70,17 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="EPPlus, Version=4.1.1.0, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
+      <HintPath>..\packages\EPPlus.4.1.1\lib\net40\EPPlus.dll</HintPath>
+    </Reference>
     <Reference Include="JetBrains.Annotations, Version=2021.2.0.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
       <HintPath>..\packages\JetBrains.Annotations.2021.2.0\lib\net20\JetBrains.Annotations.dll</HintPath>
+    </Reference>
+    <Reference Include="LinqToExcel, Version=1.11.0.0, Culture=neutral, PublicKeyToken=9c8ea65a58f03f1f, processorArchitecture=MSIL">
+      <HintPath>..\packages\LinqToExcel.1.11.0\lib\LinqToExcel.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.1.2.10\lib\2.0\log4net.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Extensions.Caching.Abstractions, Version=5.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
@@ -90,6 +100,9 @@
     </Reference>
     <Reference Include="Microsoft.Extensions.Primitives, Version=5.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Extensions.Primitives.5.0.0\lib\net461\Microsoft.Extensions.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -114,6 +127,15 @@
     </Reference>
     <Reference Include="PagedList.Mvc, Version=4.5.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
       <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="Remotion, Version=1.13.52.2, Culture=neutral, PublicKeyToken=0669cf0452175907, processorArchitecture=MSIL">
+      <HintPath>..\packages\LinqToExcel.1.11.0\lib\Remotion.dll</HintPath>
+    </Reference>
+    <Reference Include="Remotion.Data.Linq, Version=1.13.52.2, Culture=neutral, PublicKeyToken=0669cf0452175907, processorArchitecture=MSIL">
+      <HintPath>..\packages\LinqToExcel.1.11.0\lib\Remotion.Data.Linq.dll</HintPath>
+    </Reference>
+    <Reference Include="Remotion.Interfaces, Version=1.13.52.2, Culture=neutral, PublicKeyToken=0669cf0452175907, processorArchitecture=MSIL">
+      <HintPath>..\packages\LinqToExcel.1.11.0\lib\Remotion.Interfaces.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -267,10 +289,12 @@
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\DashboardController.cs" />
     <Compile Include="Areas\Admin\Controllers\DonHangController.cs" />
+    <Compile Include="Areas\Admin\Controllers\KhuyenMaiController.cs" />
     <Compile Include="Areas\Admin\Controllers\NhapHangController.cs" />
     <Compile Include="Areas\Admin\Controllers\QuanLyHangController.cs" />
     <Compile Include="Areas\Admin\Controllers\QuanLyHangHoaController.cs" />
     <Compile Include="Areas\Admin\Controllers\QuanLyTaiKhoanController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ThongKeDoanhThuController.cs" />
     <Compile Include="Constants\RankMember.cs" />
     <Compile Include="Constants\Role.cs" />
     <Compile Include="Constants\StatusProduct.cs" />
@@ -293,6 +317,7 @@
     <Compile Include="Models\COMBO.cs">
       <DependentUpon>DBQLCHTL.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ComboKM.cs" />
     <Compile Include="Models\CT_COMBO.cs">
       <DependentUpon>DBQLCHTL.tt</DependentUpon>
     </Compile>
@@ -351,6 +376,7 @@
     </Compile>
     <Compile Include="Models\ProductDetail.cs" />
     <Compile Include="Models\SanPham.cs" />
+    <Compile Include="Models\ThongKe.cs" />
     <Compile Include="Models\TICHDIEM.cs">
       <DependentUpon>DBQLCHTL.tt</DependentUpon>
     </Compile>
@@ -362,6 +388,11 @@
       <DependentUpon>DBQLCHTL.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Admin\assets\css\material-dashboard.css" />
@@ -3112,6 +3143,18 @@
     <Content Include="Areas\Admin\Views\DonHang\DonHangDaDuyet.cshtml" />
     <Content Include="Areas\Admin\Views\DonHang\DonHangDaGiao.cshtml" />
     <Content Include="Areas\Admin\Views\DonHang\DonHangDaHuy.cshtml" />
+    <Content Include="Areas\Admin\Views\NhapHang\DanhSachNhapHang.cshtml" />
+    <Content Include="Areas\Admin\Views\NhapHang\UploadExcel.cshtml" />
+    <Content Include="Areas\Admin\Views\KhuyenMai\DanhSachKhuyenMai.cshtml" />
+    <Content Include="Areas\Admin\Views\KhuyenMai\CreateKM.cshtml" />
+    <Content Include="Areas\Admin\Views\KhuyenMai\EditKM.cshtml" />
+    <Content Include="Areas\Admin\Views\KhuyenMai\DanhSachCombo.cshtml" />
+    <Content Include="Areas\Admin\Views\KhuyenMai\CreateCB.cshtml" />
+    <Content Include="Areas\Admin\Views\KhuyenMai\ChiTietCB.cshtml" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -3160,11 +3203,13 @@
     <Content Include="Views\Search\Index.cshtml" />
     <Content Include="Views\Search\Search.cshtml" />
     <Content Include="Views\Search\SearchItem.cshtml" />
+    <Content Include="Views\Search\KhongTimThay.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Areas\Admin\Views\Base\" />
+    <Folder Include="Areas\Admin\Views\ThongKeDoanhThu\" />
     <Folder Include="Views\ThongTinCaNhan\" />
     <Folder Include="Views\User\" />
   </ItemGroup>
@@ -3203,6 +3248,8 @@
           <DevelopmentServerPort>11314</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>http://localhost:11314/</IISUrl>
+          <OverrideIISAppRootUrl>True</OverrideIISAppRootUrl>
+          <IISAppRootUrl>http://localhost:11314/</IISAppRootUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

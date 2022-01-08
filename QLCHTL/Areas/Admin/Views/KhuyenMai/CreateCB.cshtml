@@ -1,0 +1,37 @@
+﻿@model QLCHTL.Models.ComboKM
+@{
+    ViewBag.Title = "CreateKM";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+<div class="bg-gradient-primary shadow-primary border-radius-lg py-3 pe-1">
+    <h4 class="text-white font-weight-bolder text-center mt-2 mb-0">Tạo combo khuyến mãi mới</h4>
+</div>
+<div class="card-body">
+    @using (Html.BeginForm("CreateCB", "KhuyenMai", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        @*<form role="form" class="text-start">*@
+        <label class="form-label">Tên đợt khuyến mãi</label>
+        @Html.EditorFor(model => model.cbkm.TenCB, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.cbkm.TenCB, "", new { @class = "badge badge-danger" })
+
+        <label class="form-label">Tỷ lệ khuyến mãi</label>
+        <div class="input-group input-group-outline mb-3">
+            <input min="1" max="100" name="cbkm.TyLeKM" id="TyLeKM" type="number" class="form-control" required>
+        </div>
+        <label class="form-label">Đợt khuyến mãi</label>
+        <div class="input-group input-group-outline mb-3">
+            @Html.DropDownListFor(model => model.cbkm.MaDotKM, new SelectList(ViewBag.KhuyenMai, "MaDotKM", "TenDotKM", "-Chọn đợt khuyến mãi-"), new { @class = "form-control" })
+
+        </div>
+        <label class="form-label">Hình ảnh</label>
+        <div class="input-group input-group-outline mb-3">
+            <input type="file" name="ImageFile" id="ImageFile" class="form-control" required />
+            @*@Html.EditorFor(model => model.ImageFile, new { htmlAttributes = new { @class = "form-control" } })*@
+        </div>
+        <div class="text-center">
+            <button type="submit" class="btn bg-gradient-primary w-100 my-4 mb-2">Tạo mới</button>
+        </div>
+    }
+</div>
+

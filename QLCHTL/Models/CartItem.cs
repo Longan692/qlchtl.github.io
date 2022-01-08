@@ -22,7 +22,7 @@ namespace QLCHTL.Models
         public double DiemThuong { get; set; }
         public int Stock { get; set; }
         public double GiaCu { get; set; }
-
+        public string MaCB { get; set; }
         public double ThanhTien
         {
             get { return soluong * DonGia; }

@@ -129,6 +129,7 @@
           <Property Name="TenDotKM" Type="nvarchar" MaxLength="50" />
           <Property Name="NgayBatDau" Type="date" />
           <Property Name="NgayKetThuc" Type="date" />
+          <Property Name="TrangThai" Type="int" />
         </EntityType>
         <EntityType Name="LOAIHANG">
           <Key>
@@ -802,6 +803,7 @@
           <NavigationProperty Name="COMBOes" Relationship="QLCHTLModel.fk_COMBO_MaDotKM" FromRole="KHUYENMAI" ToRole="COMBO" />
           <NavigationProperty Name="DANHSACHHANGGIAMs" Relationship="QLCHTLModel.fk_DANHSACHGIAM_MaDotKM" FromRole="KHUYENMAI" ToRole="DANHSACHHANGGIAM" />
           <NavigationProperty Name="VOUCHERs" Relationship="QLCHTLModel.FK_VOUCHER_KM" FromRole="KHUYENMAI" ToRole="VOUCHER" />
+          <Property Name="TrangThai" Type="Int32" />
         </EntityType>
         <Association Name="fk_COMBO_MaDotKM">
           <End Type="QLCHTLModel.KHUYENMAI" Role="KHUYENMAI" Multiplicity="0..1" />
@@ -1143,6 +1145,7 @@
           <EntitySetMapping Name="KHUYENMAIs">
             <EntityTypeMapping TypeName="QLCHTLModel.KHUYENMAI">
               <MappingFragment StoreEntitySet="KHUYENMAI">
+                <ScalarProperty Name="TrangThai" ColumnName="TrangThai" />
                 <ScalarProperty Name="NgayKetThuc" ColumnName="NgayKetThuc" />
                 <ScalarProperty Name="NgayBatDau" ColumnName="NgayBatDau" />
                 <ScalarProperty Name="TenDotKM" ColumnName="TenDotKM" />

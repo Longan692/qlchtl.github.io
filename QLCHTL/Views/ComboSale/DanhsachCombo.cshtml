@@ -9,10 +9,10 @@
     <div class="container">
         <div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
             <div class="col-first">
-                <h1>Shopping Cart</h1>
+                <h1>COMBO SALE</h1>
                 <nav class="d-flex align-items-center">
-                    <a href="index.html">Home<span class="lnr lnr-arrow-right"></span></a>
-                    <a href="category.html">Sale</a>
+                    <a href="~/Home/Index">Trang chủ<span class="lnr lnr-arrow-right"></span></a>
+                    <a href="~/ComboSale/Index">Khuyến mãi</a>
                 </nav>
             </div>
         </div>
@@ -32,7 +32,7 @@
     <div class="row mt-5">
         @foreach (var item in Model)
         {
-            <div class="col-sm-4" style="width: 250px; margin-left: 150px; text-align: center;">
+            <div class="col-sm-4" style="width: 250px; margin-left: 150px; text-align: center;margin-top:60px">
 
                 <div class="card">
                     <img src="/@item.AnhBia" class="card-img-top">

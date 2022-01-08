@@ -26,6 +26,7 @@ namespace QLCHTL.Models
         public string TenDotKM { get; set; }
         public Nullable<System.DateTime> NgayBatDau { get; set; }
         public Nullable<System.DateTime> NgayKetThuc { get; set; }
+        public Nullable<int> TrangThai { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<COMBO> COMBOes { get; set; }

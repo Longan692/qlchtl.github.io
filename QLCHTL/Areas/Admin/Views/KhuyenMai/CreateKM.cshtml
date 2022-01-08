@@ -1,0 +1,82 @@
+﻿@model QLCHTL.Models.KHUYENMAI
+@{
+    ViewBag.Title = "CreateKM";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+<div class="bg-gradient-primary shadow-primary border-radius-lg py-3 pe-1">
+    <h4 class="text-white font-weight-bolder text-center mt-2 mb-0">Tạo khuyến mãi mới</h4>
+</div>
+
+<div class="card-body">
+    @using (Html.BeginForm("CreateKM", "KhuyenMai", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        @*<form role="form" class="text-start">*@
+        <label class="form-label">Tên đợt khuyến mãi</label>
+        @Html.EditorFor(model => model.TenDotKM, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.TenDotKM, "", new { @class = "badge badge-danger" })
+
+        <label class="form-label">Ngày bắt đầu</label>
+        <div class="input-group input-group-outline mb-3">
+            <div class='input-group date' id='datepicker'>
+                <input type="date" id="theDate" class="form-control" name="NgayBatDau" />
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                </span>
+            </div>
+            <span asp-validation-for="RegisterDate" class="text-danger"></span>
+
+        </div>
+        <label class="form-label">Ngày kết thúc</label>
+        <div class="input-group input-group-outline mb-3">
+
+            <div class='input-group date' id='datepicker'>
+                <input asp-for="RegisterDate"  id="theDate2" type="date" class="form-control" name="NgayKetThuc" value="@DateTime.Now.ToString("dd/MM/yyyy")" />
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                </span>
+            </div>
+            <span asp-validation-for="RegisterDate" class="text-danger"></span>
+        </div>
+        <label>Trạng thái</label>
+        <div class="input-group input-group-outline mb-3">
+            <select class="form-control" id="TrangThai" name="TrangThai">
+                <option value="0">Chưa khuyến mãi</option>
+                <option value="1">Đang khuyến mãi</option>
+            </select>
+        </div>
+        <div class="text-center">
+            <button type="submit" class="btn bg-gradient-primary w-100 my-4 mb-2">Tạo mới</button>
+        </div>
+    }
+</div>
+
+
+<script>
+    $(document).ready(function () {
+        var date = new Date();
+        var day = date.getDate();
+        var month = date.getMonth() + 1;
+        var year = date.getFullYear();
+
+        if (month < 10) month = "0" + month;
+        if (day < 10) day = "0" + day;
+
+        var today = year + "-" + month + "-" + day;
+        $("#theDate").attr("value", today);
+    }); $(document).ready(function () {
+        var date = new Date();
+        var day = date.getDate();
+        var month = date.getMonth() + 1;
+        var year = date.getFullYear();
+
+        if (month < 10) month = "0" + month;
+        if (day < 10) day = "0" + day;
+
+        var today = year + "-" + month + "-" + day;
+        $("#theDate2").attr("value", today);
+    });
+</script>
+
+
+

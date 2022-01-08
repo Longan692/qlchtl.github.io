@@ -1,12 +1,12 @@
-﻿@model IEnumerable<QLCHTL.Models.Account>
+﻿@model  List<QLCHTL.Models.CartItem>
 @{
-    ViewBag.Title = "DanhSachTaiKhoan";
-    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+    ViewBag.Title = "DanhSachNhapHang";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
-@*@{
-        var u = Session["user"] as QLCHTL.Models.Account;
-    }*@
+@{
+    var u = Session["user"] as QLCHTL.Models.Account;
+}
 <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3   bg-gradient-dark" id="sidenav-main">
     <div class="sidenav-header">
         <i class="fas fa-times p-3 cursor-pointer text-white opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
@@ -28,7 +28,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-white" href="~/Admin/QuanLyHangHoa/Index">
+                <a class="nav-link text-white active bg-gradient-primary" href="~/Admin/QuanLyHangHoa/Index">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="material-icons opacity-10">table_view</i>
                     </div>
@@ -36,11 +36,19 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-white active bg-gradient-primary" href="~/Admin/QuanLyTaiKhoan/DanhSachTaiKhoan">
+                <a class="nav-link text-white" href="~/Admin/QuanLyTaiKhoan/DanhSachTaiKhoan">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="material-icons opacity-10">account_circle</i>
                     </div>
                     <span class="nav-link-text ms-1">Quản lý tài khoảng</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-white" href="~/Admin/NhapHang/NhapHang">
+                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="material-icons opacity-10">assignment_returned</i>
+                    </div>
+                    <span class="nav-link-text ms-1">Nhập hàng</span>
                 </a>
             </li>
             <li class="nav-item">
@@ -52,19 +60,35 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-white " href="~/Admin/KhuyenMai/DanhSachKhuyenMai">
-                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                        <i class="material-icons opacity-10">style</i>
-                    </div>
-                    <span class="nav-link-text ms-1">Quản lý khuyến mãi</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link text-white " href="~/Admin/ThongKeDoanhThu/ThongKeDoanhThu">
+                <a class="nav-link text-white " href="../pages/billing.html">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="material-icons opacity-10">receipt_long</i>
                     </div>
-                    <span class="nav-link-text ms-1">Thống kê</span>
+                    <span class="nav-link-text ms-1">Billing</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-white " href="../pages/virtual-reality.html">
+                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="material-icons opacity-10">view_in_ar</i>
+                    </div>
+                    <span class="nav-link-text ms-1">Virtual Reality</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-white " href="../pages/rtl.html">
+                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="material-icons opacity-10">format_textdirection_r_to_l</i>
+                    </div>
+                    <span class="nav-link-text ms-1">RTL</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-white " href="../pages/notifications.html">
+                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="material-icons opacity-10">notifications</i>
+                    </div>
+                    <span class="nav-link-text ms-1">Notifications</span>
                 </a>
             </li>
             <li class="nav-item mt-3">
@@ -103,7 +127,11 @@
     <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur" navbar-scroll="true">
         <div class="container-fluid py-1 px-3">
             <nav aria-label="breadcrumb">
-               
+                <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+                    <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="javascript:;">Pages</a></li>
+                    <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Quản lý hàng</li>
+                </ol>
+                <h6 class="font-weight-bolder mb-0"></h6>
             </nav>
             <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
                 <div class="ms-md-auto pe-md-3 d-flex align-items-center">
@@ -116,7 +144,7 @@
                     <li class="nav-item d-flex align-items-center">
                         <a href="javascript:;" class="nav-link text-body font-weight-bold px-0">
                             <i class="fa fa-user me-sm-1"></i>
-                            @*<span class="d-sm-inline d-none">Hi: @u.Fullname</span>*@
+                            <span class="d-sm-inline d-none">Hi: @u.Fullname</span>
                         </a>
                     </li>
                     <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
@@ -212,7 +240,7 @@
     </nav>
     <!-- End Navbar -->
     <div class="container-fluid py-4">
-        <!--<button type="button" class="btn btn-outline-info" data-toggle="modal" data-target="#myModal" style="margin-left: 20px;"><i class="material-icons opacity-10">add_circle_outline</i>Thêm tài kho</button>
+        <button type="button" class="btn btn-outline-info" data-toggle="modal" data-target="#myModal" style="margin-left: 20px;"><i class="material-icons opacity-10">add_circle_outline</i>Thêm sản phẩm</button>
         <div id="myModal" class="modal fade" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -220,102 +248,63 @@
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     </div>
                     <div class="modal-body">
-                      
+                        @Html.Action("Create", "QuanLyHangHoa")
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 
                     </div>
-                </div>--><!-- /.modal-content -->
-            <!--</div>--><!-- /.modal-dialog -->
-        <!--</div>--><!-- /.modal -->
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
         <div class="row">
             <div class="col-15">
                 <div class="card my-4">
                     <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                         <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                            <h6 class="text-white text-capitalize ps-3">Danh sách tài khoản</h6>
+                            <h6 class="text-white text-capitalize ps-3">Danh sách sản phẩm</h6>
                         </div>
                     </div>
-                    <div class="card-body px-0 pb-2" >
-                        <div class="table-responsive p-0" style="height: 550px ;">
+                    <div class="card-body px-0 pb-2">
+                        <div class="table-responsive p-0" style="height: 500px;overflow-x:hidden ;overflow-y: auto;">
                             <table class="table align-items-center mb-0" style="height: 800px;">
                                 <thead>
                                     <tr>
-                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Họ và tên</th>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">UserName</th>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Email và SĐT</th>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Địa chỉ</th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Mã SP</th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tên SP</th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Loại SP</th>
                                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Trạng thái</th>
-                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Loại tài khoản</th>
-                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Ngày tạo</th>
+                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Số lượng</th>
+                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Giá bán</th>
                                         <th class="text-secondary opacity-7"></th>
                                     </tr>
                                 </thead>
                                 <tbody id="myTable">
                                     @foreach (var p in Model)
                                     {
-                                    <tr id="test">
-                                        <td>
-                                            <p class="text-xs font-weight-bold mb-0">@p.Fullname</p>
-                                        </td>
-                                        <td>
-                                            <div class="d-flex px-2 py-1">
-                                                @*<div>
-                    <img src="/@p.productdetails.HinhAnh" class="avatar avatar-sm me-3 border-radius-lg">
-                </div>*@
-                                                <div class="d-flex flex-column justify-content-center">
-                                                    <h6 class="mb-0 text-sm">@p.Username</h6>
-                                                    @*<p class="text-xs text-secondary mb-0">john@creative-tim.com</p>*@
+                                        <tr id="test">
+                                            <td>
+                                                <p class="text-xs font-weight-bold mb-0">@p.iMaHang</p>
+                                            </td>
+                                            <td>
+                                                <div class="d-flex px-2 py-1">
+                                                    <div>
+                                                        <img src="/@p.iHinhAnh" class="avatar avatar-sm me-3 border-radius-lg">
+                                                    </div>
+                                                    <div class="d-flex flex-column justify-content-center">
+                                                        <h6 class="mb-0 text-sm">@p.iTenHang</h6>
+                                                        @*<p class="text-xs text-secondary mb-0">john@creative-tim.com</p>*@
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <p class="text-xs font-weight-bold mb-0">@p.Email</p>
-                                            <p class="text-xs text-secondary mb-0">@p.Phone</p>
-                                        </td>
-                                        <td>
-                                            <span class="text-secondary text-xs font-weight-bold">@p.Address</span>
-                                        </td>
-                                        @if (p.Status == true)
-                                        {
-
-
-                                            <td class="align-middle text-center text-sm">
-                                                <span class="badge badge-sm bg-gradient-success">Hoạt động</span>
                                             </td>
-                                        }
-                                        else
-                                        {
                                             <td class="align-middle text-center text-sm">
-                                                <span class="badge badge-sm bg-gradient-danger">Khóa</span>
-                                            </td>
-                                        }
-                                        @if (p.Roles == 1)
-                                        {
+                                                <span class="badge badge-sm bg-gradient-success">@p.soluong</span>
+                                            </td> 
                                             <td class="align-middle text-center text-sm">
-                                                <span class="badge badge-sm bg-gradient-info">ADMIN</span>
+                                                <span class="badge badge-sm bg-gradient-danger">@p.DonGia.ToString("#,##0").Replace(',', '.') VNĐ</span>
                                             </td>
-                                        }
-                                        else if (p.Roles == 2)
-                                        {
-                                            <td class="align-middle text-center text-sm">
-                                                <span class="badge badge-sm bg-gradient-warning">Khách hàng</span>
-                                            </td>
-                                        }
-                                        <td class="align-middle text-center">
-                                            <span class="text-secondary text-xs font-weight-bold">@p.NgayTao.Value.ToString("dd/MM/yyyy")</span>
-                                        </td>
-                                        <td class="align-middle">
-                                            <a href="@Url.Action("Edit", "QuanLyTaiKhoan", new { @id = p.Id}, null)" class="text-info font-weight-bold text-xs">
-                                                Edit
-                                            </a>
-                                            <span> | </span>
-                                            <a href="@Url.Action("Delete", "QuanLyTaiKhoan", new { @id = p.Id}, null)" class="text-danger font-weight-bold text-xs" data-original-title="Edit user">
-                                                Delete
-                                            </a>
-                                        </td>
-                                    </tr>
+                                            
+                                        </tr>
                                     }
                                 </tbody>
                             </table>
@@ -334,4 +323,5 @@
     }
 </main>
 <script src="/Areas/Admin/assets/js/jsHangHoa.js"></script>
+
 
